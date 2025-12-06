@@ -7,9 +7,10 @@ export default function ClientsPage() {
   const { clients } = useLoaderData();
 
   return (
-    <div className="p-4 md:p-8 min-h-screen flex flex-col">
+    <div className="p-4 md:p-8 min-h-screen flex flex-col gap-4">
       <div className="flex flex-col gap-2 justify-between items-center lg:flex-row">
         <div>Filters component</div>
+
         <Button asChild>
           <NavLink to={"/clients/new"}>Agregar Cliente</NavLink>
         </Button>
