@@ -2,6 +2,7 @@ const electron = require("electron");
 
 electron.contextBridge.exposeInMainWorld("clientApi", {
   getClients: () => electron.ipcRenderer.invoke("get-clients"),
+  getClientById: (clientId: number) => electron.ipcRenderer.invoke("get-client-by-id", clientId),
   createClient: (client: { name: string; lastName: string; address: string; cuit: number; phone: string }) =>
     electron.ipcRenderer.invoke("create-client", client),
   updateClient: (client: {
