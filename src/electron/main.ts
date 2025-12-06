@@ -3,7 +3,13 @@ import path from "path";
 import { isDev } from "./util.js";
 import { getPreloadPath } from "./pathResolver.js";
 
-app.on("ready", async () => {
+import { initDatabase } from "./database/index.js";
+import { registerClientsIPC } from "./ipc/clients.js";
+
+app.whenReady().then(async () => {
+  await initDatabase();
+  registerClientsIPC();
+
   const mainWindow = new BrowserWindow({
     webPreferences: {
       preload: getPreloadPath(),
@@ -11,6 +17,7 @@ app.on("ready", async () => {
       contextIsolation: true,
     },
   });
+
   if (isDev()) {
     mainWindow.loadURL("http://localhost:5173");
   } else {
