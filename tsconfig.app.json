@@ -23,11 +23,9 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"],
-      "@/ui/*": ["ui/*"],
-      "@/electron/*": ["electron/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"]
