@@ -1,5 +1,5 @@
 import { getDb, saveDb } from "../database/index.js";
-import type { Client } from "../../../types.js";
+import type { Client } from "../../types/client.js";
 import { SqlValue } from "sql.js";
 
 export function getClients(): Client[] {

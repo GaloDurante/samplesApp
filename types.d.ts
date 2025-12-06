@@ -1,12 +1,4 @@
-export interface Client {
-  id?: number;
-  name: string;
-  lastName: string;
-  address: string;
-  cuit: number;
-  phone: string;
-}
-
+import { Client } from "@/types/client";
 declare global {
   interface Window {
     clientApi: {
