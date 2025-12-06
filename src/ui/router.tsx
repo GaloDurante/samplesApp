@@ -19,6 +19,9 @@ export const router = createHashRouter([
         children: [
           {
             index: true,
+            loader: async () => {
+              return { clients: await window.clientApi.getClients() };
+            },
             Component: ClientsPage,
           },
           {
