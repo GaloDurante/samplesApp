@@ -1,6 +1,7 @@
 import { useLoaderData, NavLink } from "react-router";
 
 import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 import ClientsTable from "@/components/clients/clients-table";
 
 export default function ClientsPage() {
@@ -17,11 +18,10 @@ export default function ClientsPage() {
       </div>
 
       {clients.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-4 py-20 text-center opacity-70">
-          <p className="text-lg">Todavía no tenés ningún cliente cargado.</p>
-          <Button asChild>
-            <NavLink to="/clients/new">Crear el primero</NavLink>
-          </Button>
+        <div className="flex flex-col flex-1 items-center justify-center">
+          <Search size={32} />
+          <p className="text-lg font-medium mt-4">No se encontraron clientes.</p>
+          <p className="text-sm mt-1 text-muted-foreground">Intenta ajustar los filtros o criterios de búsqueda.</p>
         </div>
       ) : (
         <ClientsTable list={clients} />
