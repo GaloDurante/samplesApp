@@ -2,6 +2,7 @@ import initSqlJs, { Database } from "sql.js";
 import fs from "fs";
 import path from "path";
 import { app } from "electron";
+import { schema } from "./schema.js";
 
 let db: Database;
 
@@ -13,23 +14,12 @@ export async function initDatabase() {
   try {
     const filebuffer = fs.readFileSync(dbPath);
     db = new SQL.Database(filebuffer);
-  } catch (e) {
-    console.log("No DB found, creating a new one.", e);
+  } catch {
     db = new SQL.Database();
-
-    db.run(`
-      CREATE TABLE clients (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        lastname TEXT NOT NULL,
-        address TEXT NOT NULL,
-        cuit INTEGER NOT NULL,
-        phone TEXT NOT NULL
-      );
-    `);
-
-    saveDb();
   }
+
+  schema.forEach((stmt) => db.run(stmt));
+  saveDb();
 }
 
 export function getDb() {
