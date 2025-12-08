@@ -1,7 +1,7 @@
 {
   "appId": "com.g-durante.samples-app",
   "files": ["dist-electron", "dist-react"],
-  "extraResources": ["dist-electron/preload.cjs", "src/assets/**"],
+  "extraResources": ["dist-electron/electron/preload.cjs", "src/assets/**"],
   "mac": {
     "target": "dmg"
   },

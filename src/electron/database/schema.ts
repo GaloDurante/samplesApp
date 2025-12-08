@@ -5,7 +5,7 @@ export const schema = [
       name TEXT NOT NULL,
       last_name TEXT NOT NULL,
       address TEXT NOT NULL,
-      cuit INTEGER NOT NULL,
+      cuit INTEGER NOT NULL UNIQUE,
       phone TEXT NOT NULL
     );
     `,

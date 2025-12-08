@@ -1,4 +1,4 @@
-import initSqlJs, { Database } from "sql.js";
+import initSqlJs, { type Database } from "sql.js";
 import fs from "fs";
 import path from "path";
 import { app } from "electron";
