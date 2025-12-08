@@ -1,32 +1,43 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { clientFormSchema, type clientFormType } from "@/validations/client-form";
-import type { Client } from "@/types/client";
+import { clientSchema, type clientSchemaType } from "@/validations/client";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { LoaderCircle } from "lucide-react";
 
 export default function ClientForm() {
   const form = useForm({
-    resolver: zodResolver(clientFormSchema),
+    resolver: zodResolver(clientSchema),
     defaultValues: {
       name: "",
       lastName: "",
-      cuit: "",
+      cuit: undefined,
       address: "",
       phone: "",
     },
   });
 
-  const onSubmit = async (values: clientFormType) => {
-    const data: Client = {
-      ...values,
-      cuit: Number(values.cuit),
-    };
-    const result = await window.clientApi.createClient(data);
-    console.log(result);
+  const onSubmit = async (values: clientSchemaType) => {
+    try {
+      const result = await window.clientApi.createClient(values);
+
+      if (result.success) {
+        toast.success(result.message);
+        form.reset();
+      } else {
+        toast.error(result.message || "No se pudo crear el cliente solicitado.");
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "No se pudo crear el cliente solicitado por un problema en el servidor.";
+      toast.error(errorMessage);
+    }
   };
 
   return (
@@ -42,9 +53,11 @@ export default function ClientForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nombre</FormLabel>
+                <FormLabel>
+                  Nombre <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input placeholder="Ignacio" {...field} />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>
@@ -55,9 +68,11 @@ export default function ClientForm() {
             name="lastName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Apellido</FormLabel>
+                <FormLabel>
+                  Apellido <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input placeholder="Martinez" {...field} />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>
@@ -68,9 +83,19 @@ export default function ClientForm() {
             name="cuit"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>CUIT</FormLabel>
+                <FormLabel>
+                  CUIT <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input
+                    placeholder="Ej: 20301234567"
+                    type="number"
+                    className="no-spinner"
+                    onWheel={(e) => e.currentTarget.blur()}
+                    {...field}
+                    onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+                    value={field.value ? String(field.value) : ""}
+                  />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>
@@ -81,9 +106,11 @@ export default function ClientForm() {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Dirección</FormLabel>
+                <FormLabel>
+                  Dirección <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input placeholder="Laprida 1201" {...field} />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>
@@ -94,17 +121,25 @@ export default function ClientForm() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Teléfono</FormLabel>
+                <FormLabel>
+                  Teléfono <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input
+                    placeholder="-"
+                    type="number"
+                    className="no-spinner"
+                    onWheel={(e) => e.currentTarget.blur()}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>
             )}
           />
         </form>
-        <Button form="client-form" type="submit" className="self-end">
-          Guardar
+        <Button form="client-form" type="submit" className="self-end" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? <LoaderCircle className="animate-spin" /> : "Guardar"}
         </Button>
       </Form>
     </div>

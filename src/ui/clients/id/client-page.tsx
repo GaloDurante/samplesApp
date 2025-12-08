@@ -1,17 +1,16 @@
-import { useLoaderData, NavLink } from "react-router";
+import { useLoaderData } from "react-router";
 
 import type { Client } from "@/types/client";
 
-import { Button } from "@/components/ui/button";
+import ReturnButton from "@/components/return-button";
 
 export default function ClientPage() {
   const { client }: { client: Client } = useLoaderData();
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center p-4 md:p-8">
-      <Button asChild variant="outline" className="absolute top-4 left-4">
-        <NavLink to="/clients">Volver</NavLink>
-      </Button>
+      <ReturnButton path="/clients" />
+
       <h1>
         {client.name} {client.lastName}
       </h1>

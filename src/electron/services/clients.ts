@@ -1,4 +1,5 @@
 import { queryAll, queryOne, execute } from "../database/sql.js";
+import { clientSchema } from "../../validations/client.js";
 
 import type { Client } from "../../types/client.js";
 import type { SqlValue } from "sql.js";
@@ -27,11 +28,42 @@ export function getClientById(id: number): Client {
 }
 
 export function createClient(client: Client) {
-  execute(
-    `INSERT INTO clients (name, last_name, address, cuit, phone)
-     VALUES (?, ?, ?, ?, ?)`,
-    [client.name, client.lastName, client.address, client.cuit, client.phone],
-  );
+  const validationResult = clientSchema.safeParse(client);
+
+  if (!validationResult.success) {
+    const firstError = validationResult.error.issues[0];
+    throw new Error(firstError.message || "Error de validación");
+  }
+
+  const validatedClient = validationResult.data;
+
+  try {
+    execute(
+      `INSERT INTO clients (name, last_name, address, cuit, phone)
+       VALUES (?, ?, ?, ?, ?)`,
+      [
+        validatedClient.name,
+        validatedClient.lastName,
+        validatedClient.address,
+        validatedClient.cuit,
+        validatedClient.phone,
+      ],
+    );
+  } catch (error) {
+    console.warn(error);
+
+    if (error instanceof Error) {
+      const msg = error.message?.toLowerCase() ?? "";
+
+      if (msg.includes("unique")) {
+        throw new Error("Ya existe un cliente con este CUIT");
+      }
+
+      throw new Error("Error al acceder a la base de datos");
+    }
+
+    throw new Error("Error desconocido al crear el cliente");
+  }
 }
 
 export function updateClient(client: Client) {
