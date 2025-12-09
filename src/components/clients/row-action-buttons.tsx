@@ -6,16 +6,16 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Pencil, Trash } from "lucide-react";
+import ConfirmDialog from "@/components/confirm-dialog";
 
 export default function RowActionButtons({ row }: { row: Client }) {
   const revalidator = useRevalidator();
 
-  const handleDelete = async (client: Client) => {
-    if (!client.id) return;
-    if (!confirm(`Seguro que desea eliminar al cliente ${client.name} ${client.lastName}`)) return;
+  const handleDelete = async (id?: number) => {
+    if (!id) return;
 
     try {
-      const result = await window.clientApi.deleteClient(client.id);
+      const result = await window.clientApi.deleteClient(id);
 
       if (result.success) {
         toast.success(result.message);
@@ -44,16 +44,26 @@ export default function RowActionButtons({ row }: { row: Client }) {
         </TooltipContent>
       </Tooltip>
 
-      <Tooltip delayDuration={700} disableHoverableContent>
-        <TooltipTrigger asChild>
-          <Button className="ml-2" size="icon" variant="destructive" onClick={() => handleDelete(row)}>
+      <ConfirmDialog
+        trigger={
+          <Button className="ml-2" size="icon" variant="destructive">
             <Trash />
           </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Eliminar</p>
-        </TooltipContent>
-      </Tooltip>
+        }
+        tooltip="Eliminar"
+        title="Eliminar cliente"
+        description={
+          <>
+            Seguro que desea eliminar al cliente{" "}
+            <span className="font-semibold text-foreground">
+              {row.name} {row.lastName}
+            </span>
+            ? Esta acción no se puede deshacer luego.
+          </>
+        }
+        confirmLabel="Eliminar"
+        onConfirm={() => handleDelete(row.id)}
+      />
     </>
   );
 }
