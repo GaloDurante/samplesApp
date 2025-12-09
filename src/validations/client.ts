@@ -21,24 +21,24 @@ export const clientSchema = z.object({
       message: "CUIT es requerido.",
     })
     .min(10000000000, {
-      message: "CUIT Debe contener 11 numeros.",
+      message: "CUIT Debe contener 11 números.",
     })
     .max(99999999999, {
-      message: "CUIT Debe contener 11 numeros.",
+      message: "CUIT Debe contener 11 números.",
     }),
   address: z
     .string({
-      message: "Direccion es requerida.",
+      message: "Dirección es requerida.",
     })
     .min(3, {
-      message: "Direccion debe contener al menos 3 caracteres.",
+      message: "Dirección debe contener al menos 3 caracteres.",
     }),
   phone: z
     .string({
-      message: "Telefono es requerido.",
+      message: "Teléfono es requerido.",
     })
     .min(8, {
-      message: "Telefono debe contener al menos 8 numeros.",
+      message: "Teléfono debe contener al menos 8 números.",
     }),
 });
 
