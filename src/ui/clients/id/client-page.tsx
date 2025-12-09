@@ -11,9 +11,7 @@ export default function ClientPage() {
     <div className="min-h-screen flex flex-col justify-center items-center p-4 md:p-8">
       <ReturnButton path="/clients" />
 
-      <h1>
-        {client.name} {client.lastName}
-      </h1>
+      <h1>{client.name}</h1>
     </div>
   );
 }

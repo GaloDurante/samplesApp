@@ -14,9 +14,9 @@ export default function ClientForm() {
     resolver: zodResolver(clientSchema),
     defaultValues: {
       name: "",
-      lastName: "",
       cuit: undefined,
       address: "",
+      email: "",
       phone: "",
     },
   });
@@ -65,21 +65,6 @@ export default function ClientForm() {
           />
           <FormField
             control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Apellido <span className="text-destructive">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Martinez" {...field} />
-                </FormControl>
-                <FormMessage className="min-h-5" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="cuit"
             render={({ field }) => (
               <FormItem>
@@ -111,6 +96,21 @@ export default function ClientForm() {
                 </FormLabel>
                 <FormControl>
                   <Input placeholder="Laprida 1201" {...field} />
+                </FormControl>
+                <FormMessage className="min-h-5" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Email <span className="text-destructive">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder="ignacion@gmail.com" {...field} />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>

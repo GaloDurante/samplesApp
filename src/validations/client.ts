@@ -9,13 +9,6 @@ export const clientSchema = z.object({
     .min(3, {
       message: "Nombre debe contener al menos 3 caracteres.",
     }),
-  lastName: z
-    .string({
-      message: "Apellido es requerido.",
-    })
-    .min(3, {
-      message: "Apellido debe contener al menos 3 caracteres.",
-    }),
   cuit: z
     .number({
       message: "CUIT es requerido.",
@@ -33,6 +26,7 @@ export const clientSchema = z.object({
     .min(3, {
       message: "Dirección debe contener al menos 3 caracteres.",
     }),
+  email: z.email("Email no es válido."),
   phone: z
     .string({
       message: "Teléfono es requerido.",

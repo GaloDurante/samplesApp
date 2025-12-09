@@ -13,9 +13,9 @@ export default function ClientsTable({ list }: ClientsTableProps) {
       <TableHeader>
         <TableRow>
           <TableHead>Nombre</TableHead>
-          <TableHead>Apellido</TableHead>
-          <TableHead>Dirección</TableHead>
           <TableHead>CUIT</TableHead>
+          <TableHead>Dirección</TableHead>
+          <TableHead>Email</TableHead>
           <TableHead>Teléfono</TableHead>
           <TableHead>Acciones</TableHead>
         </TableRow>
@@ -24,9 +24,9 @@ export default function ClientsTable({ list }: ClientsTableProps) {
         {list.map((row) => (
           <TableRow key={row.id}>
             <TableCell>{row.name}</TableCell>
-            <TableCell>{row.lastName}</TableCell>
-            <TableCell>{row.address}</TableCell>
             <TableCell>{row.cuit}</TableCell>
+            <TableCell>{row.address}</TableCell>
+            <TableCell>{row.email}</TableCell>
             <TableCell>{row.phone}</TableCell>
             <TableCell>
               <RowActionButtons row={row} />

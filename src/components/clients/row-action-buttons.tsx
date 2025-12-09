@@ -54,11 +54,8 @@ export default function RowActionButtons({ row }: { row: Client }) {
         title="Eliminar cliente"
         description={
           <>
-            Seguro que desea eliminar al cliente{" "}
-            <span className="font-semibold text-foreground">
-              {row.name} {row.lastName}
-            </span>
-            ? Esta acción no se puede deshacer luego.
+            Seguro que desea eliminar al cliente <span className="font-semibold text-foreground">{row.name}</span>? Esta
+            acción no se puede deshacer luego.
           </>
         }
         confirmLabel="Eliminar"

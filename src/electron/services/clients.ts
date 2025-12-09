@@ -8,9 +8,9 @@ function mapClient(row: SqlValue[]): Client {
   return {
     id: Number(row[0]),
     name: String(row[1]),
-    lastName: String(row[2]),
+    cuit: Number(row[2]),
     address: String(row[3]),
-    cuit: Number(row[4]),
+    email: String(row[4]),
     phone: String(row[5]),
   };
 }
@@ -39,13 +39,13 @@ export function createClient(client: Client) {
 
   try {
     execute(
-      `INSERT INTO clients (name, last_name, address, cuit, phone)
+      `INSERT INTO clients (name, cuit, address, email, phone)
        VALUES (?, ?, ?, ?, ?)`,
       [
         validatedClient.name,
-        validatedClient.lastName,
-        validatedClient.address,
         validatedClient.cuit,
+        validatedClient.address,
+        validatedClient.email,
         validatedClient.phone,
       ],
     );
@@ -55,8 +55,12 @@ export function createClient(client: Client) {
     if (error instanceof Error) {
       const msg = error.message?.toLowerCase() ?? "";
 
-      if (msg.includes("unique")) {
+      if (msg.includes("unique") && msg.includes("cuit")) {
         throw new Error("Ya existe un cliente con el CUIT ingresado");
+      }
+
+      if (msg.includes("unique") && msg.includes("email")) {
+        throw new Error("Ya existe un cliente con el Email ingresado");
       }
 
       throw new Error("Error al acceder a la base de datos");
@@ -71,9 +75,9 @@ export function updateClient(client: Client) {
 
   execute(
     `UPDATE clients
-       SET name=?, last_name=?, address=?, cuit=?, phone=?
+       SET name=?, cuit=?, address=?, email=?, phone=?
      WHERE id=?`,
-    [client.name, client.lastName, client.address, client.cuit, client.phone, client.id],
+    [client.name, client.cuit, client.address, client.email, client.phone, client.id],
   );
 }
 

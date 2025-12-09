@@ -3,15 +3,9 @@ const electron = require("electron");
 electron.contextBridge.exposeInMainWorld("clientApi", {
   getClients: () => electron.ipcRenderer.invoke("get-clients"),
   getClientById: (clientId: number) => electron.ipcRenderer.invoke("get-client-by-id", clientId),
-  createClient: (client: { name: string; lastName: string; address: string; cuit: number; phone: string }) =>
+  createClient: (client: { name: string; cuit: number; address: string; email: string; phone: string }) =>
     electron.ipcRenderer.invoke("create-client", client),
-  updateClient: (client: {
-    id: number;
-    name: string;
-    lastName: string;
-    address: string;
-    cuit: number;
-    phone: string;
-  }) => electron.ipcRenderer.invoke("update-client", client),
+  updateClient: (client: { id: number; name: string; cuit: number; address: string; email: string; phone: string }) =>
+    electron.ipcRenderer.invoke("update-client", client),
   deleteClient: (clientId: number) => electron.ipcRenderer.invoke("delete-client", clientId),
 });
