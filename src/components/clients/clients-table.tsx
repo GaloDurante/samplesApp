@@ -1,10 +1,7 @@
-import { NavLink } from "react-router";
-
 import type { Client } from "@/types/client";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
+import RowActionButtons from "@/components/clients/row-action-buttons";
 
 interface ClientsTableProps {
   list: Client[];
@@ -32,11 +29,7 @@ export default function ClientsTable({ list }: ClientsTableProps) {
             <TableCell>{row.cuit}</TableCell>
             <TableCell>{row.phone}</TableCell>
             <TableCell>
-              <Button size="icon" variant="outline" asChild>
-                <NavLink to={`/clients/${row.id}`}>
-                  <Pencil />
-                </NavLink>
-              </Button>
+              <RowActionButtons row={row} />
             </TableCell>
           </TableRow>
         ))}

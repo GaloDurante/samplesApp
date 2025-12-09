@@ -6,7 +6,7 @@ declare global {
       getClients(): Promise<Client[]>;
       getClientById(id: number): Promise<Client>;
       updateClient(client: Client): Promise<{ success: boolean }>;
-      deleteClient(id: number): Promise<{ success: boolean }>;
+      deleteClient(id: number): Promise<{ success: boolean; message: string }>;
     };
   }
 }

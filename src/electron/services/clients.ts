@@ -56,13 +56,13 @@ export function createClient(client: Client) {
       const msg = error.message?.toLowerCase() ?? "";
 
       if (msg.includes("unique")) {
-        throw new Error("Ya existe un cliente con este CUIT");
+        throw new Error("Ya existe un cliente con el CUIT ingresado");
       }
 
       throw new Error("Error al acceder a la base de datos");
     }
 
-    throw new Error("Error desconocido al crear el cliente");
+    throw new Error("No se pudo crear el cliente por un problema en el servidor.");
   }
 }
 
@@ -78,5 +78,18 @@ export function updateClient(client: Client) {
 }
 
 export function deleteClient(id: number) {
-  execute("DELETE FROM clients WHERE id=?", [id]);
+  if (!id) throw new Error("Debe indicar un ID válido");
+
+  const existing = queryOne("SELECT id FROM clients WHERE id = ?", [id]);
+
+  if (!existing) {
+    throw new Error("El cliente que intenta eliminar no existe.");
+  }
+
+  try {
+    execute("DELETE FROM clients WHERE id=?", [id]);
+  } catch (error) {
+    console.warn(error);
+    throw new Error("No se pudo eliminar el cliente solicitado por un problema en el servidor.");
+  }
 }
