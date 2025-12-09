@@ -2,6 +2,7 @@ import { NavLink, useRevalidator } from "react-router";
 
 import type { Client } from "@/types/client";
 
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Pencil, Trash } from "lucide-react";
@@ -30,14 +31,29 @@ export default function RowActionButtons({ row }: { row: Client }) {
 
   return (
     <>
-      <Button size="icon" variant="outline" asChild>
-        <NavLink to={`/clients/${row.id}`}>
-          <Pencil />
-        </NavLink>
-      </Button>
-      <Button className="ml-2" size="icon" variant="destructive" onClick={() => handleDelete(row)}>
-        <Trash />
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button size="icon" variant="outline" asChild>
+            <NavLink to={`/clients/${row.id}`}>
+              <Pencil />
+            </NavLink>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Editar</p>
+        </TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button className="ml-2" size="icon" variant="destructive" onClick={() => handleDelete(row)}>
+            <Trash />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Eliminar</p>
+        </TooltipContent>
+      </Tooltip>
     </>
   );
 }
