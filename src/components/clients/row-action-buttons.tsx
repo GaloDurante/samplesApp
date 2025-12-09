@@ -31,7 +31,7 @@ export default function RowActionButtons({ row }: { row: Client }) {
 
   return (
     <>
-      <Tooltip>
+      <Tooltip delayDuration={700} disableHoverableContent>
         <TooltipTrigger asChild>
           <Button size="icon" variant="outline" asChild>
             <NavLink to={`/clients/${row.id}`}>
@@ -44,7 +44,7 @@ export default function RowActionButtons({ row }: { row: Client }) {
         </TooltipContent>
       </Tooltip>
 
-      <Tooltip>
+      <Tooltip delayDuration={700} disableHoverableContent>
         <TooltipTrigger asChild>
           <Button className="ml-2" size="icon" variant="destructive" onClick={() => handleDelete(row)}>
             <Trash />
