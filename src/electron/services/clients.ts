@@ -107,14 +107,50 @@ export function createClient(client: Client) {
 }
 
 export function updateClient(client: Client) {
-  if (!client.id) throw new Error("Client must have ID");
+  const validationResult = clientSchema.safeParse(client);
 
-  execute(
-    `UPDATE clients
-       SET name=?, cuit=?, address=?, email=?, phone=?
-     WHERE id=?`,
-    [client.name, client.cuit, client.address, client.email, client.phone, client.id],
-  );
+  if (!validationResult.success) {
+    const firstError = validationResult.error.issues[0];
+    throw new Error(firstError.message || "Error de validación");
+  }
+
+  const validatedClient = validationResult.data;
+
+  if (!validatedClient.id) throw new Error("El ID del cliente es requerido.");
+
+  try {
+    execute(
+      `UPDATE clients
+         SET name=?, cuit=?, address=?, email=?, phone=?
+       WHERE id=?`,
+      [
+        validatedClient.name,
+        validatedClient.cuit,
+        validatedClient.address,
+        validatedClient.email,
+        validatedClient.phone,
+        validatedClient.id,
+      ],
+    );
+  } catch (error) {
+    console.warn(error);
+
+    if (error instanceof Error) {
+      const msg = error.message?.toLowerCase() ?? "";
+
+      if (msg.includes("unique") && msg.includes("cuit")) {
+        throw new Error("Ya existe un cliente con el CUIT ingresado");
+      }
+
+      if (msg.includes("unique") && msg.includes("email")) {
+        throw new Error("Ya existe un cliente con el Email ingresado");
+      }
+
+      throw new Error("Error al acceder a la base de datos");
+    }
+
+    throw new Error("No se pudo modificar el cliente por un problema en el servidor.");
+  }
 }
 
 export function deleteClient(id: number) {

@@ -18,7 +18,7 @@ interface ClientsPageParams {
 }
 
 export default function ClientsPage() {
-  const { clients, total, page, pageSize, search } = useLoaderData() as ClientsPageParams;
+  const { clients, total, page, pageSize, search }: ClientsPageParams = useLoaderData();
 
   return (
     <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">

@@ -18,8 +18,14 @@ export function registerClientsIPC() {
   });
 
   ipcMain.handle("update-client", (_event, client) => {
-    updateClient(client);
-    return { success: true };
+    try {
+      updateClient(client);
+      return { success: true, message: "Cliente modificado con éxito." };
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "No se pudo modificar el cliente por un problema desconocido.";
+      return { success: false, message };
+    }
   });
 
   ipcMain.handle("delete-client", (_event, id) => {

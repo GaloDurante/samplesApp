@@ -5,7 +5,7 @@ declare global {
       createClient(client: Client): Promise<{ success: boolean; message: string }>;
       getClients(page: number, pageSize: number, search: string): Promise<PaginatedClients>;
       getClientById(id: number): Promise<Client>;
-      updateClient(client: Client): Promise<{ success: boolean }>;
+      updateClient(client: Client): Promise<{ success: boolean; message: string }>;
       deleteClient(id: number): Promise<{ success: boolean; message: string }>;
     };
   }

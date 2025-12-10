@@ -3,17 +3,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { clientSchema, type clientSchemaType } from "@/validations/client";
 
-import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-export function ClientForm() {
+interface ClientFormProps {
+  editData: clientSchemaType;
+}
+
+export function ClientForm({ editData }: ClientFormProps) {
   const form = useForm({
     resolver: zodResolver(clientSchema),
-    defaultValues: {
+    defaultValues: editData ?? {
       name: "",
       cuit: undefined,
       address: "",
@@ -24,19 +27,30 @@ export function ClientForm() {
 
   const onSubmit = async (values: clientSchemaType) => {
     try {
-      const result = await window.clientApi.createClient(values);
+      if (editData) {
+        const result = await window.clientApi.updateClient(values);
 
-      if (result.success) {
-        toast.success(result.message);
-        form.reset();
+        if (result.success) {
+          toast.success(result.message);
+          form.reset(values);
+        } else {
+          toast.error(result.message || "No se pudo modificar el cliente solicitado.");
+        }
       } else {
-        toast.error(result.message || "No se pudo crear el cliente solicitado.");
+        const result = await window.clientApi.createClient(values);
+
+        if (result.success) {
+          toast.success(result.message);
+          form.reset();
+        } else {
+          toast.error(result.message || "No se pudo crear el cliente solicitado.");
+        }
       }
     } catch (error) {
       const errorMessage =
         error instanceof Error
           ? error.message
-          : "No se pudo crear el cliente solicitado por un problema en el servidor.";
+          : "No se pudo ejecutar la operación solicitada por un problema en el servidor.";
       toast.error(errorMessage);
     }
   };
@@ -139,8 +153,13 @@ export function ClientForm() {
             )}
           />
         </form>
-        <Button form="client-form" type="submit" className="self-end" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? <LoaderCircle className="animate-spin" /> : "Guardar"}
+        <Button
+          form="client-form"
+          type="submit"
+          className="self-end"
+          disabled={editData ? !form.formState.isDirty : form.formState.isSubmitting}
+        >
+          Guardar cambios
         </Button>
       </Form>
     </div>
