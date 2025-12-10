@@ -16,13 +16,22 @@ export function ClientFilter() {
   const debounced = useDebounce(query, 300);
 
   useEffect(() => {
-    params.set("search", debounced);
-    params.set("page", "1");
-    setParams(params);
-  }, [debounced]);
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      const currentSearch = next.get("search") ?? "";
+
+      if (currentSearch === debounced) {
+        return prev;
+      }
+
+      next.set("search", debounced);
+      next.set("page", "1");
+      return next;
+    });
+  }, [debounced, setParams]);
 
   return (
-    <InputGroup className="w-full max-w-sm">
+    <InputGroup className="w-full max-w-md">
       <InputGroupInput
         placeholder="Buscar por nombre, CUIT, dirección o email"
         value={query}

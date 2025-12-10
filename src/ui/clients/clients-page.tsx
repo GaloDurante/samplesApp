@@ -22,10 +22,10 @@ export default function ClientsPage() {
 
   return (
     <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">
-      <div className="flex flex-col gap-2 justify-between items-center lg:flex-row">
+      <div className="flex flex-col sm:flex-row justify-between gap-4">
         <ClientFilter />
 
-        <Button asChild>
+        <Button asChild className="self-end">
           <NavLink to={"/clients/new"}>Agregar Cliente</NavLink>
         </Button>
       </div>

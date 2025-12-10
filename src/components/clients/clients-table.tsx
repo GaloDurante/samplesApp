@@ -17,7 +17,7 @@ export function ClientsTable({ list }: ClientsTableProps) {
           <TableHead>Dirección</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Teléfono</TableHead>
-          <TableHead>Acciones</TableHead>
+          <TableHead className="w-[6%]">Acciones</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
