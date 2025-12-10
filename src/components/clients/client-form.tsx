@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 
 interface ClientFormProps {
-  editData: clientSchemaType;
+  editData?: clientSchemaType;
 }
 
 export function ClientForm({ editData }: ClientFormProps) {
@@ -61,7 +61,7 @@ export function ClientForm({ editData }: ClientFormProps) {
         <form
           id="client-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 md:grid md:grid-cols-2 gap-x-8"
+          className="space-y-4 sm:grid sm:grid-cols-2 gap-x-8"
         >
           <FormField
             control={form.control}
