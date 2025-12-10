@@ -15,8 +15,19 @@ function mapClient(row: SqlValue[]): Client {
   };
 }
 
-export function getClients(): Client[] {
-  return queryAll("SELECT * FROM clients ORDER BY id DESC").map(mapClient);
+function getTotalCount() {
+  const result = queryAll("SELECT COUNT(*) as count FROM clients");
+  return result[0][0] as number;
+}
+
+export function getClients(page = 1, pageSize = 20) {
+  const offset = (page - 1) * pageSize;
+
+  const rows = queryAll(`SELECT * FROM clients ORDER BY id DESC LIMIT ? OFFSET ?`, [pageSize, offset]).map(mapClient);
+
+  const total = getTotalCount();
+
+  return { clients: rows, total };
 }
 
 export function getClientById(id: number): Client {

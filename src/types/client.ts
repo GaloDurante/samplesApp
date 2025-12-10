@@ -6,3 +6,8 @@ export type Client = {
   email: string;
   phone: string;
 };
+
+export type PaginatedClients = {
+  clients: Client[];
+  total: number;
+};

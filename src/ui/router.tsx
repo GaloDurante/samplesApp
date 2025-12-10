@@ -20,8 +20,13 @@ export const router = createHashRouter([
         children: [
           {
             index: true,
-            loader: async () => {
-              return { clients: await window.clientApi.getClients() };
+            loader: async ({ request }) => {
+              const url = new URL(request.url);
+              const page = Number(url.searchParams.get("page") ?? 1);
+              const pageSize = Number(url.searchParams.get("pageSize") ?? 13);
+
+              const { clients, total } = await window.clientApi.getClients(page, pageSize);
+              return { clients, total, page, pageSize };
             },
             Component: ClientsPage,
           },

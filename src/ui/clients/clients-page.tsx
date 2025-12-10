@@ -1,11 +1,21 @@
 import { useLoaderData, NavLink } from "react-router";
 
+import type { Client } from "@/types/client";
+
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import ClientsTable from "@/components/clients/clients-table";
+import { PaginationBar } from "@/components/pagination-bar";
+
+interface ClientsPageParams {
+  clients: Client[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
 
 export default function ClientsPage() {
-  const { clients } = useLoaderData();
+  const { clients, total, page, pageSize } = useLoaderData() as ClientsPageParams;
 
   return (
     <div className="p-4 md:p-8 min-h-screen flex flex-col gap-4">
@@ -24,7 +34,10 @@ export default function ClientsPage() {
           <p className="text-sm mt-1 text-muted-foreground">Intenta ajustar los filtros o criterios de búsqueda.</p>
         </div>
       ) : (
-        <ClientsTable list={clients} />
+        <>
+          <ClientsTable list={clients} />
+          <PaginationBar page={page} total={total} pageSize={pageSize} basePath="/clients" />
+        </>
       )}
     </div>
   );

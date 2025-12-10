@@ -1,9 +1,9 @@
-import { Client } from "@/types/client";
+import { Client, PaginatedClients } from "@/types/client";
 declare global {
   interface Window {
     clientApi: {
       createClient(client: Client): Promise<{ success: boolean; message: string }>;
-      getClients(): Promise<Client[]>;
+      getClients(page: number, pageSize: number): Promise<PaginatedClients>;
       getClientById(id: number): Promise<Client>;
       updateClient(client: Client): Promise<{ success: boolean }>;
       deleteClient(id: number): Promise<{ success: boolean; message: string }>;
