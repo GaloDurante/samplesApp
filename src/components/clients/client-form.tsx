@@ -3,13 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { clientSchema, type clientSchemaType } from "@/validations/client";
 
+import { LoaderCircle } from "lucide-react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { LoaderCircle } from "lucide-react";
 
-export default function ClientForm() {
+export function ClientForm() {
   const form = useForm({
     resolver: zodResolver(clientSchema),
     defaultValues: {

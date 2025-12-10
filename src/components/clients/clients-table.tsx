@@ -1,13 +1,13 @@
 import type { Client } from "@/types/client";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import RowActionButtons from "@/components/clients/row-action-buttons";
+import { RowActionButtons } from "@/components/clients/row-action-buttons";
 
 interface ClientsTableProps {
   list: Client[];
 }
 
-export default function ClientsTable({ list }: ClientsTableProps) {
+export function ClientsTable({ list }: ClientsTableProps) {
   return (
     <Table parentClassName="border rounded-md">
       <TableHeader>

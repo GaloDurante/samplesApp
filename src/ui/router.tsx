@@ -24,9 +24,10 @@ export const router = createHashRouter([
               const url = new URL(request.url);
               const page = Number(url.searchParams.get("page") ?? 1);
               const pageSize = Number(url.searchParams.get("pageSize") ?? 13);
+              const search = url.searchParams.get("search") ?? "";
 
-              const { clients, total } = await window.clientApi.getClients(page, pageSize);
-              return { clients, total, page, pageSize };
+              const { clients, total } = await window.clientApi.getClients(page, pageSize, search);
+              return { clients, total, page, pageSize, search };
             },
             Component: ClientsPage,
           },

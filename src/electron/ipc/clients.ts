@@ -2,7 +2,7 @@ import { ipcMain } from "electron";
 import { getClients, getClientById, createClient, updateClient, deleteClient } from "../services/clients.js";
 
 export function registerClientsIPC() {
-  ipcMain.handle("get-clients", (_event, page, pageSize) => getClients(page, pageSize));
+  ipcMain.handle("get-clients", (_event, page, pageSize, search) => getClients(page, pageSize, search));
 
   ipcMain.handle("get-client-by-id", (_event, id) => getClientById(id));
 

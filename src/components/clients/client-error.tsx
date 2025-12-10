@@ -1,6 +1,6 @@
 import { useRouteError } from "react-router";
 
-import ReturnButton from "@/components/return-button";
+import { ReturnButton } from "@/components/return-button";
 
 export default function ClientError() {
   const err = useRouteError();

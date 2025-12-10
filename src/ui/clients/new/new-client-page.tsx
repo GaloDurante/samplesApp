@@ -1,5 +1,5 @@
-import ClientForm from "@/components/clients/client-form";
-import ReturnButton from "@/components/return-button";
+import { ClientForm } from "@/components/clients/client-form";
+import { ReturnButton } from "@/components/return-button";
 
 export default function NewClientPage() {
   return (

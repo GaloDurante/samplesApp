@@ -21,7 +21,7 @@ interface ConfirmDialogProps {
   onConfirm: () => void | Promise<void>;
 }
 
-export default function ConfirmDialog({
+export function ConfirmDialog({
   trigger,
   tooltip,
   title,

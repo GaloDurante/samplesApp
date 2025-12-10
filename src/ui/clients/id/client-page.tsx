@@ -2,7 +2,7 @@ import { useLoaderData } from "react-router";
 
 import type { Client } from "@/types/client";
 
-import ReturnButton from "@/components/return-button";
+import { ReturnButton } from "@/components/return-button";
 
 export default function ClientPage() {
   const { client }: { client: Client } = useLoaderData();

@@ -2,13 +2,14 @@ import { NavLink, useRevalidator } from "react-router";
 
 import type { Client } from "@/types/client";
 
+import { Pencil, Trash } from "lucide-react";
+import { toast } from "sonner";
+
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { Pencil, Trash } from "lucide-react";
-import ConfirmDialog from "@/components/confirm-dialog";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 
-export default function RowActionButtons({ row }: { row: Client }) {
+export function RowActionButtons({ row }: { row: Client }) {
   const revalidator = useRevalidator();
 
   const handleDelete = async (id?: number) => {

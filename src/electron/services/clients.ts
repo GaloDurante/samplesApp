@@ -15,17 +15,42 @@ function mapClient(row: SqlValue[]): Client {
   };
 }
 
-function getTotalCount() {
-  const result = queryAll("SELECT COUNT(*) as count FROM clients");
-  return result[0][0] as number;
+function getTotalCountFiltered(search: string) {
+  const wildcard = `%${search}%`;
+  const result = queryAll(
+    `
+      SELECT COUNT(*) FROM clients
+      WHERE
+        name LIKE ?
+        OR cuit LIKE ?
+        OR address LIKE ?
+        OR email LIKE ?
+    `,
+    [wildcard, wildcard, wildcard, wildcard],
+  );
+  return result[0]?.[0] as number;
 }
 
-export function getClients(page = 1, pageSize = 20) {
+export function getClients(page = 1, pageSize = 20, search = "") {
   const offset = (page - 1) * pageSize;
 
-  const rows = queryAll(`SELECT * FROM clients ORDER BY id DESC LIMIT ? OFFSET ?`, [pageSize, offset]).map(mapClient);
+  const wildcard = `%${search}%`;
 
-  const total = getTotalCount();
+  const rows = queryAll(
+    `
+      SELECT * FROM clients
+      WHERE
+        name LIKE ?
+        OR cuit LIKE ?
+        OR address LIKE ?
+        OR email LIKE ?
+      ORDER BY id DESC
+      LIMIT ? OFFSET ?
+    `,
+    [wildcard, wildcard, wildcard, wildcard, pageSize, offset],
+  ).map(mapClient);
+
+  const total = getTotalCountFiltered(search);
 
   return { clients: rows, total };
 }

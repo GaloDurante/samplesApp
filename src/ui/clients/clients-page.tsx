@@ -2,25 +2,28 @@ import { useLoaderData, NavLink } from "react-router";
 
 import type { Client } from "@/types/client";
 
-import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
-import ClientsTable from "@/components/clients/clients-table";
+
+import { Button } from "@/components/ui/button";
+import { ClientsTable } from "@/components/clients/clients-table";
 import { PaginationBar } from "@/components/pagination-bar";
+import { ClientFilter } from "@/components/clients/client-filter";
 
 interface ClientsPageParams {
   clients: Client[];
   total: number;
   page: number;
   pageSize: number;
+  search: string;
 }
 
 export default function ClientsPage() {
-  const { clients, total, page, pageSize } = useLoaderData() as ClientsPageParams;
+  const { clients, total, page, pageSize, search } = useLoaderData() as ClientsPageParams;
 
   return (
-    <div className="p-4 md:p-8 min-h-screen flex flex-col gap-4">
+    <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">
       <div className="flex flex-col gap-2 justify-between items-center lg:flex-row">
-        <div>Filters component</div>
+        <ClientFilter />
 
         <Button asChild>
           <NavLink to={"/clients/new"}>Agregar Cliente</NavLink>
@@ -36,7 +39,7 @@ export default function ClientsPage() {
       ) : (
         <>
           <ClientsTable list={clients} />
-          <PaginationBar page={page} total={total} pageSize={pageSize} basePath="/clients" />
+          <PaginationBar page={page} total={total} pageSize={pageSize} basePath="/clients" extraParams={{ search }} />
         </>
       )}
     </div>

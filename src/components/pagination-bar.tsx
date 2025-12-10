@@ -1,3 +1,5 @@
+import { buildPageWindow } from "@/lib/utils";
+
 import {
   Pagination,
   PaginationContent,
@@ -7,7 +9,6 @@ import {
   PaginationPrevious,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
-import { buildPageWindow } from "@/lib/utils";
 
 interface PaginationBarProps {
   page: number;
@@ -34,7 +35,7 @@ export function PaginationBar({ page, total, pageSize, basePath, extraParams = {
   const windowPages = buildPageWindow(page, totalPages);
 
   return (
-    <div className="flex justify-center mt-6">
+    <div className="flex justify-center">
       <Pagination>
         <PaginationContent>
           <PaginationItem>
