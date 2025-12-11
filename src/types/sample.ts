@@ -20,3 +20,14 @@ export type FullSample = Sample & {
   germination: SampleGermination | null;
   humidity: SampleHumidity | null;
 };
+
+export type SampleFilters = {
+  search?: string;
+  dateFrom?: string | null;
+  dateTo?: string | null;
+};
+
+export type PaginatedSamples = {
+  samples: FullSample[];
+  total: number;
+};

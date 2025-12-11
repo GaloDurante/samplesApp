@@ -1,23 +1,21 @@
 import { createHashRouter, Navigate } from "react-router";
 
 import Layout from "@/ui/layout";
-import GeneralError from "@/components/general-error";
+import Error from "@/components/error";
 
 import ClientsPage from "@/ui/clients/clients-page";
 import NewClientPage from "@/ui/clients/new/new-client-page";
 import ClientPage from "@/ui/clients/id/client-page";
-import ClientError from "@/components/clients/client-error";
 
 import SamplesPage from "@/ui/samples/samples-page";
 import NewSamplePage from "@/ui/samples/new/new-sample-page";
 import SamplePage from "@/ui/samples/id/sample-page";
-import SampleError from "@/components/samples/sample-error";
 
 export const router = createHashRouter([
   {
     path: "/",
     Component: Layout,
-    errorElement: <GeneralError />,
+    errorElement: <Error />,
 
     children: [
       {
@@ -51,7 +49,14 @@ export const router = createHashRouter([
               return { client: await window.clientApi.getClientById(Number(id)) };
             },
             Component: ClientPage,
-            errorElement: <ClientError />,
+            errorElement: (
+              <Error
+                path="/clients"
+                title="Cliente no encontrado"
+                description="No se encontró ningún cliente con los datos proporcionados. Por favor, verifique la información o cree un nuevo
+        cliente."
+              />
+            ),
           },
         ],
       },
@@ -60,13 +65,17 @@ export const router = createHashRouter([
         children: [
           {
             index: true,
-            loader: async () => {
-              // const url = new URL(request.url);
-              // const page = Number(url.searchParams.get("page") ?? 1);
-              // const pageSize = Number(url.searchParams.get("pageSize") ?? 13);
-              // const search = url.searchParams.get("search") ?? "";
+            loader: async ({ request }) => {
+              const url = new URL(request.url);
+              const page = Number(url.searchParams.get("page") ?? 1);
+              const pageSize = Number(url.searchParams.get("pageSize") ?? 20);
+              const search = url.searchParams.get("search") ?? "";
+              const filters = {
+                search,
+              };
 
-              return { samples: await window.sampleApi.getSamples() };
+              const { samples, total } = await window.sampleApi.getSamples(page, pageSize, filters);
+              return { samples, total, page, pageSize, filters };
             },
             Component: SamplesPage,
           },
@@ -81,7 +90,14 @@ export const router = createHashRouter([
             //   return { client: await window.clientApi.getClientById(Number(id)) };
             // },
             Component: SamplePage,
-            errorElement: <SampleError />,
+            errorElement: (
+              <Error
+                path="/samples"
+                title="Muestra no encontrada"
+                description="No se encontró ninguna muestra con los datos proporcionados. Por favor, verifique la información o cree una nueva
+    muestra."
+              />
+            ),
           },
         ],
       },

@@ -1,5 +1,5 @@
 import { Client, PaginatedClients } from "@/types/client";
-import { Sample } from "@/types/sample";
+import { PaginatedSamples, SampleFilters } from "@/types/sample";
 declare global {
   interface Window {
     clientApi: {
@@ -11,7 +11,7 @@ declare global {
     };
 
     sampleApi: {
-      getSamples(): Promise<Sample[]>;
+      getSamples(page: number, pageSize: number, filters: SampleFilters): Promise<PaginatedSamples>;
     };
   }
 }

@@ -16,5 +16,9 @@ electron.contextBridge.exposeInMainWorld("clientApi", {
 });
 
 electron.contextBridge.exposeInMainWorld("sampleApi", {
-  getSamples: () => electron.ipcRenderer.invoke("get-samples"),
+  getSamples: (
+    page: number,
+    pageSize: number,
+    filters: { search?: string; dateFrom?: string | null; dateTo?: string | null },
+  ) => electron.ipcRenderer.invoke("get-samples", page, pageSize, filters),
 });

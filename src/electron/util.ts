@@ -1,5 +1,5 @@
 import type { Client } from "../types/client.js";
-import type { FullSample } from "../types/sample.js";
+import type { FullSample, SampleFilters } from "../types/sample.js";
 import type { SqlValue } from "sql.js";
 
 export function isDev() {
@@ -49,4 +49,38 @@ export function mapSample(row: SqlValue[]): FullSample {
     germination: null,
     humidity: null,
   };
+}
+
+export function buildSampleWhere(filters: SampleFilters) {
+  const conditions: string[] = [];
+  const params: SqlValue[] = [];
+
+  const { search, dateFrom, dateTo } = filters;
+
+  if (search && search.trim()) {
+    const wildcard = `%${search}%`;
+    conditions.push(`
+      (
+        s.sample_code LIKE ?
+        OR s.sample_number LIKE ?
+        OR s.lot_number LIKE ?
+        OR s.colloquial_specie LIKE ?
+      )
+    `);
+    params.push(wildcard, wildcard, wildcard, wildcard);
+  }
+
+  if (dateFrom) {
+    conditions.push(`s.entry_date >= ?`);
+    params.push(dateFrom);
+  }
+
+  if (dateTo) {
+    conditions.push(`s.entry_date <= ?`);
+    params.push(dateTo);
+  }
+
+  const whereSQL = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+
+  return { whereSQL, params };
 }

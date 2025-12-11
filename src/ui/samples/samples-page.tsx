@@ -1,6 +1,6 @@
 import { NavLink, useLoaderData } from "react-router";
 
-import type { FullSample } from "@/types/sample";
+import type { FullSample, SampleFilters } from "@/types/sample";
 
 import { Search } from "lucide-react";
 
@@ -11,10 +11,19 @@ import { SamplesTable } from "@/components/samples/samples-table";
 
 interface SamplesPageParams {
   samples: FullSample[];
+  total: number;
+  page: number;
+  pageSize: number;
+  filters: SampleFilters;
 }
 
 export default function ClientsPage() {
-  const { samples }: SamplesPageParams = useLoaderData();
+  const { samples, total, page, pageSize, filters }: SamplesPageParams = useLoaderData();
+
+  console.log("total: ", total);
+  console.log("page: ", page);
+  console.log("pageSize: ", pageSize);
+  console.log("filters: ", filters);
 
   return (
     <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">

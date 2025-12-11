@@ -13,7 +13,7 @@ export function SamplesTable({ list }: SamplesTableProps) {
       <TableHeader>
         <TableRow>
           <TableHead className="w-[6%]">Acciones</TableHead>
-          <TableHead>Nro muestra</TableHead>
+          <TableHead>N° muestra</TableHead>
           <TableHead>Fecha ingreso</TableHead>
           <TableHead>Código muestra</TableHead>
           <TableHead>Solicitante</TableHead>
@@ -21,8 +21,14 @@ export function SamplesTable({ list }: SamplesTableProps) {
           <TableHead>Cultivar</TableHead>
           <TableHead>Año cosecha</TableHead>
           <TableHead>Marca</TableHead>
-          <TableHead>Nro lote</TableHead>
+          <TableHead>N° lote</TableHead>
           <TableHead>Peso lote</TableHead>
+          <TableHead>1° recuento</TableHead>
+          <TableHead>PG</TableHead>
+          <TableHead>Vigor TZ</TableHead>
+          <TableHead>Viabilidad TZ</TableHead>
+          <TableHead>PMS</TableHead>
+          <TableHead>Pureza</TableHead>
           <TableHead>Finalización ensayo</TableHead>
         </TableRow>
       </TableHeader>
@@ -42,6 +48,12 @@ export function SamplesTable({ list }: SamplesTableProps) {
             <TableCell>{row.mark}</TableCell>
             <TableCell>{row.lot_number}</TableCell>
             <TableCell>{row.lot_weight}</TableCell>
+            <TableCell className="text-center">x</TableCell>
+            <TableCell className="text-center">x</TableCell>
+            <TableCell className="text-center">x</TableCell>
+            <TableCell className="text-center">x</TableCell>
+            <TableCell className="text-center">x</TableCell>
+            <TableCell className="text-center">x</TableCell>
             <TableCell>{row.test_end_date}</TableCell>
           </TableRow>
         ))}

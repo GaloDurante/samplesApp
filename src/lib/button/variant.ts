@@ -13,7 +13,7 @@ export const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         ghostDestructive:
-          "hover:bg-destructive hover:text-white dark:hover:bg-destructive/20 dark:hover:text-destructive focus-visible:ring-destructive/50 focus-visible:text-destructive",
+          "hover:bg-destructive hover:text-white dark:hover:bg-destructive/20 dark:hover:text-destructive focus-visible:ring-destructive/50 focus-visible:text-destructive focus-visible:hover:text-white",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

@@ -1,7 +1,28 @@
 import { queryAll } from "../database/sql.js";
-import { mapSample } from "../util.js";
+import { buildSampleWhere, mapSample } from "../util.js";
 
-export function getSamples() {
+import type { SampleFilters } from "../../types/sample.js";
+
+function getTotalSamplesCount(filters: SampleFilters) {
+  const { whereSQL, params } = buildSampleWhere(filters);
+
+  const result = queryAll(
+    `
+      SELECT COUNT(*) as count
+      FROM samples s
+      ${whereSQL}
+    `,
+    params,
+  );
+
+  return result[0]?.[0] as number;
+}
+
+export function getSamples(page = 1, pageSize = 20, filters: SampleFilters = {}) {
+  const offset = (page - 1) * pageSize;
+
+  const { whereSQL, params } = buildSampleWhere(filters);
+
   const rows = queryAll(
     `
     SELECT
@@ -27,12 +48,16 @@ export function getSamples() {
       c.id AS client_id,
       c.name AS client_name,
       c.cuit AS client_cuit
-
     FROM samples s
     JOIN clients c ON c.id = s.client_id
-    ORDER BY s.id DESC;
+      ${whereSQL}
+      ORDER BY s.id DESC
+      LIMIT ? OFFSET ?
     `,
-  );
+    [...params, pageSize, offset],
+  ).map(mapSample);
 
-  return rows.map(mapSample);
+  const total = getTotalSamplesCount(filters);
+
+  return { samples: rows, total };
 }
