@@ -2,18 +2,7 @@ import { queryAll, queryOne, execute } from "../database/sql.js";
 import { clientSchema } from "../../validations/client.js";
 
 import type { Client } from "../../types/client.js";
-import type { SqlValue } from "sql.js";
-
-function mapClient(row: SqlValue[]): Client {
-  return {
-    id: Number(row[0]),
-    name: String(row[1]),
-    cuit: Number(row[2]),
-    address: String(row[3]),
-    email: String(row[4]),
-    phone: String(row[5]),
-  };
-}
+import { mapClient } from "../util.js";
 
 function getTotalCountFiltered(search: string) {
   const wildcard = `%${search}%`;
