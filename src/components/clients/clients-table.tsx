@@ -12,25 +12,25 @@ export function ClientsTable({ list }: ClientsTableProps) {
     <Table parentClassName="border rounded-md">
       <TableHeader>
         <TableRow>
+          <TableHead className="w-[6%]">Acciones</TableHead>
           <TableHead>Nombre</TableHead>
           <TableHead>CUIT</TableHead>
           <TableHead>Dirección</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Teléfono</TableHead>
-          <TableHead className="w-[6%]">Acciones</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {list.map((row) => (
           <TableRow key={row.id}>
+            <TableCell>
+              <RowActionButtons row={row} />
+            </TableCell>
             <TableCell>{row.name}</TableCell>
             <TableCell>{row.cuit}</TableCell>
             <TableCell>{row.address}</TableCell>
             <TableCell>{row.email}</TableCell>
             <TableCell>{row.phone}</TableCell>
-            <TableCell>
-              <RowActionButtons row={row} />
-            </TableCell>
           </TableRow>
         ))}
       </TableBody>

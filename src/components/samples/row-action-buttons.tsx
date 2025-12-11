@@ -1,33 +1,33 @@
-import { NavLink, useRevalidator } from "react-router";
+import { NavLink } from "react-router";
 
-import type { Client } from "@/types/client";
+import type { FullSample } from "@/types/sample";
 
 import { Pencil, Trash } from "lucide-react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
-export function RowActionButtons({ row }: { row: Client }) {
-  const revalidator = useRevalidator();
+export function RowActionButtons({ row }: { row: FullSample }) {
+  //   const revalidator = useRevalidator();
 
   const handleDelete = async (id?: number) => {
     if (!id) return;
 
-    try {
-      const result = await window.clientApi.deleteClient(id);
+    // try {
+    //   const result = await window.clientApi.deleteClient(id);
 
-      if (result.success) {
-        toast.success(result.message);
-        revalidator.revalidate();
-      } else {
-        toast.error(result.message || "No se pudo eliminar el cliente solicitado.");
-      }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "No se pudo eliminar el cliente solicitado.";
-      toast.error(errorMessage);
-    }
+    //   if (result.success) {
+    //     toast.success(result.message);
+    //     revalidator.revalidate();
+    //   } else {
+    //     toast.error(result.message || "No se pudo eliminar el cliente solicitado.");
+    //   }
+    // } catch (error) {
+    //   const errorMessage = error instanceof Error ? error.message : "No se pudo eliminar el cliente solicitado.";
+    //   toast.error(errorMessage);
+    // }
   };
 
   return (
@@ -35,7 +35,7 @@ export function RowActionButtons({ row }: { row: Client }) {
       <Tooltip delayDuration={700} disableHoverableContent>
         <TooltipTrigger asChild>
           <Button size="icon" variant="ghost" asChild>
-            <NavLink to={`/clients/${row.id}`}>
+            <NavLink to={`/samples/${row.id}`}>
               <Pencil />
             </NavLink>
           </Button>
@@ -52,11 +52,12 @@ export function RowActionButtons({ row }: { row: Client }) {
           </Button>
         }
         tooltip="Eliminar"
-        title="Eliminar cliente"
+        title="Eliminar muestra"
         description={
           <>
-            Seguro que desea eliminar al cliente <span className="font-semibold text-foreground">{row.name}</span>? Esta
-            acción no se puede deshacer luego.
+            Seguro que desea eliminar la muestra{" "}
+            <span className="font-semibold text-foreground">{row.sample_number}</span>? Esta acción no se puede deshacer
+            luego.
           </>
         }
         confirmLabel="Eliminar"
