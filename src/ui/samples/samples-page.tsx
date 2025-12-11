@@ -23,7 +23,12 @@ export default function ClientsPage() {
   return (
     <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <Search placeholder="Buscar muestras" />
+        <div className="w-full sm:min-w-md">
+          <Search
+            placeholder="Buscar muestras"
+            label="Filtra por solicitante, N° muestra, código, especie, marca o lote."
+          />
+        </div>
 
         <Button asChild className="self-end">
           <NavLink to={"/samples/new"}>Agregar Muestra</NavLink>

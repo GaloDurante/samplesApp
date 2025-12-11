@@ -9,9 +9,10 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/in
 
 interface SearchProps {
   placeholder?: string;
+  label?: string;
 }
 
-export function Search({ placeholder = "Buscar..." }: SearchProps) {
+export function Search({ placeholder = "Buscar...", label }: SearchProps) {
   const [params, setParams] = useSearchParams();
 
   const initial = params.get("search") ?? "";
@@ -42,9 +43,7 @@ export function Search({ placeholder = "Buscar..." }: SearchProps) {
           <SearchIcon />
         </InputGroupAddon>
       </InputGroup>
-      <p className="text-muted-foreground text-xs mt-2">
-        Filtra por solicitante, N° muestra, código, especie, marca o lote.
-      </p>
+      {label && <p className="text-muted-foreground text-xs mt-2">{label}</p>}
     </div>
   );
 }
