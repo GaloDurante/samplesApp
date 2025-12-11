@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 
 export default function ClientsPage() {
   //   const { clients, total, page, pageSize, search }: ClientsPageParams = useLoaderData();
+  window.sampleApi.getSamples();
 
   return (
     <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">

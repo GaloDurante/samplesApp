@@ -5,10 +5,12 @@ import { getPreloadPath } from "./pathResolver.js";
 
 import { initDatabase } from "./database/index.js";
 import { registerClientsIPC } from "./ipc/clients.js";
+import { registerSamplesIPC } from "./ipc/samples.js";
 
 app.whenReady().then(async () => {
   await initDatabase();
   registerClientsIPC();
+  registerSamplesIPC();
 
   const mainWindow = new BrowserWindow({
     webPreferences: {

@@ -14,3 +14,7 @@ electron.contextBridge.exposeInMainWorld("clientApi", {
 
   deleteClient: (clientId: number) => electron.ipcRenderer.invoke("delete-client", clientId),
 });
+
+electron.contextBridge.exposeInMainWorld("samplesApi", {
+  getClients: () => electron.ipcRenderer.invoke("get-clients"),
+});

@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { clientSchema, type clientSchemaType } from "@/validations/client";
+import { clientSchema } from "@/validations/client";
+import type { Client } from "@/types/client";
 
 import { toast } from "sonner";
 
@@ -10,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 
 interface ClientFormProps {
-  editData?: clientSchemaType;
+  editData?: Client;
 }
 
 export function ClientForm({ editData }: ClientFormProps) {
@@ -25,7 +26,7 @@ export function ClientForm({ editData }: ClientFormProps) {
     },
   });
 
-  const onSubmit = async (values: clientSchemaType) => {
+  const onSubmit = async (values: Client) => {
     try {
       if (editData) {
         const result = await window.clientApi.updateClient(values);

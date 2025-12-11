@@ -1,4 +1,5 @@
 import { Client, PaginatedClients } from "@/types/client";
+import { Sample } from "@/types/sample";
 declare global {
   interface Window {
     clientApi: {
@@ -7,6 +8,10 @@ declare global {
       getClientById(id: number): Promise<Client>;
       updateClient(client: Client): Promise<{ success: boolean; message: string }>;
       deleteClient(id: number): Promise<{ success: boolean; message: string }>;
+    };
+
+    sampleApi: {
+      getSamples(): Promise<Sample[]>;
     };
   }
 }
