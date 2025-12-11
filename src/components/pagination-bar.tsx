@@ -15,7 +15,7 @@ interface PaginationBarProps {
   total: number;
   pageSize: number;
   basePath: string;
-  extraParams?: Record<string, string | number>;
+  extraParams?: Record<string, string | number | undefined>;
 }
 
 export function PaginationBar({ page, total, pageSize, basePath, extraParams = {} }: PaginationBarProps) {

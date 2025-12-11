@@ -65,9 +65,11 @@ export function buildSampleWhere(filters: SampleFilters) {
         OR s.sample_number LIKE ?
         OR s.lot_number LIKE ?
         OR s.colloquial_specie LIKE ?
+        OR s.mark LIKE ?
+        OR c.name LIKE ?
       )
     `);
-    params.push(wildcard, wildcard, wildcard, wildcard);
+    params.push(wildcard, wildcard, wildcard, wildcard, wildcard, wildcard);
   }
 
   if (dateFrom) {

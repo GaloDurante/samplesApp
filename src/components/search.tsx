@@ -3,11 +3,15 @@ import { useSearchParams } from "react-router";
 
 import { useDebounce } from "@/hooks/use-debounce";
 
-import { Search } from "lucide-react";
+import { Search as SearchIcon } from "lucide-react";
 
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 
-export function ClientFilter() {
+interface SearchProps {
+  placeholder?: string;
+}
+
+export function Search({ placeholder = "Buscar..." }: SearchProps) {
   const [params, setParams] = useSearchParams();
 
   const initial = params.get("search") ?? "";
@@ -31,15 +35,16 @@ export function ClientFilter() {
   }, [debounced, setParams]);
 
   return (
-    <InputGroup className="w-full max-w-md">
-      <InputGroupInput
-        placeholder="Buscar por nombre, CUIT, dirección o email"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <InputGroupAddon>
-        <Search />
-      </InputGroupAddon>
-    </InputGroup>
+    <div>
+      <InputGroup className="w-full max-w-md">
+        <InputGroupInput placeholder={placeholder} value={query} onChange={(e) => setQuery(e.target.value)} />
+        <InputGroupAddon>
+          <SearchIcon />
+        </InputGroupAddon>
+      </InputGroup>
+      <p className="text-muted-foreground text-xs mt-2">
+        Filtra por solicitante, N° muestra, código, especie, marca o lote.
+      </p>
+    </div>
   );
 }

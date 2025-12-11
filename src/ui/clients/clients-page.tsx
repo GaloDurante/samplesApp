@@ -2,12 +2,12 @@ import { useLoaderData, NavLink } from "react-router";
 
 import type { Client } from "@/types/client";
 
-import { Search } from "lucide-react";
+import { Search as SearchIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { ClientsTable } from "@/components/clients/clients-table";
 import { PaginationBar } from "@/components/pagination-bar";
-import { ClientFilter } from "@/components/clients/client-filter";
+import { Search } from "@/components/search";
 
 interface ClientsPageParams {
   clients: Client[];
@@ -23,7 +23,7 @@ export default function ClientsPage() {
   return (
     <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <ClientFilter />
+        <Search placeholder="Buscar por nombre, CUIT, dirección o email" />
 
         <Button asChild className="self-end">
           <NavLink to={"/clients/new"}>Agregar Cliente</NavLink>
@@ -32,7 +32,7 @@ export default function ClientsPage() {
 
       {clients.length === 0 ? (
         <div className="flex flex-col flex-1 items-center justify-center">
-          <Search size={32} />
+          <SearchIcon size={32} />
           <p className="text-lg font-medium mt-4">No se encontraron clientes.</p>
           <p className="text-sm mt-1 text-muted-foreground">Intenta ajustar los filtros o criterios de búsqueda.</p>
         </div>

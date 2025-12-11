@@ -10,6 +10,7 @@ function getTotalSamplesCount(filters: SampleFilters) {
     `
       SELECT COUNT(*) as count
       FROM samples s
+      JOIN clients c ON c.id = s.client_id
       ${whereSQL}
     `,
     params,
