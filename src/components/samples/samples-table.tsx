@@ -10,7 +10,7 @@ interface SamplesTableProps {
 export function SamplesTable({ list }: SamplesTableProps) {
   return (
     <Table parentClassName="border rounded-md">
-      <TableHeader>
+      <TableHeader className="bg-muted">
         <TableRow>
           <TableHead className="w-[6%]">Acciones</TableHead>
           <TableHead>N° muestra</TableHead>

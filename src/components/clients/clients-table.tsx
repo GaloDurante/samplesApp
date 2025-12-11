@@ -10,7 +10,7 @@ interface ClientsTableProps {
 export function ClientsTable({ list }: ClientsTableProps) {
   return (
     <Table parentClassName="border rounded-md">
-      <TableHeader>
+      <TableHeader className="bg-muted">
         <TableRow>
           <TableHead className="w-[6%]">Acciones</TableHead>
           <TableHead>Nombre</TableHead>
