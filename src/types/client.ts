@@ -1,4 +1,4 @@
-import type { ClientType } from "@/validations/client";
+import type { ClientType } from "../validations/client.js";
 
 export type Client = ClientType;
 

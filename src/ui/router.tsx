@@ -1,6 +1,7 @@
 import { createHashRouter, Navigate } from "react-router";
 
 import Layout from "@/ui/layout";
+import GeneralError from "@/components/general-error";
 
 import ClientsPage from "@/ui/clients/clients-page";
 import NewClientPage from "@/ui/clients/new/new-client-page";
@@ -16,6 +17,8 @@ export const router = createHashRouter([
   {
     path: "/",
     Component: Layout,
+    errorElement: <GeneralError />,
+
     children: [
       {
         index: true,

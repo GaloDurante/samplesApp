@@ -1,3 +1,5 @@
 export function getSamples() {
-  console.log("samples backend");
+  return {
+    text: "Es un test",
+  };
 }
