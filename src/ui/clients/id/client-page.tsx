@@ -2,15 +2,16 @@ import { useLoaderData } from "react-router";
 
 import type { Client } from "@/types/client";
 
-import { ReturnButton } from "@/components/return-button";
 import { ClientForm } from "@/components/clients/client-form";
+import { Breadcrum } from "@/components/breadcrum";
 
 export default function ClientPage() {
   const { client }: { client: Client } = useLoaderData();
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 sm:p-16">
-      <ReturnButton path="/clients" />
+      <Breadcrum baseUrl="/clients" baseUrlTitle="Clientes" currentPathTitle={`${client.name}`} />
+
       <div className="min-w-full lg:min-w-3/6">
         <h1 className="text-2xl font-bold mb-2">Modificar cliente</h1>
         <p className="text-muted-foreground mb-8">
