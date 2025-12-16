@@ -57,12 +57,12 @@ export function ClientForm({ editData }: ClientFormProps) {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <Form {...form}>
         <form
           id="client-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 sm:grid sm:grid-cols-2 gap-x-8"
+          className="space-y-4 sm:grid sm:grid-cols-2 gap-x-8 bg-card p-4 sm:p-8 rounded-md shadow-sm"
         >
           <FormField
             control={form.control}

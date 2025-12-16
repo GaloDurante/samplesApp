@@ -7,7 +7,7 @@ export default function NewClientPage() {
       <Breadcrum baseUrl="/clients" baseUrlTitle="Clientes" currentPathTitle="Nuevo cliente" />
       <div className="min-w-full lg:min-w-3/6">
         <h1 className="text-2xl font-bold mb-2">Crear nuevo cliente</h1>
-        <p className="text-muted-foreground mb-8">
+        <p className="text-muted-foreground mb-6">
           Complete el formulario a continuación para registrar un nuevo cliente en el sistema.
         </p>
         <ClientForm />

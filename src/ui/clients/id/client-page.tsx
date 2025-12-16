@@ -14,7 +14,7 @@ export default function ClientPage() {
 
       <div className="min-w-full lg:min-w-3/6">
         <h1 className="text-2xl font-bold mb-2">Modificar cliente</h1>
-        <p className="text-muted-foreground mb-8">
+        <p className="text-muted-foreground mb-6">
           El formulario a continuación permite editar un cliente que ya se encuentra registrado en el sistema.
         </p>
         <ClientForm editData={client} />
