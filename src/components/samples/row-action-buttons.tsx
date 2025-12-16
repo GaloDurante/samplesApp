@@ -62,6 +62,7 @@ export function RowActionButtons({ row }: { row: FullSample }) {
         }
         confirmLabel="Eliminar"
         onConfirm={() => handleDelete(row.id)}
+        twoStepWord={`eliminar-${row.sample_number}`}
       />
     </>
   );

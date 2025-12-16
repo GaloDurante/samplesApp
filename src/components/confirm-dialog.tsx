@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   Dialog,
   DialogTrigger,
@@ -9,6 +11,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 interface ConfirmDialogProps {
@@ -19,6 +22,7 @@ interface ConfirmDialogProps {
   confirmLabel?: string;
   cancelLabel?: string;
   onConfirm: () => void | Promise<void>;
+  twoStepWord?: string;
 }
 
 export function ConfirmDialog({
@@ -29,7 +33,11 @@ export function ConfirmDialog({
   confirmLabel = "Confirmar",
   cancelLabel = "Cancelar",
   onConfirm,
+  twoStepWord,
 }: ConfirmDialogProps) {
+  const [inputValue, setInputValue] = useState("");
+  const isValid = twoStepWord ? twoStepWord.toLowerCase() === inputValue.toLowerCase() : true;
+
   const TriggerWrapper = tooltip ? (
     <Tooltip delayDuration={700} disableHoverableContent>
       <TooltipTrigger asChild>
@@ -51,12 +59,21 @@ export function ConfirmDialog({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
 
+        {twoStepWord && (
+          <div>
+            <p className="text-muted-foreground text-sm mb-1">
+              Para confirmar, escribe <span className="text-foreground font-semibold">{`“${twoStepWord}“`}</span>.
+            </p>
+            <Input onChange={(e) => setInputValue(e.target.value)} />
+          </div>
+        )}
+
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline">{cancelLabel}</Button>
           </DialogClose>
 
-          <Button variant="destructive" onClick={onConfirm}>
+          <Button variant="destructive" onClick={onConfirm} disabled={!isValid}>
             {confirmLabel}
           </Button>
         </DialogFooter>
