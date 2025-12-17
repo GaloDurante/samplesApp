@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { sampleSchema } from "@/validations/sample";
 import type { Sample } from "@/types/sample";
 
-// import { toast } from "sonner";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -19,9 +19,8 @@ interface ClientFormProps {
 }
 
 const clients = [
-  { name: "Galo Durante", id: 4 },
-  { name: "Jorge Lopez", id: 5 },
-  { name: "Mariano Moreno", id: 6 },
+  { name: "Ignacio", id: 1 },
+  { name: "Martin", id: 2 },
 ];
 
 export function SampleForm({ editData }: ClientFormProps) {
@@ -44,35 +43,33 @@ export function SampleForm({ editData }: ClientFormProps) {
   });
 
   const onSubmit = async (values: Sample) => {
-    console.log(values);
+    try {
+      if (editData) {
+        const result = await window.sampleApi.createSample(values);
 
-    // try {
-    //   if (editData) {
-    //     const result = await window.clientApi.updateClient(values);
+        if (result.success) {
+          toast.success(result.message);
+          form.reset(values);
+        } else {
+          toast.error(result.message || "No se pudo modificar la muestra solicitada.");
+        }
+      } else {
+        const result = await window.sampleApi.createSample(values);
 
-    //     if (result.success) {
-    //       toast.success(result.message);
-    //       form.reset(values);
-    //     } else {
-    //       toast.error(result.message || "No se pudo modificar el cliente solicitado.");
-    //     }
-    //   } else {
-    //     const result = await window.clientApi.createClient(values);
-
-    //     if (result.success) {
-    //       toast.success(result.message);
-    //       form.reset();
-    //     } else {
-    //       toast.error(result.message || "No se pudo crear el cliente solicitado.");
-    //     }
-    //   }
-    // } catch (error) {
-    //   const errorMessage =
-    //     error instanceof Error
-    //       ? error.message
-    //       : "No se pudo ejecutar la operación solicitada por un problema en el servidor.";
-    //   toast.error(errorMessage);
-    // }
+        if (result.success) {
+          toast.success(result.message);
+          form.reset();
+        } else {
+          toast.error(result.message || "No se pudo crear la muestra solicitada.");
+        }
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "No se pudo ejecutar la operación solicitada por un problema en el servidor.";
+      toast.error(errorMessage);
+    }
   };
 
   return (

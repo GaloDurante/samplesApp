@@ -23,7 +23,7 @@ export const schema = [
       harvest_year TEXT NOT NULL,
       mark TEXT NOT NULL,
       lot_number TEXT NOT NULL,
-      lot_weight REAL NOT NULL,
+      lot_weight TEXT NOT NULL,
       test_end_date TEXT NOT NULL,
       observations TEXT,
 

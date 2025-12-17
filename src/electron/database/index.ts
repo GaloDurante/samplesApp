@@ -18,6 +18,8 @@ export async function initDatabase() {
     db = new SQL.Database();
   }
 
+  db.run("PRAGMA foreign_keys = ON;");
+
   schema.forEach((stmt) => db.run(stmt));
   saveDb();
 }

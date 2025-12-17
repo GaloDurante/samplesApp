@@ -10,7 +10,7 @@ export default function ClientPage() {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 lg:p-16">
-      <Breadcrum baseUrl="/clients" baseUrlTitle="Clientes" currentPathTitle={`${client.name}`} />
+      <Breadcrum baseUrl="/clients" baseUrlTitle="Clientes" currentPathTitle={`${client.name} #${client.id}`} />
 
       <div className="min-w-full lg:min-w-3/6">
         <h1 className="text-2xl font-bold mb-2">Modificar cliente</h1>

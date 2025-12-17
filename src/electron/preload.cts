@@ -21,4 +21,19 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
     pageSize: number,
     filters: { search?: string; dateFrom?: string | null; dateTo?: string | null },
   ) => electron.ipcRenderer.invoke("get-samples", page, pageSize, filters),
+
+  createSample: (sample: {
+    client_id: number;
+    colloquial_specie: string;
+    cultivar: string;
+    entry_date: string;
+    harvest_year: string;
+    lot_number: string;
+    lot_weight: string;
+    mark: string;
+    observations?: string;
+    sample_code: string;
+    sample_number: number;
+    test_end_date: string;
+  }) => electron.ipcRenderer.invoke("create-sample", sample),
 });
