@@ -17,7 +17,7 @@ export default function Error({
   console.warn(err);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 md:p-16">
+    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 lg:p-16">
       {path && <ReturnButton path={path} />}
       <h1 className="text-2xl font-bold mb-2 text-center">{title}</h1>
       <p className="text-muted-foreground text-center md:max-w-2/6">{description}</p>

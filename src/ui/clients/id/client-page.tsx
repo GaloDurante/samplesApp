@@ -9,7 +9,7 @@ export default function ClientPage() {
   const { client }: { client: Client } = useLoaderData();
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 sm:p-16">
+    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 lg:p-16">
       <Breadcrum baseUrl="/clients" baseUrlTitle="Clientes" currentPathTitle={`${client.name}`} />
 
       <div className="min-w-full lg:min-w-3/6">

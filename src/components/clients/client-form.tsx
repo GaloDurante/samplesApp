@@ -73,7 +73,7 @@ export function ClientForm({ editData }: ClientFormProps) {
                   Nombre <span className="text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="Ignacio" {...field} />
+                  <Input placeholder="Ej: Ignacio" {...field} />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>
@@ -111,7 +111,7 @@ export function ClientForm({ editData }: ClientFormProps) {
                   Dirección <span className="text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="Laprida 1201" {...field} />
+                  <Input placeholder="Ej: Laprida 1201" {...field} />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>
@@ -126,7 +126,7 @@ export function ClientForm({ editData }: ClientFormProps) {
                   Email <span className="text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="ignacion@gmail.com" {...field} />
+                  <Input placeholder="Ej: ignacio@gmail.com" {...field} />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>

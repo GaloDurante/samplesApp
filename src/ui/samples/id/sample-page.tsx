@@ -10,7 +10,7 @@ export default function SamplePage() {
   //   const { client }: { client: Client } = useLoaderData();
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 sm:p-16">
+    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 lg:p-16">
       <Breadcrum baseUrl="/samples" baseUrlTitle="Muestras" currentPathTitle={`Detalle de muestra #${122}`} />
 
       <div className="min-w-full lg:min-w-3/6">

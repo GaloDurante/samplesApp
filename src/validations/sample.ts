@@ -1,28 +1,99 @@
 import { z } from "zod";
 
 export const sampleSchema = z.object({
-  id: z.number().int().nonnegative(),
-  client_id: z.number().int().nonnegative(),
+  id: z.number().int().optional(),
 
-  sample_number: z.number().int().nonnegative(),
-  entry_date: z.string().min(1),
+  client_id: z
+    .number({
+      message: "Cliente es requerido.",
+    })
+    .int(),
 
-  sample_code: z.string().min(1),
-  colloquial_specie: z.string().min(1),
-  cultivar: z.string().min(1),
-  harvest_year: z.string().min(1),
-  mark: z.string().min(1),
-  lot_number: z.string().min(1),
-  lot_weight: z.number(),
+  sample_number: z
+    .number({
+      message: "N° de muestra es requerido.",
+    })
+    .int({
+      message: "N° de muestra debe ser un número entero.",
+    })
+    .nonnegative({
+      message: "N° de muestra no puede ser negativo.",
+    }),
 
-  test_end_date: z.string().min(1),
-  observations: z.string().nullable(),
+  entry_date: z.string({
+    message: "Fecha de ingreso es requerida.",
+  }),
 
-  sampling_date: z.string().nullable(),
-  other_references: z.string().nullable(),
-  seal_number: z.string().nullable(),
-  specie: z.string().nullable(),
-  other_deter: z.string().nullable(),
+  sample_code: z
+    .string({
+      message: "Código de muestra es requerido.",
+    })
+    .min(3, {
+      message: "Código de muestra es muy corto.",
+    }),
+
+  colloquial_specie: z
+    .string({
+      message: "Especie es requerida.",
+    })
+    .min(3, {
+      message: "Especie es muy corto.",
+    }),
+
+  cultivar: z
+    .string({
+      message: "Cultivar es requerido.",
+    })
+    .min(2, {
+      message: "Cultivar es muy corto.",
+    }),
+
+  harvest_year: z
+    .string({
+      message: "Año de cosecha es requerido.",
+    })
+    .min(4, {
+      message: "Año de cosecha inválido.",
+    }),
+
+  mark: z
+    .string({
+      message: "Marca es requerida.",
+    })
+    .min(4, {
+      message: "Marca es muy corto.",
+    }),
+
+  lot_number: z
+    .string({
+      message: "N° de lote es requerido.",
+    })
+    .min(3, {
+      message: "N° de lote inválido.",
+    }),
+
+  lot_weight: z
+    .string({
+      message: "Peso del lote es requerido.",
+    })
+    .refine((value) => /^\d+(\.\d+)?\s?(kg|t)$/i.test(value.trim()), {
+      message: "Formato válido: número + kg o t.",
+    }),
+
+  test_end_date: z.string({
+    message: "Fecha de finalización es requerida.",
+  }),
+
+  observations: z
+    .string()
+    .optional()
+    .transform((value) => (value === "" ? undefined : value)),
+
+  sampling_date: z.string().optional(),
+  other_references: z.string().optional(),
+  seal_number: z.string().optional(),
+  specie: z.string().optional(),
+  other_deter: z.string().optional(),
 });
 
 export type SampleType = z.infer<typeof sampleSchema>;
