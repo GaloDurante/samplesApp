@@ -1,33 +1,33 @@
-import { NavLink } from "react-router";
+import { NavLink, useRevalidator } from "react-router";
 
 import type { FullSample } from "@/types/sample";
 
 import { Pencil, Trash } from "lucide-react";
-// import { toast } from "sonner";
+import { toast } from "sonner";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
 export function RowActionButtons({ row }: { row: FullSample }) {
-  //   const revalidator = useRevalidator();
+  const revalidator = useRevalidator();
 
   const handleDelete = async (id?: number) => {
     if (!id) return;
 
-    // try {
-    //   const result = await window.clientApi.deleteClient(id);
+    try {
+      const result = await window.sampleApi.deleteSample(id);
 
-    //   if (result.success) {
-    //     toast.success(result.message);
-    //     revalidator.revalidate();
-    //   } else {
-    //     toast.error(result.message || "No se pudo eliminar el cliente solicitado.");
-    //   }
-    // } catch (error) {
-    //   const errorMessage = error instanceof Error ? error.message : "No se pudo eliminar el cliente solicitado.";
-    //   toast.error(errorMessage);
-    // }
+      if (result.success) {
+        toast.success(result.message);
+        revalidator.revalidate();
+      } else {
+        toast.error(result.message || "No se pudo eliminar la muestra solicitada.");
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "No se pudo eliminar la muestra solicitada.";
+      toast.error(errorMessage);
+    }
   };
 
   return (

@@ -31,6 +31,7 @@ export function SampleForm({ editData }: ClientFormProps) {
       entry_date: undefined,
       sample_code: "",
       client_id: undefined,
+      client_name: undefined,
       colloquial_specie: "",
       cultivar: "",
       harvest_year: "",

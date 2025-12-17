@@ -11,7 +11,7 @@ function getTotalSamplesCount(filters: SampleFilters) {
     `
       SELECT COUNT(*) as count
       FROM samples s
-      JOIN clients c ON c.id = s.client_id
+      LEFT JOIN clients c ON c.id = s.client_id
       ${whereSQL}
     `,
     params,
@@ -27,31 +27,32 @@ export function getSamples(page = 1, pageSize = 20, filters: SampleFilters = {})
 
   const rows = queryAll(
     `
-    SELECT
-      s.id,
-      s.client_id,
-      s.sample_number,
-      s.entry_date,
-      s.sample_code,
-      s.colloquial_specie,
-      s.cultivar,
-      s.harvest_year,
-      s.mark,
-      s.lot_number,
-      s.lot_weight,
-      s.test_end_date,
-      s.observations,
-      s.sampling_date,
-      s.other_references,
-      s.seal_number,
-      s.specie,
-      s.other_deter,
+      SELECT
+        s.id,
+        s.client_id,
+        s.client_name,
+        s.sample_number,
+        s.entry_date,
+        s.sample_code,
+        s.colloquial_specie,
+        s.cultivar,
+        s.harvest_year,
+        s.mark,
+        s.lot_number,
+        s.lot_weight,
+        s.test_end_date,
+        s.observations,
+        s.sampling_date,
+        s.other_references,
+        s.seal_number,
+        s.specie,
+        s.other_deter,
 
-      c.id AS client_id,
-      c.name AS client_name,
-      c.cuit AS client_cuit
-    FROM samples s
-    JOIN clients c ON c.id = s.client_id
+        c.id AS client_id,
+        c.name AS client_name,
+        c.cuit AS client_cuit
+      FROM samples s
+      LEFT JOIN clients c ON c.id = s.client_id
       ${whereSQL}
       ORDER BY s.id DESC
       LIMIT ? OFFSET ?
@@ -65,31 +66,30 @@ export function getSamples(page = 1, pageSize = 20, filters: SampleFilters = {})
 }
 
 export function createSample(sample: Sample) {
-  const existing = queryOne("SELECT id FROM clients WHERE id = ?", [sample.client_id]);
-
+  const existing = queryOne("SELECT id, name FROM clients WHERE id = ?", [sample.client_id]);
   if (!existing) {
     throw new Error("El cliente seleccionado no existe.");
   }
+  const client_name = String(existing[1]);
 
   const validationResult = sampleSchema.safeParse(sample);
-
   if (!validationResult.success) {
     const firstError = validationResult.error.issues[0];
     throw new Error(firstError.message || "Error de validación");
   }
-
   const validatedSample = validationResult.data;
 
   try {
     execute(
       `INSERT INTO samples (
-        client_id, sample_number, entry_date, sample_code,
+        client_id, client_name, sample_number, entry_date, sample_code,
         colloquial_specie, cultivar, harvest_year, mark,
         lot_number, lot_weight, test_end_date, observations
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         validatedSample.client_id,
+        client_name,
         validatedSample.sample_number,
         validatedSample.entry_date,
         validatedSample.sample_code,
@@ -120,3 +120,19 @@ export function createSample(sample: Sample) {
   }
 }
 
+export function deleteSample(id: number) {
+  if (!id) throw new Error("Debe indicar un ID válido");
+
+  const existing = queryOne("SELECT id FROM samples WHERE id = ?", [id]);
+
+  if (!existing) {
+    throw new Error("La muestra que intenta eliminar no existe.");
+  }
+
+  try {
+    execute("DELETE FROM samples WHERE id=?", [id]);
+  } catch (error) {
+    console.warn(error);
+    throw new Error("No se pudo eliminar la muestra solicitada por un problema en el servidor.");
+  }
+}

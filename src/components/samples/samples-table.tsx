@@ -41,19 +41,19 @@ export function SamplesTable({ list }: SamplesTableProps) {
             <TableCell>{row.sample_number}</TableCell>
             <TableCell>{row.entry_date}</TableCell>
             <TableCell>{row.sample_code}</TableCell>
-            <TableCell>{row.client.name}</TableCell>
+            <TableCell>{row.client?.name ?? row.client_name}</TableCell>
             <TableCell>{row.colloquial_specie}</TableCell>
             <TableCell>{row.cultivar}</TableCell>
             <TableCell>{row.harvest_year}</TableCell>
             <TableCell>{row.mark}</TableCell>
             <TableCell>{row.lot_number}</TableCell>
             <TableCell>{row.lot_weight}</TableCell>
-            <TableCell className="text-center">x</TableCell>
-            <TableCell className="text-center">x</TableCell>
-            <TableCell className="text-center">x</TableCell>
-            <TableCell className="text-center">x</TableCell>
-            <TableCell className="text-center">x</TableCell>
-            <TableCell className="text-center">x</TableCell>
+            <TableCell className="text-center">{row.analyses?.first_count ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analyses?.pg ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analyses?.vigor_tz ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analyses?.viability_tz ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analyses?.pms ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analyses?.purity_percent ? "X" : "n/a"}</TableCell>
             <TableCell>{row.test_end_date}</TableCell>
           </TableRow>
         ))}

@@ -14,6 +14,7 @@ export const schema = [
       id INTEGER PRIMARY KEY AUTOINCREMENT,
 
       client_id INTEGER NOT NULL,
+      client_name TEXT NOT NULL,
 
       sample_number INTEGER NOT NULL UNIQUE,
       entry_date TEXT NOT NULL,
@@ -39,7 +40,7 @@ export const schema = [
   `
     CREATE TABLE IF NOT EXISTS sample_analyses (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      sample_id INTEGER NOT NULL UNIQUE,
+      sample_id INTEGER NOT NULL,
 
       first_count INTEGER,
       pg INTEGER,
@@ -55,13 +56,13 @@ export const schema = [
       purity_percent INTEGER,
       other_analysis TEXT,
 
-      FOREIGN KEY (sample_id) REFERENCES samples(id)
+      FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE
     );
   `,
   `
     CREATE TABLE IF NOT EXISTS sample_purity (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      sample_id INTEGER NOT NULL UNIQUE,
+      sample_id INTEGER NOT NULL,
 
       seed_pure TEXT,
       inert_matter TEXT,
@@ -69,13 +70,13 @@ export const schema = [
       type_inert_matter TEXT,
       remarks TEXT,
 
-      FOREIGN KEY (sample_id) REFERENCES samples(id)
+      FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE
     );
   `,
   `
     CREATE TABLE IF NOT EXISTS sample_germination (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      sample_id INTEGER NOT NULL UNIQUE,
+      sample_id INTEGER NOT NULL,
 
       days_number TEXT,
       normal_seedlings TEXT,
@@ -84,17 +85,17 @@ export const schema = [
       abnormal_seedlings TEXT,
       dead_seeds TEXT,
 
-      FOREIGN KEY (sample_id) REFERENCES samples(id)
+      FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE
     );
   `,
   `
     CREATE TABLE IF NOT EXISTS sample_humidity (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      sample_id INTEGER NOT NULL UNIQUE,
+      sample_id INTEGER NOT NULL,
 
       humidity TEXT,
 
-      FOREIGN KEY (sample_id) REFERENCES samples(id)
+      FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE
     );
   `,
 ];

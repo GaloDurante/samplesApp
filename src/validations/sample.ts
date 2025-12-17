@@ -5,9 +5,14 @@ export const sampleSchema = z.object({
 
   client_id: z
     .number({
-      message: "Cliente es requerido.",
+      message: "Cliente inválido.",
     })
     .int(),
+  client_name: z
+    .string({
+      message: "Nombre del cliente inválido.",
+    })
+    .optional(),
 
   sample_number: z
     .number({

@@ -24,6 +24,7 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
 
   createSample: (sample: {
     client_id: number;
+    client_name?: number;
     colloquial_specie: string;
     cultivar: string;
     entry_date: string;
@@ -36,4 +37,6 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
     sample_number: number;
     test_end_date: string;
   }) => electron.ipcRenderer.invoke("create-sample", sample),
+
+  deleteSample: (sampleId: number) => electron.ipcRenderer.invoke("delete-sample", sampleId),
 });

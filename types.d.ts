@@ -13,6 +13,7 @@ declare global {
     sampleApi: {
       getSamples(page: number, pageSize: number, filters: SampleFilters): Promise<PaginatedSamples>;
       createSample(sample: Sample): Promise<{ success: boolean; message: string }>;
+      deleteSample(id: number): Promise<{ success: boolean; message: string }>;
     };
   }
 }

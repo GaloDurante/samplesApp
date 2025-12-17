@@ -11,4 +11,4 @@ export type ClientPreview = {
   id: number;
   name: string;
   cuit: number;
-};
+} | null;
