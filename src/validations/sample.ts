@@ -89,11 +89,7 @@ export const sampleSchema = z.object({
     message: "Fecha de finalización es requerida.",
   }),
 
-  observations: z
-    .string()
-    .optional()
-    .transform((value) => (value === "" ? undefined : value)),
-
+  observations: z.string().optional(),
   sampling_date: z.string().optional(),
   other_references: z.string().optional(),
   seal_number: z.string().optional(),

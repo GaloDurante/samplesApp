@@ -1,30 +1,30 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { sampleSchema } from "@/validations/sample";
+import { stepSchemas } from "@/validations/sample/steps";
 import type { Sample } from "@/types/sample";
 
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { DatePicker } from "@/components/date-picker";
-import { Textarea } from "@/components/ui/textarea";
+import { Form } from "@/components/ui/form";
+import { Stepper } from "@/components/ui/stepper";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
-interface ClientFormProps {
+import { Step1GeneralInfo, Step2LotData, Step3Others } from "@/components/samples/steps";
+import { SAMPLE_FORM_STEPS } from "@/components/samples/steps/constants";
+import { Separator } from "@/components/ui/separator";
+
+interface SampleFormProps {
   editData?: Sample;
 }
 
-const clients = [
-  { name: "Ignacio", id: 1 },
-  { name: "Martin", id: 2 },
-];
+export function SampleForm({ editData }: SampleFormProps) {
+  const [currentStep, setCurrentStep] = useState(0);
 
-export function SampleForm({ editData }: ClientFormProps) {
-  const form = useForm({
+  const form = useForm<Sample>({
     resolver: zodResolver(sampleSchema),
     defaultValues: editData ?? {
       sample_number: undefined,
@@ -41,7 +41,41 @@ export function SampleForm({ editData }: ClientFormProps) {
       test_end_date: undefined,
       observations: undefined,
     },
+    mode: "onChange",
   });
+
+  const validateStep = async (step: number): Promise<boolean> => {
+    const values = form.getValues();
+    const schema = stepSchemas[step];
+
+    if (!schema) return false;
+
+    const result = await schema.safeParseAsync(values);
+    if (!result.success) {
+      result.error.issues.forEach((issue) => {
+        const fieldName = issue.path[0] as string;
+        form.setError(fieldName as keyof Sample, {
+          type: "manual",
+          message: issue.message,
+        });
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleNext = async () => {
+    const isValid = await validateStep(currentStep);
+    if (isValid && currentStep < SAMPLE_FORM_STEPS.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
 
   const onSubmit = async (values: Sample) => {
     try {
@@ -56,10 +90,10 @@ export function SampleForm({ editData }: ClientFormProps) {
         }
       } else {
         const result = await window.sampleApi.createSample(values);
-
         if (result.success) {
           toast.success(result.message);
           form.reset();
+          setCurrentStep(0);
         } else {
           toast.error(result.message || "No se pudo crear la muestra solicitada.");
         }
@@ -73,267 +107,61 @@ export function SampleForm({ editData }: ClientFormProps) {
     }
   };
 
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 0:
+        return <Step1GeneralInfo form={form} />;
+      case 1:
+        return <Step2LotData form={form} />;
+      case 2:
+        return <Step3Others form={form} />;
+      default:
+        return null;
+    }
+  };
+
+  const isLastStep = currentStep === SAMPLE_FORM_STEPS.length - 1;
+
   return (
     <div className="flex flex-col gap-6">
       <Form {...form}>
         <form
           id="sample-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-card p-4 sm:p-8 rounded-md shadow-sm space-y-4"
+          className="bg-card p-4 sm:p-8 rounded-md shadow-sm space-y-6"
         >
-          <section className="space-y-4">
-            <h3 className="text-lg font-semibold">Información General</h3>
-            <Separator />
+          <Stepper steps={SAMPLE_FORM_STEPS} currentStep={currentStep} />
+          <div className="min-h-[400px]">{renderStepContent()}</div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
-              <FormField
-                control={form.control}
-                name="sample_number"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      N° Muestra <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...field}
-                        onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
-                        value={field.value ? String(field.value) : ""}
-                      />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
+          <Separator />
+          <div className="flex justify-between items-center">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handlePrevious}
+              disabled={currentStep === 0}
+              className="gap-2"
+            >
+              <ChevronLeftIcon className="w-4 h-4" />
+              <span className="hidden sm:block">Anterior</span>
+            </Button>
 
-              {/* fecha ingreso */}
-              <FormField
-                control={form.control}
-                name="entry_date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Fecha Ingreso <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        value={field.value}
-                        onChange={field.onChange}
-                        isError={!!form.formState.errors.entry_date}
-                      />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
+            <div className="flex items-center gap-2 sm:gap-4">
+              <Button type="button" onClick={handleNext} disabled={isLastStep} variant="outline">
+                <span className="hidden sm:block">Siguiente</span>
+                <ChevronRightIcon className="w-4 h-4" />
+              </Button>
 
-              <FormField
-                control={form.control}
-                name="sample_code"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Cód. Muestra <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ej: GLS P 1210" {...field} />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="client_id"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Solicitante <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <Select
-                      onValueChange={(val) => field.onChange(val ? Number(val) : undefined)}
-                      value={field.value ? String(field.value) : ""}
-                    >
-                      <FormControl className="w-full">
-                        <SelectTrigger>
-                          <SelectValue placeholder="Seleccione un cliente" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent position="popper">
-                        {clients.map((cl) => (
-                          <SelectItem key={cl.id} value={String(cl.id)}>
-                            {cl.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="colloquial_specie"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Especie <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ej: Trigo" {...field} />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="cultivar"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Cultivar <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ej: Ceibo" {...field} />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="harvest_year"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Año cosecha <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ej: 2024-2025" {...field} />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="mark"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Marca <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ej: Semilla Premium" {...field} />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
+              <Button
+                form="sample-form"
+                type="submit"
+                disabled={!isLastStep || (editData ? !form.formState.isDirty : form.formState.isSubmitting)}
+              >
+                {form.formState.isSubmitting ? "Guardando..." : "Guardar cambios"}
+              </Button>
             </div>
-          </section>
-
-          <section className="space-y-4">
-            <h3 className="text-lg font-semibold">Datos del Lote</h3>
-            <Separator />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
-              <FormField
-                control={form.control}
-                name="lot_number"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      N° Lote <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="lot_weight"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Peso del lote (kg / t) <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ej: 20 t" {...field} />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </section>
-
-          <section className="space-y-4">
-            <h3 className="text-lg font-semibold">Otros</h3>
-
-            <Separator />
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
-              {/* Fecha finalizacion de ensayo */}
-              <FormField
-                control={form.control}
-                name="test_end_date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Fecha finalizacion de ensayo <span className="text-destructive">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        value={field.value}
-                        onChange={field.onChange}
-                        isError={!!form.formState.errors.test_end_date}
-                      />
-                    </FormControl>
-                    <FormMessage className="min-h-5" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="observations"
-                render={({ field }) => (
-                  <FormItem className="col-span-full">
-                    <FormLabel>Observaciones</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder="Añadir notas adicionales sobre la muestra o el lote..."
-                        className="resize-none min-h-[100px]"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-          </section>
+          </div>
         </form>
-        <Button
-          form="sample-form"
-          type="submit"
-          className="self-end"
-          disabled={editData ? !form.formState.isDirty : form.formState.isSubmitting}
-        >
-          Guardar cambios
-        </Button>
       </Form>
     </div>
   );
