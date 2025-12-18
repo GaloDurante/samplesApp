@@ -61,6 +61,7 @@ export function RowActionButtons({ row }: { row: Client }) {
         }
         confirmLabel="Eliminar"
         onConfirm={() => handleDelete(row.id)}
+        twoStepWord={`eliminar-${row.email}`}
       />
     </>
   );
