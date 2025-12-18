@@ -158,3 +158,23 @@ export function deleteClient(id: number) {
     throw new Error("No se pudo eliminar el cliente solicitado por un problema en el servidor.");
   }
 }
+
+export function searchClients(search: string) {
+  if (!search || search.trim().length < 2) return [];
+
+  const rows = queryAll(
+    `
+    SELECT id, name
+    FROM clients
+    WHERE name LIKE ?
+    ORDER BY name
+    LIMIT 20
+    `,
+    [`%${search}%`],
+  );
+
+  return rows.map(([id, name]) => ({
+    id: Number(id),
+    name: String(name),
+  }));
+}

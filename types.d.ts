@@ -8,6 +8,7 @@ declare global {
       getClientById(id: number): Promise<Client>;
       updateClient(client: Client): Promise<{ success: boolean; message: string }>;
       deleteClient(id: number): Promise<{ success: boolean; message: string }>;
+      search(search: string): Promise<{ name: string; id: number }[]>;
     };
 
     sampleApi: {

@@ -23,4 +23,3 @@ export const step3Schema = z.object({
 });
 
 export const stepSchemas = [step1Schema, step2Schema, step3Schema] as const;
-

@@ -1,5 +1,12 @@
 import { ipcMain } from "electron";
-import { getClients, getClientById, createClient, updateClient, deleteClient } from "../services/clients.js";
+import {
+  getClients,
+  getClientById,
+  createClient,
+  updateClient,
+  deleteClient,
+  searchClients,
+} from "../services/clients.js";
 
 export function registerClientsIPC() {
   ipcMain.handle("get-clients", (_event, page, pageSize, search) => getClients(page, pageSize, search));
@@ -39,5 +46,9 @@ export function registerClientsIPC() {
           : "No se pudo eliminar el cliente solicitado por un problema desconocido.";
       return { success: false, message };
     }
+  });
+
+  ipcMain.handle("clients:search", (_event, search: string) => {
+    return searchClients(search);
   });
 }

@@ -13,6 +13,8 @@ electron.contextBridge.exposeInMainWorld("clientApi", {
     electron.ipcRenderer.invoke("update-client", client),
 
   deleteClient: (clientId: number) => electron.ipcRenderer.invoke("delete-client", clientId),
+
+  search: (search: string) => electron.ipcRenderer.invoke("clients:search", search),
 });
 
 electron.contextBridge.exposeInMainWorld("sampleApi", {

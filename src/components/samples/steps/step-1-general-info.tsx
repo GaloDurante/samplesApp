@@ -4,18 +4,13 @@ import type { Sample } from "@/types/sample";
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DatePicker } from "@/components/date-picker";
 import { Separator } from "@/components/ui/separator";
+import { ClientCombobox } from "@/components/clients/client-combobox";
 
 interface Step1GeneralInfoProps {
   form: UseFormReturn<Sample>;
 }
-
-const clients = [
-  { name: "Ignacio", id: 1 },
-  { name: "Martin", id: 2 },
-];
 
 export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
   return (
@@ -92,23 +87,15 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
               <FormLabel>
                 Solicitante <span className="text-destructive">*</span>
               </FormLabel>
-              <Select
-                onValueChange={(val) => field.onChange(val ? Number(val) : undefined)}
-                value={field.value ? String(field.value) : ""}
-              >
-                <FormControl className="w-full">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccione un cliente" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent position="popper">
-                  {clients.map((cl) => (
-                    <SelectItem key={cl.id} value={String(cl.id)}>
-                      {cl.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+
+              <FormControl>
+                <ClientCombobox
+                  value={field.value}
+                  onChange={field.onChange}
+                  isError={!!form.formState.errors.client_id}
+                />
+              </FormControl>
+
               <FormMessage className="min-h-5" />
             </FormItem>
           )}
