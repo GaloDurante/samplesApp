@@ -10,9 +10,10 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/in
 interface SearchProps {
   placeholder?: string;
   label?: string;
+  parentClassName?: string;
 }
 
-export function Search({ placeholder = "Buscar...", label }: SearchProps) {
+export function Search({ placeholder = "Buscar...", label, parentClassName }: SearchProps) {
   const [params, setParams] = useSearchParams();
 
   const initial = params.get("search") ?? "";
@@ -36,8 +37,8 @@ export function Search({ placeholder = "Buscar...", label }: SearchProps) {
   }, [debounced, setParams]);
 
   return (
-    <div>
-      <InputGroup className="w-full max-w-md">
+    <div className={parentClassName}>
+      <InputGroup className="w-full">
         <InputGroupInput placeholder={placeholder} value={query} onChange={(e) => setQuery(e.target.value)} />
         <InputGroupAddon>
           <SearchIcon />

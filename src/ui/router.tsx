@@ -69,9 +69,10 @@ export const router = createHashRouter([
               const url = new URL(request.url);
               const page = Number(url.searchParams.get("page") ?? 1);
               const pageSize = Number(url.searchParams.get("pageSize") ?? 20);
-              const search = url.searchParams.get("search") ?? "";
               const filters = {
-                search,
+                search: url.searchParams.get("search") ?? "",
+                dateFrom: url.searchParams.get("dateFrom") ?? undefined,
+                dateTo: url.searchParams.get("dateTo") ?? undefined,
               };
 
               const { samples, total } = await window.sampleApi.getSamples(page, pageSize, filters);

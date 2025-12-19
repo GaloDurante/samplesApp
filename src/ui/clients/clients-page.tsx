@@ -23,7 +23,7 @@ export default function ClientsPage() {
   return (
     <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <div className="w-full sm:min-w-md">
+        <div className="w-full sm:max-w-md">
           <Search placeholder="Buscar por nombre, CUIT, dirección o email" />
         </div>
 

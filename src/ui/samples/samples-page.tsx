@@ -6,8 +6,8 @@ import { Search as SearchIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { SamplesTable } from "@/components/samples/samples-table";
-import { Search } from "@/components/search";
 import { PaginationBar } from "@/components/pagination-bar";
+import { SamplesFilters } from "@/components/samples/samples-filters";
 
 interface SamplesPageParams {
   samples: FullSample[];
@@ -23,14 +23,11 @@ export default function ClientsPage() {
   return (
     <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <div className="w-full sm:min-w-md">
-          <Search
-            placeholder="Buscar muestras"
-            label="Filtra por solicitante, N° muestra, código, especie, marca o lote."
-          />
+        <div className="w-full sm:max-w-3xl flex gap-4">
+          <SamplesFilters />
         </div>
 
-        <Button asChild className="self-end">
+        <Button asChild className="self-end sm:self-auto">
           <NavLink to={"/samples/new"}>Agregar Muestra</NavLink>
         </Button>
       </div>

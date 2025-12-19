@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { parse, format } from "date-fns";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -21,4 +23,8 @@ export function buildPageWindow(current: number, totalPages: number, windowSize 
   if (totalPages > 1) pages.push(totalPages);
 
   return pages;
+}
+
+export function formatISODate(date: string, pattern = "dd/MM/yyyy") {
+  return format(parse(date, "yyyy-MM-dd", new Date()), pattern);
 }

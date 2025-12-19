@@ -1,5 +1,4 @@
-import { format } from "date-fns";
-
+import { formatISODate } from "@/lib/utils";
 import type { FullSample } from "@/types/sample";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -41,7 +40,7 @@ export function SamplesTable({ list }: SamplesTableProps) {
               <RowActionButtons row={row} />
             </TableCell>
             <TableCell>{row.sample_number}</TableCell>
-            <TableCell>{format(new Date(row.entry_date), "dd/MM/yyyy")}</TableCell>
+            <TableCell>{formatISODate(row.entry_date)}</TableCell>
             <TableCell>{row.sample_code}</TableCell>
             <TableCell>{row.client?.name ?? row.client_name}</TableCell>
             <TableCell>{row.colloquial_specie}</TableCell>
@@ -56,7 +55,7 @@ export function SamplesTable({ list }: SamplesTableProps) {
             <TableCell className="text-center">{row.analyses?.viability_tz ? "X" : "n/a"}</TableCell>
             <TableCell className="text-center">{row.analyses?.pms ? "X" : "n/a"}</TableCell>
             <TableCell className="text-center">{row.analyses?.purity_percent ? "X" : "n/a"}</TableCell>
-            <TableCell>{format(new Date(row.test_end_date), "dd/MM/yyyy")}</TableCell>
+            <TableCell>{formatISODate(row.test_end_date)}</TableCell>
           </TableRow>
         ))}
       </TableBody>
