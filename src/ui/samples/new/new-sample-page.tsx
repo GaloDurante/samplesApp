@@ -1,5 +1,5 @@
 import { Breadcrum } from "@/components/breadcrum";
-import { SampleForm } from "@/components/samples/sample-form";
+import { SampleCreateForm } from "@/components/samples/forms/create-form";
 
 export default function NewSamplePage() {
   return (
@@ -11,7 +11,7 @@ export default function NewSamplePage() {
         <p className="text-muted-foreground mb-6">
           Complete el formulario a continuación para registrar una nueva muestra en el sistema.
         </p>
-        <SampleForm />
+        <SampleCreateForm />
       </div>
     </div>
   );

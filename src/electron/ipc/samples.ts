@@ -1,8 +1,10 @@
 import { ipcMain } from "electron";
-import { createSample, getSamples, deleteSample } from "../services/samples.js";
+import { createSample, getSamples, deleteSample, getSampleById } from "../services/samples.js";
 
 export function registerSamplesIPC() {
   ipcMain.handle("get-samples", (_event, page, pageSize, filters) => getSamples(page, pageSize, filters));
+
+  ipcMain.handle("get-sample-by-id", (_event, id) => getSampleById(id));
 
   ipcMain.handle("create-sample", async (_event, sample) => {
     try {

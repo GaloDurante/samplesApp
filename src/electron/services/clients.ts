@@ -160,17 +160,17 @@ export function deleteClient(id: number) {
 }
 
 export function searchClients(search: string) {
-  if (!search || search.trim().length < 2) return [];
+  if (!search || search.trim().length < 1) return [];
 
   const rows = queryAll(
     `
     SELECT id, name
     FROM clients
-    WHERE name LIKE ?
+    WHERE name LIKE ? OR id LIKE ?
     ORDER BY name
     LIMIT 20
     `,
-    [`%${search}%`],
+    [`%${search}%`, `%${search}%`],
   );
 
   return rows.map(([id, name]) => ({

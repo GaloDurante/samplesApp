@@ -24,6 +24,8 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
     filters: { search?: string; dateFrom?: string | null; dateTo?: string | null },
   ) => electron.ipcRenderer.invoke("get-samples", page, pageSize, filters),
 
+  getSampleById: (sampleId: number) => electron.ipcRenderer.invoke("get-sample-by-id", sampleId),
+
   createSample: (sample: {
     client_id: number;
     client_name?: number;

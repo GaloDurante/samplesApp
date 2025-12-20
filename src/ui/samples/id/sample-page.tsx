@@ -1,13 +1,12 @@
-// import { useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
+
+import type { FullSample } from "@/types/sample";
 
 import { Breadcrum } from "@/components/breadcrum";
-
-// import type { Client } from "@/types/client";
-
-// import { ClientForm } from "@/components/clients/client-form";
+import { SampleEditForm } from "@/components/samples/forms/edit-form";
 
 export default function SamplePage() {
-  //   const { client }: { client: Client } = useLoaderData();
+  const { sample }: { sample: FullSample } = useLoaderData();
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 lg:p-16">
@@ -18,7 +17,7 @@ export default function SamplePage() {
         <p className="text-muted-foreground mb-8">
           El formulario a continuación permite editar una muestra que ya se encuentra registrada en el sistema.
         </p>
-        {/* <ClientForm editData={client} /> */}
+        <SampleEditForm editData={sample} />
       </div>
     </div>
   );

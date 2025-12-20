@@ -5,7 +5,6 @@ import type {
   SampleGerminationType,
   SampleHumidityType,
 } from "../validations/sample.js";
-import type { ClientPreview } from "./client.js";
 
 export type Sample = SampleType;
 export type SampleAnalyses = SampleAnalysesType;
@@ -14,7 +13,6 @@ export type SampleGermination = SampleGerminationType;
 export type SampleHumidity = SampleHumidityType;
 
 export type FullSample = Sample & {
-  client: ClientPreview;
   analyses: SampleAnalyses | null;
   purity: SamplePurity | null;
   germination: SampleGermination | null;

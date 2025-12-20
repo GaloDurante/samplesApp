@@ -19,7 +19,7 @@ export function mapClient(row: SqlValue[]): Client {
 
 export function mapSample(row: SqlValue[]): FullSample {
   const client =
-    row[19] !== null
+    row[19] != null
       ? {
           id: Number(row[19]),
           name: String(row[20]),

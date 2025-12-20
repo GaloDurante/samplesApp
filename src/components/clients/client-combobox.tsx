@@ -17,7 +17,7 @@ interface ClientComboboxProps {
 
 export function ClientCombobox({ value, onChange, isError }: ClientComboboxProps) {
   const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(value ? String(value) : "");
 
   const debounced = useDebounce(search, 300);
   const { data: clients, loading } = useClientSearch(debounced);

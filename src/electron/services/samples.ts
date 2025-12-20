@@ -65,6 +65,45 @@ export function getSamples(page = 1, pageSize = 20, filters: SampleFilters = {})
   return { samples: rows, total };
 }
 
+export function getSampleById(id: number) {
+  if (!id) throw new Error("ID de la muestra es requerido.");
+
+  const row = queryOne(
+    `
+    SELECT
+        s.id,
+        s.client_id,
+        s.client_name,
+        s.sample_number,
+        s.entry_date,
+        s.sample_code,
+        s.colloquial_specie,
+        s.cultivar,
+        s.harvest_year,
+        s.mark,
+        s.lot_number,
+        s.lot_weight,
+        s.test_end_date,
+        s.observations,
+        s.sampling_date,
+        s.other_references,
+        s.seal_number,
+        s.specie,
+        s.other_deter,
+
+        c.id AS client_id,
+        c.name AS client_name,
+        c.cuit AS client_cuit
+      FROM samples s
+      LEFT JOIN clients c ON c.id = s.client_id 
+    WHERE s.id = ?
+    `,
+    [id],
+  );
+  if (!row) throw new Error("Muestra no encontrada.");
+  return mapSample(row);
+}
+
 export function createSample(sample: Sample) {
   const existing = queryOne("SELECT id, name FROM clients WHERE id = ?", [sample.client_id]);
   if (!existing) {

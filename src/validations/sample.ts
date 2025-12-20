@@ -89,6 +89,15 @@ export const sampleSchema = z.object({
     message: "Fecha de finalización es requerida.",
   }),
 
+  client: z
+    .object({
+      id: z.number().int(),
+      name: z.string(),
+      cuit: z.number(),
+    })
+    .optional()
+    .nullable(),
+
   observations: z.string().optional(),
   sampling_date: z.string().optional(),
   other_references: z.string().optional(),

@@ -17,16 +17,12 @@ import { Step1GeneralInfo, Step2LotData, Step3Others } from "@/components/sample
 import { SAMPLE_FORM_STEPS } from "@/components/samples/steps/constants";
 import { Separator } from "@/components/ui/separator";
 
-interface SampleFormProps {
-  editData?: Sample;
-}
-
-export function SampleForm({ editData }: SampleFormProps) {
+export function SampleCreateForm() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const form = useForm<Sample>({
     resolver: zodResolver(sampleSchema),
-    defaultValues: editData ?? {
+    defaultValues: {
       sample_number: undefined,
       entry_date: undefined,
       sample_code: "",
@@ -79,24 +75,13 @@ export function SampleForm({ editData }: SampleFormProps) {
 
   const onSubmit = async (values: Sample) => {
     try {
-      if (editData) {
-        const result = await window.sampleApi.createSample(values);
-
-        if (result.success) {
-          toast.success(result.message);
-          form.reset(values);
-        } else {
-          toast.error(result.message || "No se pudo modificar la muestra solicitada.");
-        }
+      const result = await window.sampleApi.createSample(values);
+      if (result.success) {
+        toast.success(result.message);
+        form.reset();
+        setCurrentStep(0);
       } else {
-        const result = await window.sampleApi.createSample(values);
-        if (result.success) {
-          toast.success(result.message);
-          form.reset();
-          setCurrentStep(0);
-        } else {
-          toast.error(result.message || "No se pudo crear la muestra solicitada.");
-        }
+        toast.error(result.message || "No se pudo crear la muestra solicitada.");
       }
     } catch (error) {
       const errorMessage =
@@ -152,11 +137,7 @@ export function SampleForm({ editData }: SampleFormProps) {
                 <ChevronRightIcon className="w-4 h-4" />
               </Button>
 
-              <Button
-                form="sample-form"
-                type="submit"
-                disabled={!isLastStep || (editData ? !form.formState.isDirty : form.formState.isSubmitting)}
-              >
+              <Button form="sample-form" type="submit" disabled={!isLastStep || form.formState.isSubmitting}>
                 {form.formState.isSubmitting ? "Guardando..." : "Guardar cambios"}
               </Button>
             </div>
