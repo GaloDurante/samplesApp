@@ -23,7 +23,7 @@ export function SampleCreateForm() {
   const form = useForm<Sample>({
     resolver: zodResolver(sampleSchema),
     defaultValues: {
-      sample_number: undefined,
+      sample_number: "",
       entry_date: undefined,
       sample_code: "",
       client_id: undefined,

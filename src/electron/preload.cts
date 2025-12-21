@@ -42,5 +42,21 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
     test_end_date: string;
   }) => electron.ipcRenderer.invoke("create-sample", sample),
 
+  updateSample: (sample: {
+    client_id: number;
+    client_name?: number;
+    colloquial_specie: string;
+    cultivar: string;
+    entry_date: string;
+    harvest_year: string;
+    lot_number: string;
+    lot_weight: string;
+    mark: string;
+    observations?: string;
+    sample_code: string;
+    sample_number: number;
+    test_end_date: string;
+  }) => electron.ipcRenderer.invoke("update-sample", sample),
+
   deleteSample: (sampleId: number) => electron.ipcRenderer.invoke("delete-sample", sampleId),
 });

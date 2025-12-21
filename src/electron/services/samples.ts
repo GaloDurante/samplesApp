@@ -159,6 +159,64 @@ export function createSample(sample: Sample) {
   }
 }
 
+export function updateSample(sample: Sample) {
+  if (!sample.id) throw new Error("El ID de la muestra es requerido.");
+
+  const existing = queryOne("SELECT id, name FROM clients WHERE id = ?", [sample.client_id]);
+  if (!existing) {
+    throw new Error("El cliente seleccionado no existe.");
+  }
+  const client_name = String(existing[1]);
+
+  const validationResult = sampleSchema.safeParse(sample);
+  if (!validationResult.success) {
+    const firstError = validationResult.error.issues[0];
+    throw new Error(firstError.message || "Error de validación");
+  }
+
+  const validatedSample = validationResult.data;
+
+  try {
+    execute(
+      `UPDATE samples
+         SET client_id=?, client_name=?, sample_number=?, entry_date=?, sample_code=?,
+             colloquial_specie=?, cultivar=?, harvest_year=?, mark=?,
+             lot_number=?, lot_weight=?, test_end_date=?, observations=?
+       WHERE id=?`,
+      [
+        validatedSample.client_id,
+        client_name,
+        validatedSample.sample_number,
+        validatedSample.entry_date,
+        validatedSample.sample_code,
+        validatedSample.colloquial_specie,
+        validatedSample.cultivar,
+        validatedSample.harvest_year,
+        validatedSample.mark,
+        validatedSample.lot_number,
+        validatedSample.lot_weight,
+        validatedSample.test_end_date,
+        validatedSample.observations ?? null,
+        validatedSample.id ?? sample.id,
+      ],
+    );
+  } catch (error) {
+    console.warn(error);
+
+    if (error instanceof Error) {
+      const msg = error.message?.toLowerCase() ?? "";
+
+      if (msg.includes("unique") && msg.includes("sample_number")) {
+        throw new Error("El N° de muestra ingresado ya se encuentra registrado.");
+      }
+
+      throw new Error("Error al acceder a la base de datos");
+    }
+
+    throw new Error("No se pudo modificar la muestra por un problema en el servidor.");
+  }
+}
+
 export function deleteSample(id: number) {
   if (!id) throw new Error("Debe indicar un ID válido");
 

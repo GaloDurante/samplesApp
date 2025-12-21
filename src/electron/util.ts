@@ -32,7 +32,7 @@ export function mapSample(row: SqlValue[]): FullSample {
     client_id: Number(row[1]),
     client_name: String(row[2]),
 
-    sample_number: Number(row[3]),
+    sample_number: String(row[3]),
     entry_date: String(row[4]),
     sample_code: String(row[5]),
     colloquial_specie: String(row[6]),

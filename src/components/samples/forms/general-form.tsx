@@ -14,11 +14,11 @@ import { DatePicker } from "@/components/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { ClientCombobox } from "@/components/clients/client-combobox";
 
-interface SampleEditFormProps {
+interface SampleGeneralFormProps {
   editData: Sample;
 }
 
-export function SampleEditForm({ editData }: SampleEditFormProps) {
+export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
   const form = useForm({
     resolver: zodResolver(sampleSchema),
     defaultValues: {
@@ -31,17 +31,13 @@ export function SampleEditForm({ editData }: SampleEditFormProps) {
 
   const onSubmit = async (values: Sample) => {
     try {
-      console.log(values);
-
-      //make edit method
-      // const result = await window.sampleApi.createSample(values);
-
-      // if (result.success) {
-      //   toast.success(result.message);
-      //   form.reset(values);
-      // } else {
-      //   toast.error(result.message || "No se pudo modificar la muestra solicitada.");
-      // }
+      const result = await window.sampleApi.updateSample(values);
+      if (result.success) {
+        toast.success(result.message);
+        form.reset(values);
+      } else {
+        toast.error(result.message || "No se pudo modificar la muestra solicitada.");
+      }
     } catch (error) {
       const errorMessage =
         error instanceof Error
@@ -54,15 +50,8 @@ export function SampleEditForm({ editData }: SampleEditFormProps) {
   return (
     <div className="flex flex-col gap-6">
       <Form {...form}>
-        <form
-          id="sample-form"
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-card p-4 sm:p-8 rounded-md shadow-sm space-y-4"
-        >
+        <form id="sample-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <section className="space-y-4">
-            <h3 className="text-lg font-semibold">Información General</h3>
-            <Separator />
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
               <FormField
                 control={form.control}
@@ -73,15 +62,7 @@ export function SampleEditForm({ editData }: SampleEditFormProps) {
                       N° Muestra <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...field}
-                        onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
-                        value={field.value ? String(field.value) : ""}
-                      />
+                      <Input placeholder="Ej: 3215" onWheel={(e) => e.currentTarget.blur()} {...field} />
                     </FormControl>
                     <FormMessage className="min-h-5" />
                   </FormItem>

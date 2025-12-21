@@ -28,15 +28,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
                 N° Muestra <span className="text-destructive">*</span>
               </FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Ej: 3215"
-                  type="number"
-                  className="no-spinner"
-                  onWheel={(e) => e.currentTarget.blur()}
-                  {...field}
-                  onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
-                  value={field.value ? String(field.value) : ""}
-                />
+                <Input placeholder="Ej: 3215" onWheel={(e) => e.currentTarget.blur()} {...field} />
               </FormControl>
               <FormMessage className="min-h-5" />
             </FormItem>

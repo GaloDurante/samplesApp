@@ -15,15 +15,11 @@ export const sampleSchema = z.object({
     .optional(),
 
   sample_number: z
-    .number({
+    .string({
       message: "N° de muestra es requerido.",
     })
-    .int({
-      message: "N° de muestra debe ser un número entero.",
-    })
-    .nonnegative({
-      message: "N° de muestra no puede ser negativo.",
-    }),
+    .regex(/^\d+$/, "Solo admite números")
+    .min(1, "N° de muestra es requerido."),
 
   entry_date: z.string({
     message: "Fecha de ingreso es requerida.",

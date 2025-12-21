@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import { createSample, getSamples, deleteSample, getSampleById } from "../services/samples.js";
+import { createSample, getSamples, deleteSample, getSampleById, updateSample } from "../services/samples.js";
 
 export function registerSamplesIPC() {
   ipcMain.handle("get-samples", (_event, page, pageSize, filters) => getSamples(page, pageSize, filters));
@@ -13,6 +13,17 @@ export function registerSamplesIPC() {
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "No se pudo crear la muestra por un problema desconocido.";
+      return { success: false, message };
+    }
+  });
+
+  ipcMain.handle("update-sample", (_event, sample) => {
+    try {
+      updateSample(sample);
+      return { success: true, message: "Muestra modificada con éxito." };
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "No se pudo modificar la muestra por un problema desconocido.";
       return { success: false, message };
     }
   });

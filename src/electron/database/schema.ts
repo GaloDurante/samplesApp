@@ -16,7 +16,7 @@ export const schema = [
       client_id INTEGER NOT NULL,
       client_name TEXT NOT NULL,
 
-      sample_number INTEGER NOT NULL UNIQUE,
+      sample_number TEXT NOT NULL UNIQUE,
       entry_date TEXT NOT NULL,
       sample_code TEXT NOT NULL,
       colloquial_specie TEXT NOT NULL,
