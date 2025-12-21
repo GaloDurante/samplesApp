@@ -104,7 +104,7 @@ export const sampleSchema = z.object({
 
 export type SampleType = z.infer<typeof sampleSchema>;
 
-export const sampleAnalysesSchema = z.object({
+export const sampleAnalysisSchema = z.object({
   id: z.number().int().optional(),
   sample_id: z
     .number({
@@ -153,7 +153,7 @@ export const sampleAnalysesSchema = z.object({
   }),
 });
 
-export type SampleAnalysesType = z.infer<typeof sampleAnalysesSchema>;
+export type SampleAnalysisType = z.infer<typeof sampleAnalysisSchema>;
 
 export const samplePuritySchema = z.object({
   id: z.number().int().nonnegative(),

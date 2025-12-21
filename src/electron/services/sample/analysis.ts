@@ -1,15 +1,15 @@
 import { execute, queryOne } from "../../database/sql.js";
-import { sampleAnalysesSchema } from "../../../validations/sample.js";
+import { sampleAnalysisSchema } from "../../../validations/sample.js";
 
-import type { SampleAnalyses } from "../../../types/sample.js";
+import type { SampleAnalysis } from "../../../types/sample.js";
 
-export function createAnalysis(analysis: SampleAnalyses) {
+export function createAnalysis(analysis: SampleAnalysis) {
   const existing = queryOne("SELECT id FROM samples WHERE id = ?", [analysis.sample_id]);
   if (!existing) {
     throw new Error("La muestra seleccionada no existe.");
   }
 
-  const validationResult = sampleAnalysesSchema.safeParse(analysis);
+  const validationResult = sampleAnalysisSchema.safeParse(analysis);
   if (!validationResult.success) {
     const firstError = validationResult.error.issues[0];
     throw new Error(firstError.message || "Error de validación");
@@ -52,7 +52,7 @@ export function createAnalysis(analysis: SampleAnalyses) {
   }
 }
 
-export function updateAnalysis(analysis: SampleAnalyses) {
+export function updateAnalysis(analysis: SampleAnalysis) {
   if (!analysis.id) throw new Error("El ID del análisis es requerido.");
 
   const existing = queryOne("SELECT id FROM samples WHERE id = ?", [analysis.sample_id]);
@@ -60,7 +60,7 @@ export function updateAnalysis(analysis: SampleAnalyses) {
     throw new Error("La muestra seleccionada no existe.");
   }
 
-  const validationResult = sampleAnalysesSchema.safeParse(analysis);
+  const validationResult = sampleAnalysisSchema.safeParse(analysis);
   if (!validationResult.success) {
     const firstError = validationResult.error.issues[0];
     throw new Error(firstError.message || "Error de validación");

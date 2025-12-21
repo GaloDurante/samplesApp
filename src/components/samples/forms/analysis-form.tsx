@@ -2,9 +2,9 @@ import { useRevalidator } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { sampleAnalysesSchema } from "@/validations/sample";
+import { sampleAnalysisSchema } from "@/validations/sample";
 
-import type { SampleAnalyses } from "@/types/sample";
+import type { SampleAnalysis } from "@/types/sample";
 
 import { toast } from "sonner";
 import { Percent } from "lucide-react";
@@ -16,14 +16,14 @@ import { Input } from "@/components/ui/input";
 
 interface AnalysisFormProps {
   sampleId: number;
-  editData?: SampleAnalyses | null;
+  editData?: SampleAnalysis | null;
 }
 
 export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
   const revalidator = useRevalidator();
 
   const form = useForm({
-    resolver: zodResolver(sampleAnalysesSchema),
+    resolver: zodResolver(sampleAnalysisSchema),
     defaultValues: editData ?? {
       sample_id: sampleId,
       other_analysis: "",
@@ -31,7 +31,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
     shouldUnregister: false,
   });
 
-  const onSubmit = async (values: SampleAnalyses) => {
+  const onSubmit = async (values: SampleAnalysis) => {
     try {
       if (editData) {
         const result = await window.analysisApi.updateAnalysis(values);

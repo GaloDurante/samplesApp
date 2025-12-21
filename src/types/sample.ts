@@ -1,19 +1,35 @@
 import type {
   SampleType,
-  SampleAnalysesType,
+  SampleAnalysisType,
   SamplePurityType,
   SampleGerminationType,
   SampleHumidityType,
 } from "../validations/sample.js";
 
 export type Sample = SampleType;
-export type SampleAnalyses = SampleAnalysesType;
+export type SampleAnalysis = SampleAnalysisType;
 export type SamplePurity = SamplePurityType;
 export type SampleGermination = SampleGerminationType;
 export type SampleHumidity = SampleHumidityType;
 
+export type PartialSample = Sample & {
+  client: {
+    id: number;
+    name: string;
+    cuit: number;
+  } | null;
+
+  analysis: {
+    first_count: number;
+    pg: number;
+    vigor_tz: number;
+    pms: number;
+    purity_percent: number;
+  } | null;
+};
+
 export type FullSample = Sample & {
-  analyses: SampleAnalyses | null;
+  analysis: SampleAnalysis | null;
   purity: SamplePurity | null;
   germination: SampleGermination | null;
   humidity: SampleHumidity | null;

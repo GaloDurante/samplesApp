@@ -50,9 +50,17 @@ export function getSamples(page = 1, pageSize = 20, filters: SampleFilters = {})
 
         c.id AS client_id,
         c.name AS client_name,
-        c.cuit AS client_cuit
+        c.cuit AS client_cuit,
+
+        a.first_count AS first_count,
+        a.pg AS pg,
+        a.vigor_tz AS vigor_tz,
+        a.pms AS pms,
+        a.purity_percent AS purity_percent
+        
       FROM samples s
       LEFT JOIN clients c ON c.id = s.client_id
+      LEFT JOIN sample_analyses a ON a.sample_id = s.id
       ${whereSQL}
       ORDER BY s.id DESC
       LIMIT ? OFFSET ?

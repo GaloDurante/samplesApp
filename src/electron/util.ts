@@ -1,5 +1,5 @@
 import type { Client } from "../types/client.js";
-import type { FullSample, SampleFilters } from "../types/sample.js";
+import type { SampleFilters, PartialSample } from "../types/sample.js";
 import type { SqlValue } from "sql.js";
 
 export function isDev() {
@@ -17,13 +17,23 @@ export function mapClient(row: SqlValue[]): Client {
   };
 }
 
-export function mapSample(row: SqlValue[]): FullSample {
+export function mapSample(row: SqlValue[]): PartialSample {
   const client =
     row[19] != null
       ? {
           id: Number(row[19]),
           name: String(row[20]),
           cuit: Number(row[21]),
+        }
+      : null;
+  const analysis =
+    row[22] != null
+      ? {
+          first_count: Number(row[22]),
+          pg: Number(row[23]),
+          vigor_tz: Number(row[24]),
+          pms: Number(row[25]),
+          purity_percent: Number(row[26]),
         }
       : null;
 
@@ -50,11 +60,7 @@ export function mapSample(row: SqlValue[]): FullSample {
     other_deter: row[18] ? String(row[18]) : undefined,
 
     client,
-
-    analyses: null,
-    purity: null,
-    germination: null,
-    humidity: null,
+    analysis,
   };
 }
 

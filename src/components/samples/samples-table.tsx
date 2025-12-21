@@ -49,12 +49,12 @@ export function SamplesTable({ list }: SamplesTableProps) {
             <TableCell>{row.mark}</TableCell>
             <TableCell>{row.lot_number}</TableCell>
             <TableCell>{row.lot_weight}</TableCell>
-            <TableCell className="text-center">{row.analyses?.first_count ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analyses?.pg ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analyses?.vigor_tz ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analyses?.viability_tz ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analyses?.pms ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analyses?.purity_percent ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analysis?.first_count ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analysis?.pg ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analysis?.vigor_tz ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analysis?.viability_tz ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analysis?.pms ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analysis?.purity_percent ? "X" : "n/a"}</TableCell>
             <TableCell>{formatISODate(row.test_end_date)}</TableCell>
           </TableRow>
         ))}
