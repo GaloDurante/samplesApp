@@ -105,22 +105,52 @@ export const sampleSchema = z.object({
 export type SampleType = z.infer<typeof sampleSchema>;
 
 export const sampleAnalysesSchema = z.object({
-  id: z.number().int().nonnegative(),
-  sample_id: z.number().int().nonnegative(),
+  id: z.number().int().optional(),
+  sample_id: z
+    .number({
+      message: "ID de muestra inválido.",
+    })
+    .int(),
 
-  first_count: z.number().nullable(),
-  pg: z.number().nullable(),
-  pg_curado: z.number().nullable(),
-  ct: z.number().nullable(),
-  ct_curado: z.number().nullable(),
-  e4: z.number().nullable(),
-  e4_curado: z.number().nullable(),
-  vigor_tz: z.number().nullable(),
-  viability_tz: z.number().nullable(),
-  e: z.number().nullable(),
-  pms: z.number().nullable(),
-  purity_percent: z.number().nullable(),
-  other_analysis: z.string().nullable(),
+  first_count: z.number({
+    message: "1° recuento inválido.",
+  }),
+  pg: z.number({
+    message: "PG inválido.",
+  }),
+  pg_curado: z.number({
+    message: "PG curado inválido.",
+  }),
+  ct: z.number({
+    message: "CT inválido.",
+  }),
+  ct_curado: z.number({
+    message: "CT curado inválido.",
+  }),
+  ea: z.number({
+    message: "EA de muestra inválido.",
+  }),
+  ea_curado: z.number({
+    message: "EA curado inválido.",
+  }),
+  vigor_tz: z.number({
+    message: "Vigor TZ inválido.",
+  }),
+  viability_tz: z.number({
+    message: "Viabilidad TZ inválido.",
+  }),
+  e: z.number({
+    message: "E inválido.",
+  }),
+  pms: z.number({
+    message: "PMS inválido.",
+  }),
+  purity_percent: z.number({
+    message: "Pureza % inválido.",
+  }),
+  other_analysis: z.string({
+    message: "Otros análisis inválido.",
+  }),
 });
 
 export type SampleAnalysesType = z.infer<typeof sampleAnalysesSchema>;

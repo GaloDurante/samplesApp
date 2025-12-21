@@ -58,6 +58,29 @@ export function mapSample(row: SqlValue[]): FullSample {
   };
 }
 
+export function mapSampleAnalyses(row: SqlValue[] | null) {
+  if (!row) return null;
+
+  return {
+    id: Number(row[0]),
+    sample_id: Number(row[1]),
+
+    first_count: row[2] != null ? Number(row[2]) : null,
+    pg: row[3] != null ? Number(row[3]) : null,
+    pg_curado: row[4] != null ? Number(row[4]) : null,
+    ct: row[5] != null ? Number(row[5]) : null,
+    ct_curado: row[6] != null ? Number(row[6]) : null,
+    ea: row[7] != null ? Number(row[7]) : null,
+    ea_curado: row[8] != null ? Number(row[8]) : null,
+    vigor_tz: row[9] != null ? Number(row[9]) : null,
+    viability_tz: row[10] != null ? Number(row[10]) : null,
+    e: row[11] != null ? Number(row[11]) : null,
+    pms: row[12] != null ? Number(row[12]) : null,
+    purity_percent: row[13] != null ? Number(row[13]) : null,
+    other_analysis: row[14] != null ? String(row[14]) : null,
+  };
+}
+
 export function buildSampleWhere(filters: SampleFilters) {
   const conditions: string[] = [];
   const params: SqlValue[] = [];

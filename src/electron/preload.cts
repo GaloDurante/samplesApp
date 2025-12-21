@@ -24,7 +24,7 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
     filters: { search?: string; dateFrom?: string | null; dateTo?: string | null },
   ) => electron.ipcRenderer.invoke("get-samples", page, pageSize, filters),
 
-  getSampleById: (sampleId: number) => electron.ipcRenderer.invoke("get-sample-by-id", sampleId),
+  getFullSampleById: (sampleId: number) => electron.ipcRenderer.invoke("get-sample-by-id", sampleId),
 
   createSample: (sample: {
     client_id: number;
@@ -59,4 +59,42 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
   }) => electron.ipcRenderer.invoke("update-sample", sample),
 
   deleteSample: (sampleId: number) => electron.ipcRenderer.invoke("delete-sample", sampleId),
+});
+
+electron.contextBridge.exposeInMainWorld("analysisApi", {
+  createAnalysis: (analysis: {
+    sample_id: number;
+    first_count: number;
+    pg: number;
+    pg_curado: number;
+    ct: number;
+    ct_curado: number;
+    ea: number;
+    ea_curado: number;
+    vigor_tz: number;
+    viability_tz: number;
+    e: number;
+    pms: number;
+    purity_percent: number;
+    other_analysis: string;
+    id?: number | undefined;
+  }) => electron.ipcRenderer.invoke("create-analysis", analysis),
+
+  updateAnalysis: (analysis: {
+    sample_id: number;
+    first_count: number;
+    pg: number;
+    pg_curado: number;
+    ct: number;
+    ct_curado: number;
+    ea: number;
+    ea_curado: number;
+    vigor_tz: number;
+    viability_tz: number;
+    e: number;
+    pms: number;
+    purity_percent: number;
+    other_analysis: string;
+    id?: number | undefined;
+  }) => electron.ipcRenderer.invoke("update-analysis", analysis),
 });

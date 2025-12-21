@@ -1,5 +1,5 @@
 import { queryAll, execute, queryOne } from "../database/sql.js";
-import { buildSampleWhere, mapSample } from "../util.js";
+import { buildSampleWhere, mapSample, mapSampleAnalyses } from "../util.js";
 import { sampleSchema } from "../../validations/sample.js";
 
 import type { SampleFilters, Sample } from "../../types/sample.js";
@@ -65,9 +65,7 @@ export function getSamples(page = 1, pageSize = 20, filters: SampleFilters = {})
   return { samples: rows, total };
 }
 
-export function getSampleById(id: number) {
-  if (!id) throw new Error("ID de la muestra es requerido.");
-
+function getSampleById(id: number) {
   const row = queryOne(
     `
     SELECT
@@ -102,6 +100,37 @@ export function getSampleById(id: number) {
   );
   if (!row) throw new Error("Muestra no encontrada.");
   return mapSample(row);
+}
+
+function getSampleAnalyses(sampleId: number) {
+  const row = queryOne(`SELECT * FROM sample_analyses WHERE sample_id = ?`, [sampleId]);
+  return mapSampleAnalyses(row);
+}
+
+function getSamplePurity(sampleId: number) {
+  return queryOne(`SELECT * FROM sample_purity WHERE sample_id = ?`, [sampleId]);
+}
+
+function getSampleGermination(sampleId: number) {
+  return queryOne(`SELECT * FROM sample_germination WHERE sample_id = ?`, [sampleId]);
+}
+
+function getSampleHumidity(sampleId: number) {
+  return queryOne(`SELECT * FROM sample_humidity WHERE sample_id = ?`, [sampleId]);
+}
+
+export function getFullSampleById(id: number) {
+  if (!id) throw new Error("ID de la muestra es requerido.");
+
+  const sample = getSampleById(id);
+
+  return {
+    ...sample,
+    analyses: getSampleAnalyses(id),
+    purity: getSamplePurity(id),
+    germination: getSampleGermination(id),
+    humidity: getSampleHumidity(id),
+  };
 }
 
 export function createSample(sample: Sample) {

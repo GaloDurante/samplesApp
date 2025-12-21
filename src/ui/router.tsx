@@ -88,7 +88,7 @@ export const router = createHashRouter([
             path: ":id",
             loader: async ({ params }) => {
               const id = params.id;
-              return { sample: await window.sampleApi.getSampleById(Number(id)) };
+              return { sample: await window.sampleApi.getFullSampleById(Number(id)) };
             },
             Component: SamplePage,
             errorElement: (

@@ -13,10 +13,15 @@ declare global {
 
     sampleApi: {
       getSamples(page: number, pageSize: number, filters: SampleFilters): Promise<PaginatedSamples>;
-      getSampleById(id: number): Promise<FullSample>;
+      getFullSampleById(id: number): Promise<FullSample>;
       createSample(sample: Sample): Promise<{ success: boolean; message: string }>;
       updateSample(sample: Sample): Promise<{ success: boolean; message: string }>;
       deleteSample(id: number): Promise<{ success: boolean; message: string }>;
+    };
+
+    analysisApi: {
+      createAnalysis(analysis: Analysis): Promise<{ success: boolean; message: string }>;
+      updateAnalysis(analysis: Analysis): Promise<{ success: boolean; message: string }>;
     };
   }
 }

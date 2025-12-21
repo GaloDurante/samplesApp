@@ -1,3 +1,4 @@
+import { useRevalidator } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -19,6 +20,8 @@ interface SampleGeneralFormProps {
 }
 
 export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
+  const revalidator = useRevalidator();
+
   const form = useForm({
     resolver: zodResolver(sampleSchema),
     defaultValues: {
@@ -35,6 +38,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
       if (result.success) {
         toast.success(result.message);
         form.reset(values);
+        revalidator.revalidate();
       } else {
         toast.error(result.message || "No se pudo modificar la muestra solicitada.");
       }
@@ -62,7 +66,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                       N° Muestra <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="Ej: 3215" onWheel={(e) => e.currentTarget.blur()} {...field} />
+                      <Input placeholder="Ej: 3215" {...field} />
                     </FormControl>
                     <FormMessage className="min-h-5" />
                   </FormItem>
