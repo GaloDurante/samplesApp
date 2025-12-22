@@ -1,17 +1,16 @@
+import { useEffect } from "react";
 import { useRevalidator } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { sampleAnalysisSchema } from "@/validations/sample";
+import { sampleAnalysisSchema } from "@/validations/sample/analysis";
 
 import type { SampleAnalysis } from "@/types/sample";
 
 import { toast } from "sonner";
-import { Percent } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
@@ -25,12 +24,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
 
   const form = useForm({
     resolver: zodResolver(sampleAnalysisSchema),
-    defaultValues: editData ?? {
-      sample_id: sampleId,
-      other_analysis: "",
-    },
     shouldUnregister: false,
   });
+
+  const hasChanges = Object.keys(form.formState.dirtyFields).length > 0;
+
+  useEffect(() => {
+    if (!editData) return;
+
+    form.reset({
+      ...editData,
+      sample_id: sampleId,
+      other_analysis: editData.other_analysis ?? "",
+    });
+  }, [editData, form, sampleId]);
 
   const onSubmit = async (values: SampleAnalysis) => {
     try {
@@ -38,7 +45,6 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
         const result = await window.analysisApi.updateAnalysis(values);
         if (result.success) {
           toast.success(result.message);
-          form.reset(values);
           revalidator.revalidate();
         } else {
           toast.error(result.message || "No se pudo modificar el análisis solicitado.");
@@ -71,24 +77,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="first_count"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    1° recuento <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>1° recuento</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -100,24 +96,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="pg"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    PG <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>PG</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -129,24 +115,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="pg_curado"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    PG curado <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>PG curado</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -158,24 +134,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="ct"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    CT <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>CT</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -187,24 +153,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="ct_curado"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    CT curado <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>CT curado</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -216,24 +172,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="ea"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    EA <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>EA</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -245,24 +191,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="ea_curado"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    EA curado <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>EA curado</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -274,24 +210,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="vigor_tz"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    Vigor por TZ <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>Vigor por TZ</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -303,24 +229,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="viability_tz"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    Viabilidad por TZ <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>Viabilidad por TZ</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -332,24 +248,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="e"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    E <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>E</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -361,24 +267,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="pms"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    PMS <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>PMS</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -390,24 +286,14 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="purity_percent"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    Pureza <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>Pureza</FormLabel>
                   <FormControl>
-                    <InputGroup className="w-full">
-                      <InputGroupInput
-                        placeholder="Ej: 3215"
-                        type="number"
-                        className="no-spinner"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...form.register(field.name, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <Percent />
-                      </InputGroupAddon>
-                    </InputGroup>
+                    <Input
+                      placeholder="%"
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -419,11 +305,13 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="other_analysis"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    Otros <span className="text-destructive">*</span>
-                  </FormLabel>
+                  <FormLabel>Otros</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : v),
+                      })}
+                    />
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -437,7 +325,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
           form="sample-form"
           type="submit"
           className="self-end"
-          disabled={!form.formState.isDirty || form.formState.isSubmitting}
+          disabled={!hasChanges || form.formState.isSubmitting}
         >
           Guardar cambios
         </Button>

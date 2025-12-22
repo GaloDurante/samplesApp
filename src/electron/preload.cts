@@ -64,37 +64,37 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
 electron.contextBridge.exposeInMainWorld("analysisApi", {
   createAnalysis: (analysis: {
     sample_id: number;
-    first_count: number;
-    pg: number;
-    pg_curado: number;
-    ct: number;
-    ct_curado: number;
-    ea: number;
-    ea_curado: number;
-    vigor_tz: number;
-    viability_tz: number;
-    e: number;
-    pms: number;
-    purity_percent: number;
-    other_analysis: string;
+    first_count?: number;
+    pg?: number;
+    pg_curado?: number;
+    ct?: number;
+    ct_curado?: number;
+    ea?: number;
+    ea_curado?: number;
+    vigor_tz?: number;
+    viability_tz?: number;
+    e?: number;
+    pms?: number;
+    purity_percent?: number;
+    other_analysis?: string;
     id?: number | undefined;
   }) => electron.ipcRenderer.invoke("create-analysis", analysis),
 
   updateAnalysis: (analysis: {
-    sample_id: number;
-    first_count: number;
-    pg: number;
-    pg_curado: number;
-    ct: number;
-    ct_curado: number;
-    ea: number;
-    ea_curado: number;
-    vigor_tz: number;
-    viability_tz: number;
-    e: number;
-    pms: number;
-    purity_percent: number;
-    other_analysis: string;
+    sample_id?: number;
+    first_count?: number;
+    pg?: number;
+    pg_curado?: number;
+    ct?: number;
+    ct_curado?: number;
+    ea?: number;
+    ea_curado?: number;
+    vigor_tz?: number;
+    viability_tz?: number;
+    e?: number;
+    pms?: number;
+    purity_percent?: number;
+    other_analysis?: string;
     id?: number | undefined;
   }) => electron.ipcRenderer.invoke("update-analysis", analysis),
 });

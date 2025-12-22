@@ -1,5 +1,5 @@
 import { execute, queryOne } from "../../database/sql.js";
-import { sampleAnalysisSchema } from "../../../validations/sample.js";
+import { sampleAnalysisSchema } from "../../../validations/sample/analysis.js";
 
 import type { SampleAnalysis } from "../../../types/sample.js";
 
@@ -26,19 +26,19 @@ export function createAnalysis(analysis: SampleAnalysis) {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         validatedAnalysis.sample_id,
-        validatedAnalysis.first_count,
-        validatedAnalysis.pg,
-        validatedAnalysis.pg_curado,
-        validatedAnalysis.ct,
-        validatedAnalysis.ct_curado,
-        validatedAnalysis.ea,
-        validatedAnalysis.ea_curado,
-        validatedAnalysis.vigor_tz,
-        validatedAnalysis.viability_tz,
-        validatedAnalysis.e,
-        validatedAnalysis.pms,
-        validatedAnalysis.purity_percent,
-        validatedAnalysis.other_analysis,
+        validatedAnalysis.first_count || null,
+        validatedAnalysis.pg || null,
+        validatedAnalysis.pg_curado || null,
+        validatedAnalysis.ct || null,
+        validatedAnalysis.ct_curado || null,
+        validatedAnalysis.ea || null,
+        validatedAnalysis.ea_curado || null,
+        validatedAnalysis.vigor_tz || null,
+        validatedAnalysis.viability_tz || null,
+        validatedAnalysis.e || null,
+        validatedAnalysis.pms || null,
+        validatedAnalysis.purity_percent || null,
+        validatedAnalysis.other_analysis || null,
       ],
     );
   } catch (error) {
@@ -77,19 +77,19 @@ export function updateAnalysis(analysis: SampleAnalysis) {
        WHERE id=?`,
       [
         validatedAnalysis.sample_id,
-        validatedAnalysis.first_count,
-        validatedAnalysis.pg,
-        validatedAnalysis.pg_curado,
-        validatedAnalysis.ct,
-        validatedAnalysis.ct_curado,
-        validatedAnalysis.ea,
-        validatedAnalysis.ea_curado,
-        validatedAnalysis.vigor_tz,
-        validatedAnalysis.viability_tz,
-        validatedAnalysis.e,
-        validatedAnalysis.pms,
-        validatedAnalysis.purity_percent,
-        validatedAnalysis.other_analysis,
+        validatedAnalysis.first_count || null,
+        validatedAnalysis.pg || null,
+        validatedAnalysis.pg_curado || null,
+        validatedAnalysis.ct || null,
+        validatedAnalysis.ct_curado || null,
+        validatedAnalysis.ea || null,
+        validatedAnalysis.ea_curado || null,
+        validatedAnalysis.vigor_tz || null,
+        validatedAnalysis.viability_tz || null,
+        validatedAnalysis.e || null,
+        validatedAnalysis.pms || null,
+        validatedAnalysis.purity_percent || null,
+        validatedAnalysis.other_analysis || null,
         validatedAnalysis.id ?? analysis.id,
       ],
     );

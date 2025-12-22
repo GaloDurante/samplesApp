@@ -1,10 +1,5 @@
-import type {
-  SampleType,
-  SampleAnalysisType,
-  SamplePurityType,
-  SampleGerminationType,
-  SampleHumidityType,
-} from "../validations/sample.js";
+import type { SampleType, SamplePurityType, SampleGerminationType, SampleHumidityType } from "../validations/sample.js";
+import type { SampleAnalysisType } from "@/validations/sample/analysis";
 
 export type Sample = SampleType;
 export type SampleAnalysis = SampleAnalysisType;
@@ -20,11 +15,11 @@ export type PartialSample = Sample & {
   } | null;
 
   analysis: {
-    first_count: number;
-    pg: number;
-    vigor_tz: number;
-    pms: number;
-    purity_percent: number;
+    first_count?: number | null;
+    pg?: number | null;
+    vigor_tz?: number | null;
+    pms?: number | null;
+    purity_percent?: number | null;
   } | null;
 };
 

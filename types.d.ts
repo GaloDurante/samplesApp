@@ -1,5 +1,5 @@
 import { Client, PaginatedClients } from "@/types/client";
-import { PaginatedSamples, SampleFilters, FullSample } from "@/types/sample";
+import { PaginatedSamples, SampleFilters, FullSample, SampleAnalysis, Sample } from "@/types/sample";
 declare global {
   interface Window {
     clientApi: {
@@ -20,8 +20,8 @@ declare global {
     };
 
     analysisApi: {
-      createAnalysis(analysis: Analysis): Promise<{ success: boolean; message: string }>;
-      updateAnalysis(analysis: Analysis): Promise<{ success: boolean; message: string }>;
+      createAnalysis(analysis: SampleAnalysis): Promise<{ success: boolean; message: string }>;
+      updateAnalysis(analysis: SampleAnalysis): Promise<{ success: boolean; message: string }>;
     };
   }
 }

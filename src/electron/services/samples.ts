@@ -55,6 +55,7 @@ export function getSamples(page = 1, pageSize = 20, filters: SampleFilters = {})
         a.first_count AS first_count,
         a.pg AS pg,
         a.vigor_tz AS vigor_tz,
+        a.viability_tz AS viability_tz,
         a.pms AS pms,
         a.purity_percent AS purity_percent
         

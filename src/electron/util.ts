@@ -27,13 +27,14 @@ export function mapSample(row: SqlValue[]): PartialSample {
         }
       : null;
   const analysis =
-    row[22] != null
+    row[22] != null || row[23] != null || row[24] != null || row[25] != null || row[26] != null || row[27] != null
       ? {
-          first_count: Number(row[22]),
-          pg: Number(row[23]),
-          vigor_tz: Number(row[24]),
-          pms: Number(row[25]),
-          purity_percent: Number(row[26]),
+          first_count: row[22] != null ? Number(row[22]) : null,
+          pg: row[23] != null ? Number(row[23]) : null,
+          vigor_tz: row[24] != null ? Number(row[24]) : null,
+          viability_tz: row[25] != null ? Number(row[25]) : null,
+          pms: row[26] != null ? Number(row[26]) : null,
+          purity_percent: row[27] != null ? Number(row[27]) : null,
         }
       : null;
 

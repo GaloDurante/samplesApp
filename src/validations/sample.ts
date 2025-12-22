@@ -104,57 +104,6 @@ export const sampleSchema = z.object({
 
 export type SampleType = z.infer<typeof sampleSchema>;
 
-export const sampleAnalysisSchema = z.object({
-  id: z.number().int().optional(),
-  sample_id: z
-    .number({
-      message: "ID de muestra inválido.",
-    })
-    .int(),
-
-  first_count: z.number({
-    message: "1° recuento inválido.",
-  }),
-  pg: z.number({
-    message: "PG inválido.",
-  }),
-  pg_curado: z.number({
-    message: "PG curado inválido.",
-  }),
-  ct: z.number({
-    message: "CT inválido.",
-  }),
-  ct_curado: z.number({
-    message: "CT curado inválido.",
-  }),
-  ea: z.number({
-    message: "EA de muestra inválido.",
-  }),
-  ea_curado: z.number({
-    message: "EA curado inválido.",
-  }),
-  vigor_tz: z.number({
-    message: "Vigor TZ inválido.",
-  }),
-  viability_tz: z.number({
-    message: "Viabilidad TZ inválido.",
-  }),
-  e: z.number({
-    message: "E inválido.",
-  }),
-  pms: z.number({
-    message: "PMS inválido.",
-  }),
-  purity_percent: z.number({
-    message: "Pureza % inválido.",
-  }),
-  other_analysis: z.string({
-    message: "Otros análisis inválido.",
-  }),
-});
-
-export type SampleAnalysisType = z.infer<typeof sampleAnalysisSchema>;
-
 export const samplePuritySchema = z.object({
   id: z.number().int().nonnegative(),
   sample_id: z.number().int().nonnegative(),
