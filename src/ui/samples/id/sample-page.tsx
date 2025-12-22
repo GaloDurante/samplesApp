@@ -10,7 +10,7 @@ export default function SamplePage() {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 lg:p-16">
-      <Breadcrum baseUrl="/samples" baseUrlTitle="Muestras" currentPathTitle={`Detalle de muestra #${122}`} />
+      <Breadcrum baseUrl="/samples" baseUrlTitle="Muestras" currentPathTitle={`Detalle de muestra #${sample.id}`} />
 
       <div className="min-w-full lg:min-w-3/6">
         <h1 className="text-2xl font-bold mb-2">Modificar muestra</h1>

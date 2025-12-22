@@ -38,7 +38,7 @@ export const schema = [
     );
   `,
   `
-    CREATE TABLE IF NOT EXISTS sample_analyses (
+    CREATE TABLE IF NOT EXISTS sample_analysis (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       sample_id INTEGER NOT NULL,
 

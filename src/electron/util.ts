@@ -64,7 +64,7 @@ export function mapSample(row: SqlValue[]): PartialSample {
   };
 }
 
-export function mapSampleAnalyses(row: SqlValue[] | null) {
+export function mapSampleAnalysis(row: SqlValue[] | null) {
   if (!row) return null;
 
   return {

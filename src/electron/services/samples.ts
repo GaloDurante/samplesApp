@@ -1,5 +1,5 @@
 import { queryAll, execute, queryOne } from "../database/sql.js";
-import { buildSampleWhere, mapSample, mapSampleAnalyses } from "../util.js";
+import { buildSampleWhere, mapSample, mapSampleAnalysis } from "../util.js";
 import { sampleSchema } from "../../validations/sample.js";
 
 import type { SampleFilters, Sample } from "../../types/sample.js";
@@ -60,7 +60,7 @@ export function getSamples(page = 1, pageSize = 20, filters: SampleFilters = {})
         
       FROM samples s
       LEFT JOIN clients c ON c.id = s.client_id
-      LEFT JOIN sample_analyses a ON a.sample_id = s.id
+      LEFT JOIN sample_analysis a ON a.sample_id = s.id
       ${whereSQL}
       ORDER BY s.id DESC
       LIMIT ? OFFSET ?
@@ -110,9 +110,9 @@ function getSampleById(id: number) {
   return mapSample(row);
 }
 
-function getSampleAnalyses(sampleId: number) {
-  const row = queryOne(`SELECT * FROM sample_analyses WHERE sample_id = ?`, [sampleId]);
-  return mapSampleAnalyses(row);
+function getSampleAnalysis(sampleId: number) {
+  const row = queryOne(`SELECT * FROM sample_analysis WHERE sample_id = ?`, [sampleId]);
+  return mapSampleAnalysis(row);
 }
 
 function getSamplePurity(sampleId: number) {
@@ -134,7 +134,7 @@ export function getFullSampleById(id: number) {
 
   return {
     ...sample,
-    analyses: getSampleAnalyses(id),
+    analysis: getSampleAnalysis(id),
     purity: getSamplePurity(id),
     germination: getSampleGermination(id),
     humidity: getSampleHumidity(id),

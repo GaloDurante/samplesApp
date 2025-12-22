@@ -17,7 +17,7 @@ export function FormsNavigation({ data }: FormsNavigationProps) {
   if (!data.id) return null;
 
   return (
-    <Tabs defaultValue="general-info" className="bg-card rounded-md shadow-sm min-h-[600px]">
+    <Tabs defaultValue="general-info" className="bg-card rounded-md shadow-sm">
       <TabsList className="border-border border-b px-4 pt-4 sm:px-8">
         <TabsTrigger value="general-info">Información General</TabsTrigger>
         <TabsTrigger value="analysis">Análisis</TabsTrigger>
@@ -28,16 +28,16 @@ export function FormsNavigation({ data }: FormsNavigationProps) {
       <TabsContent value="general-info" className="p-4 sm:p-8">
         <SampleGeneralForm editData={data} />
       </TabsContent>
-      <TabsContent value="analysis" className="p-4 sm:p-8">
-        <AnalysisForm editData={data.analyses} sampleId={data.id} />
+      <TabsContent value="analysis" className="p-4 sm:p-8 min-h-[600px]">
+        <AnalysisForm editData={data.analysis} sampleId={data.id} />
       </TabsContent>
-      <TabsContent value="purity" className="p-4 sm:p-8">
-        <PurityForm />
+      <TabsContent value="purity" className="p-4 sm:p-8 min-h-[600px]">
+        <PurityForm editData={data.purity} sampleId={data.id} />
       </TabsContent>
-      <TabsContent value="germination" className="p-4 sm:p-8">
+      <TabsContent value="germination" className="p-4 sm:p-8 min-h-[600px]">
         <GerminationForm />
       </TabsContent>
-      <TabsContent value="humidity" className="p-4 sm:p-8">
+      <TabsContent value="humidity" className="p-4 sm:p-8 min-h-[600px]">
         <HumidityForm />
       </TabsContent>
     </Tabs>

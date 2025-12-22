@@ -18,7 +18,7 @@ export function createAnalysis(analysis: SampleAnalysis) {
 
   try {
     execute(
-      `INSERT INTO sample_analyses (
+      `INSERT INTO sample_analysis (
         sample_id, first_count, pg, pg_curado, ct,
         ct_curado, ea, ea_curado, vigor_tz,
         viability_tz, e, pms, purity_percent, other_analysis
@@ -70,7 +70,7 @@ export function updateAnalysis(analysis: SampleAnalysis) {
 
   try {
     execute(
-      `UPDATE sample_analyses
+      `UPDATE sample_analysis
          SET sample_id=?, first_count=?, pg=?, pg_curado=?, ct=?,
              ct_curado=?, ea=?, ea_curado=?, vigor_tz=?,
              viability_tz=?, e=?, pms=?, purity_percent=?, other_analysis=?
