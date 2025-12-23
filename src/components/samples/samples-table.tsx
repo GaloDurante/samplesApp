@@ -41,14 +41,14 @@ export function SamplesTable({ list }: SamplesTableProps) {
             </TableCell>
             <TableCell>{row.sample_number}</TableCell>
             <TableCell>{formatISODate(row.entry_date)}</TableCell>
-            <TableCell>{row.sample_code}</TableCell>
+            <TableCell>{row.sample_code ?? "-"}</TableCell>
             <TableCell>{row.client?.name ?? row.client_name}</TableCell>
             <TableCell>{row.colloquial_specie}</TableCell>
             <TableCell>{row.cultivar}</TableCell>
             <TableCell>{row.harvest_year}</TableCell>
-            <TableCell>{row.mark}</TableCell>
-            <TableCell>{row.lot_number}</TableCell>
-            <TableCell>{row.lot_weight}</TableCell>
+            <TableCell>{row.mark ?? "-"}</TableCell>
+            <TableCell>{row.lot_number ?? "-"}</TableCell>
+            <TableCell>{row.lot_weight ?? "-"}</TableCell>
             <TableCell className="text-center">{row.analysis?.first_count ? "X" : "n/a"}</TableCell>
             <TableCell className="text-center">{row.analysis?.pg ? "X" : "n/a"}</TableCell>
             <TableCell className="text-center">{row.analysis?.vigor_tz ? "X" : "n/a"}</TableCell>

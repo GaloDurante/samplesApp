@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { DatePicker } from "@/components/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { ClientCombobox } from "@/components/clients/client-combobox";
+import { CustomTooltip } from "@/components/custom-tooltip";
 
 interface SampleGeneralFormProps {
   editData: Sample;
@@ -29,15 +30,21 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
       client_id: editData.client ? editData.client.id : undefined,
       client_name: editData.client ? editData.client.name : "",
       client: undefined,
+      sample_code: editData.sample_code || "",
+      mark: editData.mark || "",
+      lot_number: editData.lot_number || "",
+      lot_weight: editData.lot_weight || "",
+      observations: editData.observations || "",
     },
   });
+
+  const hasChanges = Object.keys(form.formState.dirtyFields).length > 0;
 
   const onSubmit = async (values: Sample) => {
     try {
       const result = await window.sampleApi.updateSample(values);
       if (result.success) {
         toast.success(result.message);
-        form.reset(values);
         revalidator.revalidate();
       } else {
         toast.error(result.message || "No se pudo modificar la muestra solicitada.");
@@ -63,7 +70,10 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      N° Muestra <span className="text-destructive">*</span>
+                      N° Muestra{" "}
+                      <CustomTooltip helperText="Este campo es requerido">
+                        <span className="text-destructive">*</span>
+                      </CustomTooltip>
                     </FormLabel>
                     <FormControl>
                       <Input placeholder="Ej: 3215" {...field} />
@@ -80,7 +90,10 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Fecha Ingreso <span className="text-destructive">*</span>
+                      Fecha Ingreso{" "}
+                      <CustomTooltip helperText="Este campo es requerido">
+                        <span className="text-destructive">*</span>
+                      </CustomTooltip>
                     </FormLabel>
                     <FormControl>
                       <DatePicker
@@ -99,11 +112,14 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 name="sample_code"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      Cód. Muestra <span className="text-destructive">*</span>
-                    </FormLabel>
+                    <FormLabel>Cód. Muestra</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ej: GLS P 1210" {...field} />
+                      <Input
+                        placeholder="Ej: GLS P 1210"
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? undefined : v),
+                        })}
+                      />
                     </FormControl>
                     <FormMessage className="min-h-5" />
                   </FormItem>
@@ -116,7 +132,10 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Solicitante <span className="text-destructive">*</span>
+                      Solicitante{" "}
+                      <CustomTooltip helperText="Este campo es requerido">
+                        <span className="text-destructive">*</span>
+                      </CustomTooltip>
                     </FormLabel>
 
                     <FormControl>
@@ -138,7 +157,10 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Especie <span className="text-destructive">*</span>
+                      Especie{" "}
+                      <CustomTooltip helperText="Este campo es requerido">
+                        <span className="text-destructive">*</span>
+                      </CustomTooltip>
                     </FormLabel>
                     <FormControl>
                       <Input placeholder="Ej: Trigo" {...field} />
@@ -154,7 +176,10 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Cultivar <span className="text-destructive">*</span>
+                      Cultivar{" "}
+                      <CustomTooltip helperText="Este campo es requerido">
+                        <span className="text-destructive">*</span>
+                      </CustomTooltip>
                     </FormLabel>
                     <FormControl>
                       <Input placeholder="Ej: Ceibo" {...field} />
@@ -170,7 +195,10 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Año cosecha <span className="text-destructive">*</span>
+                      Año cosecha{" "}
+                      <CustomTooltip helperText="Este campo es requerido">
+                        <span className="text-destructive">*</span>
+                      </CustomTooltip>
                     </FormLabel>
                     <FormControl>
                       <Input placeholder="Ej: 2024-2025" {...field} />
@@ -185,11 +213,14 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 name="mark"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      Marca <span className="text-destructive">*</span>
-                    </FormLabel>
+                    <FormLabel>Marca</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ej: Semilla Premium" {...field} />
+                      <Input
+                        placeholder="Ej: Semilla Premium"
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? undefined : v),
+                        })}
+                      />
                     </FormControl>
                     <FormMessage className="min-h-5" />
                   </FormItem>
@@ -208,11 +239,13 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 name="lot_number"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      N° Lote <span className="text-destructive">*</span>
-                    </FormLabel>
+                    <FormLabel>N° Lote</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? undefined : v),
+                        })}
+                      />
                     </FormControl>
                     <FormMessage className="min-h-5" />
                   </FormItem>
@@ -224,11 +257,14 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 name="lot_weight"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      Peso del lote (kg / t) <span className="text-destructive">*</span>
-                    </FormLabel>
+                    <FormLabel>Peso del lote (kg / t)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ej: 20 t" {...field} />
+                      <Input
+                        placeholder="Ej: 20 t"
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? undefined : v),
+                        })}
+                      />
                     </FormControl>
                     <FormMessage className="min-h-5" />
                   </FormItem>
@@ -249,7 +285,10 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Fecha finalizacion de ensayo <span className="text-destructive">*</span>
+                      Fecha finalizacion de ensayo{" "}
+                      <CustomTooltip helperText="Este campo es requerido">
+                        <span className="text-destructive">*</span>
+                      </CustomTooltip>
                     </FormLabel>
                     <FormControl>
                       <DatePicker
@@ -285,7 +324,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
           form="sample-form"
           type="submit"
           className="self-end"
-          disabled={!form.formState.isDirty || form.formState.isSubmitting}
+          disabled={!hasChanges || form.formState.isSubmitting}
         >
           Guardar cambios
         </Button>

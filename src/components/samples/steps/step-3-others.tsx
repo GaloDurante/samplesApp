@@ -6,6 +6,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { DatePicker } from "@/components/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { CustomTooltip } from "@/components/custom-tooltip";
 
 interface Step3OthersProps {
   form: UseFormReturn<Sample>;
@@ -24,7 +25,10 @@ export function Step3Others({ form }: Step3OthersProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Fecha finalizacion de ensayo <span className="text-destructive">*</span>
+                Fecha finalizacion de ensayo{" "}
+                <CustomTooltip helperText="Este campo es requerido">
+                  <span className="text-destructive">*</span>
+                </CustomTooltip>
               </FormLabel>
               <FormControl>
                 <DatePicker

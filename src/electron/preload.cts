@@ -33,11 +33,11 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
     cultivar: string;
     entry_date: string;
     harvest_year: string;
-    lot_number: string;
-    lot_weight: string;
-    mark: string;
+    lot_number?: string;
+    lot_weight?: string;
+    mark?: string;
     observations?: string;
-    sample_code: string;
+    sample_code?: string;
     sample_number: number;
     test_end_date: string;
   }) => electron.ipcRenderer.invoke("create-sample", sample),
@@ -49,11 +49,11 @@ electron.contextBridge.exposeInMainWorld("sampleApi", {
     cultivar: string;
     entry_date: string;
     harvest_year: string;
-    lot_number: string;
-    lot_weight: string;
-    mark: string;
+    lot_number?: string;
+    lot_weight?: string;
+    mark?: string;
     observations?: string;
-    sample_code: string;
+    sample_code?: string;
     sample_number: number;
     test_end_date: string;
   }) => electron.ipcRenderer.invoke("update-sample", sample),

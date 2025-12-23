@@ -22,9 +22,7 @@ export function Step2LotData({ form }: Step2LotDataProps) {
           name="lot_number"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                N° Lote <span className="text-destructive">*</span>
-              </FormLabel>
+              <FormLabel>N° Lote</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -38,9 +36,7 @@ export function Step2LotData({ form }: Step2LotDataProps) {
           name="lot_weight"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Peso del lote (kg / t) <span className="text-destructive">*</span>
-              </FormLabel>
+              <FormLabel>Peso del lote (kg / t)</FormLabel>
               <FormControl>
                 <Input placeholder="Ej: 20 t" {...field} />
               </FormControl>

@@ -1,5 +1,5 @@
 import type { SampleType, SamplePurityType, SampleGerminationType, SampleHumidityType } from "../validations/sample.js";
-import type { SampleAnalysisType } from "@/validations/sample/analysis";
+import type { SampleAnalysisType } from "../validations/sample/analysis.js";
 
 export type Sample = SampleType;
 export type SampleAnalysis = SampleAnalysisType;

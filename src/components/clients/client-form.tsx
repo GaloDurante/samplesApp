@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { CustomTooltip } from "@/components/custom-tooltip";
 
 interface ClientFormProps {
   editData?: Client;
@@ -70,7 +71,10 @@ export function ClientForm({ editData }: ClientFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Nombre <span className="text-destructive">*</span>
+                  Nombre{" "}
+                  <CustomTooltip helperText="Este campo es requerido">
+                    <span className="text-destructive">*</span>
+                  </CustomTooltip>
                 </FormLabel>
                 <FormControl>
                   <Input placeholder="Ej: Ignacio" {...field} />
@@ -85,7 +89,10 @@ export function ClientForm({ editData }: ClientFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  CUIT <span className="text-destructive">*</span>
+                  CUIT{" "}
+                  <CustomTooltip helperText="Este campo es requerido">
+                    <span className="text-destructive">*</span>
+                  </CustomTooltip>
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -108,7 +115,10 @@ export function ClientForm({ editData }: ClientFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Dirección <span className="text-destructive">*</span>
+                  Dirección{" "}
+                  <CustomTooltip helperText="Este campo es requerido">
+                    <span className="text-destructive">*</span>
+                  </CustomTooltip>
                 </FormLabel>
                 <FormControl>
                   <Input placeholder="Ej: Laprida 1201" {...field} />
@@ -123,7 +133,10 @@ export function ClientForm({ editData }: ClientFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Email <span className="text-destructive">*</span>
+                  Email{" "}
+                  <CustomTooltip helperText="Este campo es requerido">
+                    <span className="text-destructive">*</span>
+                  </CustomTooltip>
                 </FormLabel>
                 <FormControl>
                   <Input placeholder="Ej: ignacio@gmail.com" {...field} />
@@ -138,7 +151,10 @@ export function ClientForm({ editData }: ClientFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Teléfono <span className="text-destructive">*</span>
+                  Teléfono{" "}
+                  <CustomTooltip helperText="Este campo es requerido">
+                    <span className="text-destructive">*</span>
+                  </CustomTooltip>
                 </FormLabel>
                 <FormControl>
                   <Input

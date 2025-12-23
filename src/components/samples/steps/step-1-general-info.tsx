@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/date-picker";
 import { Separator } from "@/components/ui/separator";
 import { ClientCombobox } from "@/components/clients/client-combobox";
+import { CustomTooltip } from "@/components/custom-tooltip";
 
 interface Step1GeneralInfoProps {
   form: UseFormReturn<Sample>;
@@ -25,7 +26,10 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                N° Muestra <span className="text-destructive">*</span>
+                N° Muestra
+                <CustomTooltip helperText="Este campo es requerido">
+                  <span className="text-destructive">*</span>
+                </CustomTooltip>
               </FormLabel>
               <FormControl>
                 <Input placeholder="Ej: 3215" onWheel={(e) => e.currentTarget.blur()} {...field} />
@@ -41,7 +45,10 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Fecha Ingreso <span className="text-destructive">*</span>
+                Fecha Ingreso{" "}
+                <CustomTooltip helperText="Este campo es requerido">
+                  <span className="text-destructive">*</span>
+                </CustomTooltip>
               </FormLabel>
               <FormControl>
                 <DatePicker
@@ -60,11 +67,14 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           name="sample_code"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Cód. Muestra <span className="text-destructive">*</span>
-              </FormLabel>
+              <FormLabel>Cód. Muestra</FormLabel>
               <FormControl>
-                <Input placeholder="Ej: GLS P 1210" {...field} />
+                <Input
+                  placeholder="Ej: GLS P 1210"
+                  {...form.register(field.name, {
+                    setValueAs: (v) => (!v ? undefined : v),
+                  })}
+                />
               </FormControl>
               <FormMessage className="min-h-5" />
             </FormItem>
@@ -77,7 +87,10 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Solicitante <span className="text-destructive">*</span>
+                Solicitante{" "}
+                <CustomTooltip helperText="Este campo es requerido">
+                  <span className="text-destructive">*</span>
+                </CustomTooltip>
               </FormLabel>
 
               <FormControl>
@@ -99,7 +112,10 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Especie <span className="text-destructive">*</span>
+                Especie{" "}
+                <CustomTooltip helperText="Este campo es requerido">
+                  <span className="text-destructive">*</span>
+                </CustomTooltip>
               </FormLabel>
               <FormControl>
                 <Input placeholder="Ej: Trigo" {...field} />
@@ -115,7 +131,10 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Cultivar <span className="text-destructive">*</span>
+                Cultivar{" "}
+                <CustomTooltip helperText="Este campo es requerido">
+                  <span className="text-destructive">*</span>
+                </CustomTooltip>
               </FormLabel>
               <FormControl>
                 <Input placeholder="Ej: Ceibo" {...field} />
@@ -131,7 +150,10 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Año cosecha <span className="text-destructive">*</span>
+                Año cosecha{" "}
+                <CustomTooltip helperText="Este campo es requerido">
+                  <span className="text-destructive">*</span>
+                </CustomTooltip>
               </FormLabel>
               <FormControl>
                 <Input placeholder="Ej: 2024-2025" {...field} />
@@ -146,11 +168,14 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           name="mark"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Marca <span className="text-destructive">*</span>
-              </FormLabel>
+              <FormLabel>Marca</FormLabel>
               <FormControl>
-                <Input placeholder="Ej: Semilla Premium" {...field} />
+                <Input
+                  placeholder="Ej: Semilla Premium"
+                  {...form.register(field.name, {
+                    setValueAs: (v) => (!v ? undefined : v),
+                  })}
+                />
               </FormControl>
               <FormMessage className="min-h-5" />
             </FormItem>

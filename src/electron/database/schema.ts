@@ -18,13 +18,13 @@ export const schema = [
 
       sample_number TEXT NOT NULL UNIQUE,
       entry_date TEXT NOT NULL,
-      sample_code TEXT NOT NULL,
+      sample_code TEXT,
       colloquial_specie TEXT NOT NULL,
       cultivar TEXT NOT NULL,
       harvest_year TEXT NOT NULL,
-      mark TEXT NOT NULL,
-      lot_number TEXT NOT NULL,
-      lot_weight TEXT NOT NULL,
+      mark TEXT,
+      lot_number TEXT,
+      lot_weight TEXT,
       test_end_date TEXT NOT NULL,
       observations TEXT,
 

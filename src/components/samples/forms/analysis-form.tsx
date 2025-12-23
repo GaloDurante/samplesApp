@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRevalidator } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,20 +23,15 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
 
   const form = useForm({
     resolver: zodResolver(sampleAnalysisSchema),
+    defaultValues: {
+      ...editData,
+      sample_id: sampleId,
+      other_analysis: editData?.other_analysis || "",
+    },
     shouldUnregister: false,
   });
 
   const hasChanges = Object.keys(form.formState.dirtyFields).length > 0;
-
-  useEffect(() => {
-    if (!editData) return;
-
-    form.reset({
-      ...editData,
-      sample_id: sampleId,
-      other_analysis: editData.other_analysis ?? "",
-    });
-  }, [editData, form, sampleId]);
 
   const onSubmit = async (values: SampleAnalysis) => {
     try {
