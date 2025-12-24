@@ -20,7 +20,7 @@ export const router = createHashRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/samples" replace />,
+        element: <Navigate to="clients" replace />,
       },
       {
         path: "clients",
@@ -46,7 +46,8 @@ export const router = createHashRouter([
             path: ":id",
             loader: async ({ params }) => {
               const id = params.id;
-              return { client: await window.clientApi.getClientById(Number(id)) };
+              const { data: client } = await window.clientApi.getClientById(Number(id));
+              return { client };
             },
             Component: ClientPage,
             errorElement: (

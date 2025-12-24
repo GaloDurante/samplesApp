@@ -12,9 +12,7 @@ export const clients = sqliteTable("clients", {
 export const samples = sqliteTable("samples", {
   id: integer("id").primaryKey({ autoIncrement: true }),
 
-  clientId: integer("client_id")
-    .notNull()
-    .references(() => clients.id, { onDelete: "restrict" }),
+  clientId: integer("client_id").references(() => clients.id, { onDelete: "set null" }),
 
   sampleNumber: text("sample_number").notNull().unique(),
   entryDate: text("entry_date").notNull(),
