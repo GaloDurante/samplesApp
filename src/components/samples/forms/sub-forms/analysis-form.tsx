@@ -25,8 +25,8 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
     resolver: zodResolver(sampleAnalysisSchema),
     defaultValues: {
       ...editData,
-      sample_id: sampleId,
-      other_analysis: editData?.other_analysis || "",
+      sampleId: sampleId,
+      otherAnalysis: editData?.otherAnalysis || "",
     },
     shouldUnregister: false,
   });
@@ -65,10 +65,10 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
     <div className="flex flex-col gap-6">
       <Form {...form}>
         <form id="sample-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 min-h-[400px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 min-h-100">
             <FormField
               control={form.control}
-              name="first_count"
+              name="firstCount"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>1° recuento</FormLabel>
@@ -106,7 +106,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
 
             <FormField
               control={form.control}
-              name="pg_curado"
+              name="pgCurado"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>PG curado</FormLabel>
@@ -144,7 +144,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
 
             <FormField
               control={form.control}
-              name="ct_curado"
+              name="ctCurado"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>CT curado</FormLabel>
@@ -182,7 +182,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
 
             <FormField
               control={form.control}
-              name="ea_curado"
+              name="eaCurado"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>EA curado</FormLabel>
@@ -201,7 +201,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
 
             <FormField
               control={form.control}
-              name="vigor_tz"
+              name="vigorTz"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Vigor por TZ</FormLabel>
@@ -220,7 +220,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
 
             <FormField
               control={form.control}
-              name="viability_tz"
+              name="viabilityTz"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Viabilidad por TZ</FormLabel>
@@ -277,7 +277,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
 
             <FormField
               control={form.control}
-              name="purity_percent"
+              name="purityPercent"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Pureza</FormLabel>
@@ -296,7 +296,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
 
             <FormField
               control={form.control}
-              name="other_analysis"
+              name="otherAnalysis"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Otros</FormLabel>

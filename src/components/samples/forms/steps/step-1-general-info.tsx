@@ -22,7 +22,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <FormField
           control={form.control}
-          name="sample_number"
+          name="sampleNumber"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
@@ -41,7 +41,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
 
         <FormField
           control={form.control}
-          name="entry_date"
+          name="entryDate"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
@@ -51,11 +51,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
                 </CustomTooltip>
               </FormLabel>
               <FormControl>
-                <DatePicker
-                  value={field.value}
-                  onChange={field.onChange}
-                  isError={!!form.formState.errors.entry_date}
-                />
+                <DatePicker value={field.value} onChange={field.onChange} isError={!!form.formState.errors.entryDate} />
               </FormControl>
               <FormMessage className="min-h-5" />
             </FormItem>
@@ -64,7 +60,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
 
         <FormField
           control={form.control}
-          name="sample_code"
+          name="sampleCode"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Cód. Muestra</FormLabel>
@@ -83,7 +79,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
 
         <FormField
           control={form.control}
-          name="client_id"
+          name="clientId"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
@@ -97,7 +93,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
                 <ClientCombobox
                   value={field.value}
                   onChange={field.onChange}
-                  isError={!!form.formState.errors.client_id}
+                  isError={!!form.formState.errors.clientId}
                 />
               </FormControl>
 
@@ -108,7 +104,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
 
         <FormField
           control={form.control}
-          name="colloquial_specie"
+          name="colloquialSpecie"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
@@ -146,7 +142,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
 
         <FormField
           control={form.control}
-          name="harvest_year"
+          name="harvestYear"
           render={({ field }) => (
             <FormItem>
               <FormLabel>

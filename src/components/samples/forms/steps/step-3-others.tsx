@@ -21,7 +21,7 @@ export function Step3Others({ form }: Step3OthersProps) {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <FormField
           control={form.control}
-          name="test_end_date"
+          name="testEndDate"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
@@ -34,7 +34,7 @@ export function Step3Others({ form }: Step3OthersProps) {
                 <DatePicker
                   value={field.value}
                   onChange={field.onChange}
-                  isError={!!form.formState.errors.test_end_date}
+                  isError={!!form.formState.errors.testEndDate}
                 />
               </FormControl>
               <FormMessage className="min-h-5" />
@@ -52,7 +52,7 @@ export function Step3Others({ form }: Step3OthersProps) {
                 <Textarea
                   {...field}
                   placeholder="Añadir notas adicionales sobre la muestra o el lote..."
-                  className="resize-none min-h-[100px]"
+                  className="resize-none min-h-25"
                   onChange={(e) => field.onChange(e.target.value || undefined)}
                 />
               </FormControl>

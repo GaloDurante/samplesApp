@@ -20,7 +20,7 @@ export const router = createHashRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="clients" replace />,
+        element: <Navigate to="samples" replace />,
       },
       {
         path: "clients",
@@ -89,7 +89,8 @@ export const router = createHashRouter([
             path: ":id",
             loader: async ({ params }) => {
               const id = params.id;
-              return { sample: await window.sampleApi.getFullSampleById(Number(id)) };
+              const { data: sample } = await window.sampleApi.getFullSampleById(Number(id));
+              return { sample };
             },
             Component: SamplePage,
             errorElement: (

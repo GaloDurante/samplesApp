@@ -11,15 +11,14 @@ export type PartialSample = Sample & {
   client: {
     id: number;
     name: string;
-    cuit: number;
   } | null;
 
   analysis: {
-    first_count?: number | null;
+    firstCount?: number | null;
     pg?: number | null;
-    vigor_tz?: number | null;
+    vigorTz?: number | null;
     pms?: number | null;
-    purity_percent?: number | null;
+    purityPercent?: number | null;
   } | null;
 };
 

@@ -27,13 +27,12 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
     resolver: zodResolver(sampleSchema),
     defaultValues: {
       ...editData,
-      client_id: editData.client ? editData.client.id : undefined,
-      client_name: editData.client ? editData.client.name : "",
+      clientId: editData.client ? editData.client.id : undefined,
       client: undefined,
-      sample_code: editData.sample_code || "",
+      sampleCode: editData.sampleCode || "",
       mark: editData.mark || "",
-      lot_number: editData.lot_number || "",
-      lot_weight: editData.lot_weight || "",
+      lotNumber: editData.lotNumber || "",
+      lotWeight: editData.lotWeight || "",
       observations: editData.observations || "",
     },
   });
@@ -66,7 +65,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
               <FormField
                 control={form.control}
-                name="sample_number"
+                name="sampleNumber"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -86,7 +85,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
               {/* fecha ingreso */}
               <FormField
                 control={form.control}
-                name="entry_date"
+                name="entryDate"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -99,7 +98,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                       <DatePicker
                         value={field.value}
                         onChange={field.onChange}
-                        isError={!!form.formState.errors.entry_date}
+                        isError={!!form.formState.errors.entryDate}
                       />
                     </FormControl>
                     <FormMessage className="min-h-5" />
@@ -109,7 +108,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
 
               <FormField
                 control={form.control}
-                name="sample_code"
+                name="sampleCode"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Cód. Muestra</FormLabel>
@@ -128,7 +127,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
 
               <FormField
                 control={form.control}
-                name="client_id"
+                name="clientId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -142,7 +141,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                       <ClientCombobox
                         value={field.value}
                         onChange={field.onChange}
-                        isError={!!form.formState.errors.client_id}
+                        isError={!!form.formState.errors.clientId}
                       />
                     </FormControl>
 
@@ -153,7 +152,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
 
               <FormField
                 control={form.control}
-                name="colloquial_specie"
+                name="colloquialSpecie"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -191,7 +190,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
 
               <FormField
                 control={form.control}
-                name="harvest_year"
+                name="harvestYear"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -236,7 +235,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
               <FormField
                 control={form.control}
-                name="lot_number"
+                name="lotNumber"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>N° Lote</FormLabel>
@@ -254,7 +253,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
 
               <FormField
                 control={form.control}
-                name="lot_weight"
+                name="lotWeight"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Peso del lote (kg / t)</FormLabel>
@@ -281,7 +280,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
               {/* Fecha finalizacion de ensayo */}
               <FormField
                 control={form.control}
-                name="test_end_date"
+                name="testEndDate"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -294,7 +293,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                       <DatePicker
                         value={field.value}
                         onChange={field.onChange}
-                        isError={!!form.formState.errors.test_end_date}
+                        isError={!!form.formState.errors.testEndDate}
                       />
                     </FormControl>
                     <FormMessage className="min-h-5" />
@@ -311,7 +310,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                       <Textarea
                         {...field}
                         placeholder="Añadir notas adicionales sobre la muestra o el lote..."
-                        className="resize-none min-h-[100px]"
+                        className="resize-none min-h-25"
                       />
                     </FormControl>
                   </FormItem>

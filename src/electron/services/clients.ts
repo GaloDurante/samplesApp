@@ -1,6 +1,6 @@
 import { db } from "../db/client.js";
 import { clients } from "../db/schema.js";
-import { or, like, count, eq } from "drizzle-orm";
+import { or, like, count, eq, asc } from "drizzle-orm";
 
 import { clientSchema } from "../../validations/client.js";
 
@@ -147,23 +147,20 @@ export async function deleteClient(id: number) {
   }
 }
 
-export function searchClients(search: string) {
-  if (!search || search.trim().length < 1) return [];
-  return search;
+export async function searchClients(search: string) {
+  if (!search || !search.trim()) return [];
 
-  // const rows = queryAll(
-  //   `
-  //   SELECT id, name
-  //   FROM clients
-  //   WHERE name LIKE ? OR id LIKE ?
-  //   ORDER BY name
-  //   LIMIT 20
-  //   `,
-  //   [`%${search}%`, `%${search}%`],
-  // );
+  const term = `%${search.trim()}%`;
 
-  // return rows.map(([id, name]) => ({
-  //   id: Number(id),
-  //   name: String(name),
-  // }));
+  const rows = await db
+    .select({
+      id: clients.id,
+      name: clients.name,
+    })
+    .from(clients)
+    .where(or(like(clients.name, term), like(clients.id, term)))
+    .orderBy(asc(clients.name))
+    .limit(20);
+
+  return rows;
 }

@@ -2,13 +2,13 @@ import { z } from "zod";
 
 export const sampleAnalysisSchema = z.object({
   id: z.number().int().optional(),
-  sample_id: z
+  sampleId: z
     .number({
       message: "ID de muestra inválido.",
     })
     .int(),
 
-  first_count: z
+  firstCount: z
     .number({
       message: "1° recuento inválido.",
     })
@@ -18,7 +18,7 @@ export const sampleAnalysisSchema = z.object({
       message: "PG inválido.",
     })
     .optional(),
-  pg_curado: z
+  pgCurado: z
     .number({
       message: "PG curado inválido.",
     })
@@ -28,7 +28,7 @@ export const sampleAnalysisSchema = z.object({
       message: "CT inválido.",
     })
     .optional(),
-  ct_curado: z
+  ctCurado: z
     .number({
       message: "CT curado inválido.",
     })
@@ -38,17 +38,17 @@ export const sampleAnalysisSchema = z.object({
       message: "EA de muestra inválido.",
     })
     .optional(),
-  ea_curado: z
+  eaCurado: z
     .number({
       message: "EA curado inválido.",
     })
     .optional(),
-  vigor_tz: z
+  vigorTz: z
     .number({
       message: "Vigor TZ inválido.",
     })
     .optional(),
-  viability_tz: z
+  viabilityTz: z
     .number({
       message: "Viabilidad TZ inválido.",
     })
@@ -63,16 +63,19 @@ export const sampleAnalysisSchema = z.object({
       message: "PMS inválido.",
     })
     .optional(),
-  purity_percent: z
+  purityPercent: z
     .number({
       message: "Pureza % inválido.",
     })
     .optional(),
-  other_analysis: z
+  otherAnalysis: z
     .string({
       message: "Otros análisis inválido.",
     })
     .optional(),
+  performancedAt: z.string({
+    message: "Fecha de realización inválida.",
+  }),
 });
 
 export type SampleAnalysisType = z.infer<typeof sampleAnalysisSchema>;

@@ -13,8 +13,8 @@ import { Form } from "@/components/ui/form";
 import { Stepper } from "@/components/ui/stepper";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
-import { Step1GeneralInfo, Step2LotData, Step3Others } from "@/components/samples/steps";
-import { SAMPLE_FORM_STEPS } from "@/components/samples/steps/constants";
+import { Step1GeneralInfo, Step2LotData, Step3Others } from "@/components/samples/forms/steps";
+import { SAMPLE_FORM_STEPS } from "@/components/samples/forms/steps/constants";
 import { Separator } from "@/components/ui/separator";
 
 export function SampleCreateForm() {
@@ -23,18 +23,17 @@ export function SampleCreateForm() {
   const form = useForm<Sample>({
     resolver: zodResolver(sampleSchema),
     defaultValues: {
-      sample_number: "",
-      entry_date: undefined,
-      sample_code: undefined,
-      client_id: undefined,
-      client_name: undefined,
-      colloquial_specie: "",
+      sampleNumber: "",
+      entryDate: undefined,
+      sampleCode: undefined,
+      clientId: undefined,
+      colloquialSpecie: "",
       cultivar: "",
-      harvest_year: "",
+      harvestYear: "",
       mark: undefined,
-      lot_number: undefined,
-      lot_weight: undefined,
-      test_end_date: undefined,
+      lotNumber: undefined,
+      lotWeight: undefined,
+      testEndDate: undefined,
       observations: undefined,
     },
     mode: "onChange",
@@ -78,6 +77,7 @@ export function SampleCreateForm() {
       const result = await window.sampleApi.createSample(values);
       if (result.success) {
         toast.success(result.message);
+        //navigate(`/samples/${result.data.id}`);
         form.reset();
         setCurrentStep(0);
       } else {
@@ -116,7 +116,7 @@ export function SampleCreateForm() {
           className="bg-card p-4 sm:p-8 rounded-md shadow-sm space-y-6"
         >
           <Stepper steps={SAMPLE_FORM_STEPS} currentStep={currentStep} />
-          <div className="min-h-[400px]">{renderStepContent()}</div>
+          <div className="min-h-100">{renderStepContent()}</div>
 
           <Separator />
           <div className="flex justify-between items-center">

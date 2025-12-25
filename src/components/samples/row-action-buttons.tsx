@@ -56,13 +56,13 @@ export function RowActionButtons({ row }: { row: FullSample }) {
         description={
           <>
             Seguro que desea eliminar la muestra{" "}
-            <span className="font-semibold text-foreground">{row.sample_number}</span>? Esta acción no se puede deshacer
+            <span className="font-semibold text-foreground">{row.sampleNumber}</span>? Esta acción no se puede deshacer
             luego.
           </>
         }
         confirmLabel="Eliminar"
         onConfirm={() => handleDelete(row.id)}
-        twoStepWord={`eliminar-${row.sample_number}`}
+        twoStepWord={`eliminar-${row.sampleNumber}`}
       />
     </>
   );

@@ -15,6 +15,20 @@
       "when": 1766608995759,
       "tag": "0001_loose_havok",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1766616125582,
+      "tag": "0002_flaky_dormammu",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1766621234309,
+      "tag": "0003_hesitant_mister_sinister",
+      "breakpoints": true
     }
   ]
 }

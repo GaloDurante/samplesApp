@@ -19,7 +19,7 @@ export function Step2LotData({ form }: Step2LotDataProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <FormField
           control={form.control}
-          name="lot_number"
+          name="lotNumber"
           render={({ field }) => (
             <FormItem>
               <FormLabel>N° Lote</FormLabel>
@@ -33,7 +33,7 @@ export function Step2LotData({ form }: Step2LotDataProps) {
 
         <FormField
           control={form.control}
-          name="lot_weight"
+          name="lotWeight"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Peso del lote (kg / t)</FormLabel>
