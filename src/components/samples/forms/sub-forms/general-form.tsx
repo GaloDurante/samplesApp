@@ -41,7 +41,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
 
   const onSubmit = async (values: Sample) => {
     try {
-      const result = await window.sampleApi.updateSample(values);
+      const result = await window.api.samples.updateSample(values);
       if (result.success) {
         toast.success(result.message);
         revalidator.revalidate();

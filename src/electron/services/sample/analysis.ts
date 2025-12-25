@@ -2,6 +2,10 @@ import { db } from "../../db/client.js";
 import { sampleAnalysis } from "../../db/schema.js";
 
 import { eq } from "drizzle-orm";
+import { SqliteError } from "better-sqlite3";
+
+import { sampleAnalysisSchema } from "../../../validations/sample/analysis.js";
+import type { SampleAnalysis } from "../../../types/sample.js";
 
 export function getSampleAnalysis(sampleId: number) {
   return db
@@ -12,103 +16,119 @@ export function getSampleAnalysis(sampleId: number) {
     .then((r) => r[0] ?? null);
 }
 
-// export function createAnalysis(analysis: SampleAnalysis) {
-//   const existing = queryOne("SELECT id FROM samples WHERE id = ?", [analysis.sample_id]);
-//   if (!existing) {
-//     throw new Error("La muestra seleccionada no existe.");
-//   }
+export async function createSampleAnalysis(input: SampleAnalysis) {
+  const parsed = sampleAnalysisSchema.safeParse(input);
 
-//   const validationResult = sampleAnalysisSchema.safeParse(analysis);
-//   if (!validationResult.success) {
-//     const firstError = validationResult.error.issues[0];
-//     throw new Error(firstError.message || "Error de validación");
-//   }
-//   const validatedAnalysis = validationResult.data;
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0];
+    throw new Error(firstError.message || "Error de validación");
+  }
 
-//   try {
-//     execute(
-//       `INSERT INTO sample_analysis (
-//         sample_id, first_count, pg, pg_curado, ct,
-//         ct_curado, ea, ea_curado, vigor_tz,
-//         viability_tz, e, pms, purity_percent, other_analysis
-//       )
-//       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-//       [
-//         validatedAnalysis.sample_id,
-//         validatedAnalysis.first_count || null,
-//         validatedAnalysis.pg || null,
-//         validatedAnalysis.pg_curado || null,
-//         validatedAnalysis.ct || null,
-//         validatedAnalysis.ct_curado || null,
-//         validatedAnalysis.ea || null,
-//         validatedAnalysis.ea_curado || null,
-//         validatedAnalysis.vigor_tz || null,
-//         validatedAnalysis.viability_tz || null,
-//         validatedAnalysis.e || null,
-//         validatedAnalysis.pms || null,
-//         validatedAnalysis.purity_percent || null,
-//         validatedAnalysis.other_analysis || null,
-//       ],
-//     );
-//   } catch (error) {
-//     console.warn(error);
+  const data = parsed.data;
 
-//     if (error instanceof Error) {
-//       throw new Error("Error al acceder a la base de datos");
-//     }
+  try {
+    await db
+      .insert(sampleAnalysis)
+      .values({
+        sampleId: data.sampleId,
 
-//     throw new Error("No se pudo crear el análisis por un problema en el servidor.");
-//   }
-// }
+        firstCount: data.firstCount ?? null,
+        pg: data.pg ?? null,
+        pgCurado: data.pgCurado ?? null,
+        ct: data.ct ?? null,
+        ctCurado: data.ctCurado ?? null,
+        ea: data.ea ?? null,
+        eaCurado: data.eaCurado ?? null,
+        vigorTz: data.vigorTz ?? null,
+        viabilityTz: data.viabilityTz ?? null,
+        e: data.e ?? null,
+        pms: data.pms ?? null,
+        purityPercent: data.purityPercent ?? null,
+        otherAnalysis: data.otherAnalysis ?? null,
+        performedAt: data.performedAt ?? new Date().toISOString(),
+      })
+      .run();
 
-// export function updateAnalysis(analysis: SampleAnalysis) {
-//   if (!analysis.id) throw new Error("El ID del análisis es requerido.");
+    return { success: true };
+  } catch (error) {
+    if (error instanceof SqliteError) {
+      const msg = error.message.toLowerCase();
 
-//   const existing = queryOne("SELECT id FROM samples WHERE id = ?", [analysis.sample_id]);
-//   if (!existing) {
-//     throw new Error("La muestra seleccionada no existe.");
-//   }
+      if (msg.includes("foreign key")) {
+        throw new Error("La muestra seleccionada no existe.");
+      }
 
-//   const validationResult = sampleAnalysisSchema.safeParse(analysis);
-//   if (!validationResult.success) {
-//     const firstError = validationResult.error.issues[0];
-//     throw new Error(firstError.message || "Error de validación");
-//   }
+      if (msg.includes("unique")) {
+        throw new Error("El análisis para esta muestra ya existe.");
+      }
 
-//   const validatedAnalysis = validationResult.data;
+      console.error("SQLite error creating analysis:", error);
+      throw new Error("Error al acceder a la base de datos");
+    }
 
-//   try {
-//     execute(
-//       `UPDATE sample_analysis
-//          SET sample_id=?, first_count=?, pg=?, pg_curado=?, ct=?,
-//              ct_curado=?, ea=?, ea_curado=?, vigor_tz=?,
-//              viability_tz=?, e=?, pms=?, purity_percent=?, other_analysis=?
-//        WHERE id=?`,
-//       [
-//         validatedAnalysis.sample_id,
-//         validatedAnalysis.first_count || null,
-//         validatedAnalysis.pg || null,
-//         validatedAnalysis.pg_curado || null,
-//         validatedAnalysis.ct || null,
-//         validatedAnalysis.ct_curado || null,
-//         validatedAnalysis.ea || null,
-//         validatedAnalysis.ea_curado || null,
-//         validatedAnalysis.vigor_tz || null,
-//         validatedAnalysis.viability_tz || null,
-//         validatedAnalysis.e || null,
-//         validatedAnalysis.pms || null,
-//         validatedAnalysis.purity_percent || null,
-//         validatedAnalysis.other_analysis || null,
-//         validatedAnalysis.id ?? analysis.id,
-//       ],
-//     );
-//   } catch (error) {
-//     console.warn(error);
+    console.error("Unknown error creating analysis:", error);
+    throw new Error("No se pudo crear el análisis por un problema en el servidor.");
+  }
+}
 
-//     if (error instanceof Error) {
-//       throw new Error("Error al acceder a la base de datos");
-//     }
+export async function updateSampleAnalysis(input: SampleAnalysis) {
+  if (!Number.isInteger(input.id)) {
+    throw new Error("El ID del análisis es requerido.");
+  }
 
-//     throw new Error("No se pudo modificar el análisis por un problema en el servidor.");
-//   }
-// }
+  const parsed = sampleAnalysisSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0];
+    throw new Error(firstError.message || "Error de validación");
+  }
+
+  const { id, ...data } = parsed.data;
+  if (id === undefined) {
+    throw new Error("El ID de la muestra es requerido.");
+  }
+
+  try {
+    const result = await db
+      .update(sampleAnalysis)
+      .set({
+        firstCount: data.firstCount ?? null,
+        pg: data.pg ?? null,
+        pgCurado: data.pgCurado ?? null,
+        ct: data.ct ?? null,
+        ctCurado: data.ctCurado ?? null,
+        ea: data.ea ?? null,
+        eaCurado: data.eaCurado ?? null,
+        vigorTz: data.vigorTz ?? null,
+        viabilityTz: data.viabilityTz ?? null,
+        e: data.e ?? null,
+        pms: data.pms ?? null,
+        purityPercent: data.purityPercent ?? null,
+        otherAnalysis: data.otherAnalysis ?? null,
+        performedAt: data.performedAt ?? new Date().toISOString(),
+      })
+      .where(eq(sampleAnalysis.id, id))
+      .run();
+
+    if (result.changes === 0) {
+      throw new Error("El análisis que intenta modificar no existe.");
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("updateSampleAnalysis failed:", error);
+
+    if (error instanceof SqliteError) {
+      const msg = error.message.toLowerCase();
+
+      if (msg.includes("foreign key")) {
+        throw new Error("La muestra asociada no existe.");
+      }
+
+      console.error("SQLite error updating analysis:", error);
+      throw new Error("Error al acceder a la base de datos");
+    }
+
+    console.error("Unknown error updating analysis:", error);
+    throw new Error("No se pudo modificar el análisis por un problema en el servidor.");
+  }
+}

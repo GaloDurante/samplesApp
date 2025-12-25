@@ -73,9 +73,7 @@ export const sampleAnalysisSchema = z.object({
       message: "Otros análisis inválido.",
     })
     .optional(),
-  performancedAt: z.string({
-    message: "Fecha de realización inválida.",
-  }),
+  performedAt: z.iso.datetime({ local: true, message: "Fecha de realización inválida." }),
 });
 
 export type SampleAnalysisType = z.infer<typeof sampleAnalysisSchema>;

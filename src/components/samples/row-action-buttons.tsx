@@ -16,7 +16,7 @@ export function RowActionButtons({ row }: { row: FullSample }) {
     if (!id) return;
 
     try {
-      const result = await window.sampleApi.deleteSample(id);
+      const result = await window.api.samples.deleteSample(id);
 
       if (result.success) {
         toast.success(result.message);

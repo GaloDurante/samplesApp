@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -18,6 +19,7 @@ import { SAMPLE_FORM_STEPS } from "@/components/samples/forms/steps/constants";
 import { Separator } from "@/components/ui/separator";
 
 export function SampleCreateForm() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
 
   const form = useForm<Sample>({
@@ -74,10 +76,10 @@ export function SampleCreateForm() {
 
   const onSubmit = async (values: Sample) => {
     try {
-      const result = await window.sampleApi.createSample(values);
-      if (result.success) {
+      const result = await window.api.samples.createSample(values);
+      if (result.success && result.data) {
         toast.success(result.message);
-        //navigate(`/samples/${result.data.id}`);
+        navigate(`/samples/${result.data.id}`);
         form.reset();
         setCurrentStep(0);
       } else {

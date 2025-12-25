@@ -30,7 +30,7 @@ export function ClientForm({ editData }: ClientFormProps) {
   const onSubmit = async (values: Client) => {
     try {
       if (editData) {
-        const result = await window.clientApi.updateClient(values);
+        const result = await window.api.clients.updateClient(values);
 
         if (result.success) {
           toast.success(result.message);
@@ -39,7 +39,7 @@ export function ClientForm({ editData }: ClientFormProps) {
           toast.error(result.message || "No se pudo modificar el cliente solicitado.");
         }
       } else {
-        const result = await window.clientApi.createClient(values);
+        const result = await window.api.clients.createClient(values);
 
         if (result.success) {
           toast.success(result.message);

@@ -33,7 +33,7 @@ export const router = createHashRouter([
               const pageSize = Number(url.searchParams.get("pageSize") ?? 13);
               const search = url.searchParams.get("search") ?? "";
 
-              const { clients, total } = await window.clientApi.getClients(page, pageSize, search);
+              const { clients, total } = await window.api.clients.getClients(page, pageSize, search);
               return { clients, total, page, pageSize, search };
             },
             Component: ClientsPage,
@@ -46,7 +46,7 @@ export const router = createHashRouter([
             path: ":id",
             loader: async ({ params }) => {
               const id = params.id;
-              const { data: client } = await window.clientApi.getClientById(Number(id));
+              const { data: client } = await window.api.clients.getClientById(Number(id));
               return { client };
             },
             Component: ClientPage,
@@ -76,7 +76,7 @@ export const router = createHashRouter([
                 dateTo: url.searchParams.get("dateTo") ?? undefined,
               };
 
-              const { samples, total } = await window.sampleApi.getSamples(page, pageSize, filters);
+              const { samples, total } = await window.api.samples.getSamples(page, pageSize, filters);
               return { samples, total, page, pageSize, filters };
             },
             Component: SamplesPage,
@@ -89,7 +89,7 @@ export const router = createHashRouter([
             path: ":id",
             loader: async ({ params }) => {
               const id = params.id;
-              const { data: sample } = await window.sampleApi.getFullSampleById(Number(id));
+              const { data: sample } = await window.api.samples.getFullSampleById(Number(id));
               return { sample };
             },
             Component: SamplePage,

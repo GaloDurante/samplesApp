@@ -1,23 +1,27 @@
 import { ipcMain } from "electron";
-import { createAnalysis, updateAnalysis } from "../../services/sample/analysis.js";
+import { createSampleAnalysis, updateSampleAnalysis } from "../../services/sample/analysis.js";
 
 export function registerAnalysisIPC() {
   ipcMain.handle("create-analysis", async (_event, sample) => {
     try {
-      createAnalysis(sample);
+      await createSampleAnalysis(sample);
       return { success: true, message: "Análisis creado con éxito." };
     } catch (error) {
+      console.error("IPC create-analysis failed:", error);
+
       const message =
         error instanceof Error ? error.message : "No se pudo crear el análisis por un problema desconocido.";
       return { success: false, message };
     }
   });
 
-  ipcMain.handle("update-analysis", (_event, sample) => {
+  ipcMain.handle("update-analysis", async (_event, sample) => {
     try {
-      updateAnalysis(sample);
+      await updateSampleAnalysis(sample);
       return { success: true, message: "Análisis modificado con éxito." };
     } catch (error) {
+      console.error("IPC update-analysis failed:", error);
+
       const message =
         error instanceof Error ? error.message : "No se pudo modificar el análisis por un problema desconocido.";
       return { success: false, message };

@@ -62,6 +62,7 @@ export async function getSamples(page = 1, pageSize = 20, filters: SampleFilters
       },
 
       analysis: {
+        id: sampleAnalysis.id,
         firstCount: sampleAnalysis.firstCount,
         pg: sampleAnalysis.pg,
         vigorTz: sampleAnalysis.vigorTz,

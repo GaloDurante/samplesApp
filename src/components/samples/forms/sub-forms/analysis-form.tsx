@@ -36,7 +36,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
   const onSubmit = async (values: SampleAnalysis) => {
     try {
       if (editData) {
-        const result = await window.analysisApi.updateAnalysis(values);
+        const result = await window.api.analysis.updateAnalysis(values);
         if (result.success) {
           toast.success(result.message);
           revalidator.revalidate();
@@ -44,7 +44,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
           toast.error(result.message || "No se pudo modificar el análisis solicitado.");
         }
       } else {
-        const result = await window.analysisApi.createAnalysis(values);
+        const result = await window.api.analysis.createAnalysis(values);
         if (result.success) {
           toast.success(result.message);
           form.reset(values);
@@ -61,6 +61,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
       toast.error(errorMessage);
     }
   };
+
   return (
     <div className="flex flex-col gap-6">
       <Form {...form}>
