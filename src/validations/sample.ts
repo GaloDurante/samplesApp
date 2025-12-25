@@ -3,29 +3,24 @@ import { z } from "zod";
 export const sampleSchema = z.object({
   id: z.number().int().optional(),
 
-  client_id: z
+  clientId: z
     .number({
       message: "Cliente inválido.",
     })
     .int(),
-  client_name: z
-    .string({
-      message: "Nombre del cliente inválido.",
-    })
-    .optional(),
 
-  sample_number: z
+  sampleNumber: z
     .string({
       message: "N° de muestra es requerido.",
     })
-    .regex(/^\d+$/, "Solo admite números")
+    .regex(/^\d+$/, "N° de muestra solo admite números")
     .min(1, "N° de muestra es requerido."),
 
-  entry_date: z.string({
-    message: "Fecha de ingreso es requerida.",
+  entryDate: z.iso.date({
+    message: "Fecha de ingreso inválida.",
   }),
 
-  sample_code: z
+  sampleCode: z
     .string({
       message: "Código de muestra es requerido.",
     })
@@ -33,7 +28,8 @@ export const sampleSchema = z.object({
       message: "Código de muestra es muy corto.",
     })
     .optional(),
-  colloquial_specie: z
+
+  colloquialSpecie: z
     .string({
       message: "Especie es requerida.",
     })
@@ -49,7 +45,7 @@ export const sampleSchema = z.object({
       message: "Cultivar es muy corto.",
     }),
 
-  harvest_year: z
+  harvestYear: z
     .string({
       message: "Año de cosecha es requerido.",
     })
@@ -65,7 +61,8 @@ export const sampleSchema = z.object({
       message: "Marca es muy corto.",
     })
     .optional(),
-  lot_number: z
+
+  lotNumber: z
     .string({
       message: "N° de lote es requerido.",
     })
@@ -73,7 +70,8 @@ export const sampleSchema = z.object({
       message: "N° de lote inválido.",
     })
     .optional(),
-  lot_weight: z
+
+  lotWeight: z
     .string({
       message: "Peso del lote es requerido.",
     })
@@ -82,8 +80,8 @@ export const sampleSchema = z.object({
     })
     .optional(),
 
-  test_end_date: z.string({
-    message: "Fecha de finalización es requerida.",
+  testEndDate: z.iso.date({
+    message: "Fecha de finalización inválida.",
   }),
 
   client: z
@@ -96,11 +94,12 @@ export const sampleSchema = z.object({
     .nullable(),
 
   observations: z.string().optional(),
-  sampling_date: z.string().optional(),
-  other_references: z.string().optional(),
-  seal_number: z.string().optional(),
-  specie: z.string().optional(),
-  other_deter: z.string().optional(),
+
+  samplingDate: z.string().optional().nullable(),
+  otherReferences: z.string().optional().nullable(),
+  sealNumber: z.string().optional().nullable(),
+  specie: z.string().optional().nullable(),
+  otherDeter: z.string().optional().nullable(),
 });
 
 export type SampleType = z.infer<typeof sampleSchema>;

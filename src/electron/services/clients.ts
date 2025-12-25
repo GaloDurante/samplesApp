@@ -1,180 +1,166 @@
-import { queryAll, queryOne, execute } from "../database/sql.js";
+import { db } from "../db/client.js";
+import { clients } from "../db/schema.js";
+import { or, like, count, eq, asc } from "drizzle-orm";
+
 import { clientSchema } from "../../validations/client.js";
 
 import type { Client } from "../../types/client.js";
-import { mapClient } from "../util.js";
+import { SqliteError } from "better-sqlite3";
 
-function getTotalCountFiltered(search: string) {
-  const wildcard = `%${search}%`;
-  const result = queryAll(
-    `
-      SELECT COUNT(*) FROM clients
-      WHERE
-        name LIKE ?
-        OR cuit LIKE ?
-        OR address LIKE ?
-        OR email LIKE ?
-    `,
-    [wildcard, wildcard, wildcard, wildcard],
-  );
-  return result[0]?.[0] as number;
-}
-
-export function getClients(page = 1, pageSize = 20, search = "") {
+export async function getClients(page = 1, pageSize = 20, search = "") {
   const offset = (page - 1) * pageSize;
-
   const wildcard = `%${search}%`;
 
-  const rows = queryAll(
-    `
-      SELECT * FROM clients
-      WHERE
-        name LIKE ?
-        OR cuit LIKE ?
-        OR address LIKE ?
-        OR email LIKE ?
-      ORDER BY id DESC
-      LIMIT ? OFFSET ?
-    `,
-    [wildcard, wildcard, wildcard, wildcard, pageSize, offset],
-  ).map(mapClient);
+  const where = search
+    ? or(
+        like(clients.name, wildcard),
+        like(clients.cuit, wildcard),
+        like(clients.address, wildcard),
+        like(clients.email, wildcard),
+      )
+    : undefined;
 
-  const total = getTotalCountFiltered(search);
+  const clientsData = await db.query.clients.findMany({
+    where,
+    orderBy: (clients, { desc }) => [desc(clients.id)],
+    limit: pageSize,
+    offset,
+  });
 
-  return { clients: rows, total };
+  const [{ total }] = await db.select({ total: count() }).from(clients).where(where);
+
+  return {
+    clients: clientsData,
+    total,
+  };
 }
 
-export function getClientById(id: number): Client {
-  if (!id) throw new Error("Client ID is required");
+export async function getClientById(id: number) {
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error("Debe indicar un ID válido");
+  }
 
-  const row = queryOne("SELECT * FROM clients WHERE id = ?", [id]);
-  if (!row) throw new Error("Client not found");
-  return mapClient(row);
+  const client = await db.query.clients.findFirst({
+    where: eq(clients.id, id),
+  });
+
+  if (!client) {
+    throw new Error("Cliente no encontrado");
+  }
+
+  return client;
 }
 
-export function createClient(client: Client) {
-  const validationResult = clientSchema.safeParse(client);
+export async function createClient(input: Client) {
+  const parsed = clientSchema.safeParse(input);
 
-  if (!validationResult.success) {
-    const firstError = validationResult.error.issues[0];
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0];
     throw new Error(firstError.message || "Error de validación");
   }
 
-  const validatedClient = validationResult.data;
-
   try {
-    execute(
-      `INSERT INTO clients (name, cuit, address, email, phone)
-       VALUES (?, ?, ?, ?, ?)`,
-      [
-        validatedClient.name,
-        validatedClient.cuit,
-        validatedClient.address,
-        validatedClient.email,
-        validatedClient.phone,
-      ],
-    );
-  } catch (error) {
-    console.warn(error);
+    const [created] = await db.insert(clients).values(parsed.data).returning();
 
-    if (error instanceof Error) {
-      const msg = error.message?.toLowerCase() ?? "";
+    return created;
+  } catch (err) {
+    if (err instanceof SqliteError) {
+      const msg = err.message.toLowerCase();
 
-      if (msg.includes("unique") && msg.includes("cuit")) {
+      if (msg.includes("clients.cuit")) {
         throw new Error("Ya existe un cliente con el CUIT ingresado");
       }
 
-      if (msg.includes("unique") && msg.includes("email")) {
+      if (msg.includes("clients.email")) {
         throw new Error("Ya existe un cliente con el Email ingresado");
       }
 
+      console.error("SQLite error creating client:", err);
       throw new Error("Error al acceder a la base de datos");
     }
 
-    throw new Error("No se pudo crear el cliente por un problema en el servidor.");
+    console.error("Unknown error creating client:", err);
+    throw new Error("No se pudo crear el cliente por un problema interno");
   }
 }
 
-export function updateClient(client: Client) {
-  const validationResult = clientSchema.safeParse(client);
+export async function updateClient(input: Client) {
+  const parsed = clientSchema.safeParse(input);
 
-  if (!validationResult.success) {
-    const firstError = validationResult.error.issues[0];
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0];
     throw new Error(firstError.message || "Error de validación");
   }
 
-  const validatedClient = validationResult.data;
-
-  if (!validatedClient.id) throw new Error("El ID del cliente es requerido.");
+  const data = parsed.data;
+  if (!data.id) {
+    throw new Error("El ID del cliente es requerido");
+  }
 
   try {
-    execute(
-      `UPDATE clients
-         SET name=?, cuit=?, address=?, email=?, phone=?
-       WHERE id=?`,
-      [
-        validatedClient.name,
-        validatedClient.cuit,
-        validatedClient.address,
-        validatedClient.email,
-        validatedClient.phone,
-        validatedClient.id,
-      ],
-    );
-  } catch (error) {
-    console.warn(error);
+    const result = await db.update(clients).set(data).where(eq(clients.id, data.id)).run();
 
-    if (error instanceof Error) {
-      const msg = error.message?.toLowerCase() ?? "";
+    if (result.changes === 0) {
+      throw new Error("El cliente que intenta modificar no existe.");
+    }
 
-      if (msg.includes("unique") && msg.includes("cuit")) {
+    return { success: true };
+  } catch (err) {
+    if (err instanceof SqliteError) {
+      const msg = err.message.toLowerCase();
+
+      if (msg.includes("clients.cuit")) {
         throw new Error("Ya existe un cliente con el CUIT ingresado");
       }
 
-      if (msg.includes("unique") && msg.includes("email")) {
+      if (msg.includes("clients.email")) {
         throw new Error("Ya existe un cliente con el Email ingresado");
       }
 
+      console.error("SQLite error updating client:", err);
       throw new Error("Error al acceder a la base de datos");
     }
-
-    throw new Error("No se pudo modificar el cliente por un problema en el servidor.");
+    throw err instanceof Error ? err : new Error("No se pudo modificar el cliente por un problema interno.");
   }
 }
 
-export function deleteClient(id: number) {
-  if (!id) throw new Error("Debe indicar un ID válido");
-
-  const existing = queryOne("SELECT id FROM clients WHERE id = ?", [id]);
-
-  if (!existing) {
-    throw new Error("El cliente que intenta eliminar no existe.");
+export async function deleteClient(id: number) {
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error("Debe indicar un ID válido");
   }
 
   try {
-    execute("DELETE FROM clients WHERE id=?", [id]);
-  } catch (error) {
-    console.warn(error);
-    throw new Error("No se pudo eliminar el cliente solicitado por un problema en el servidor.");
+    const result = await db.delete(clients).where(eq(clients.id, id)).run();
+
+    if (result.changes === 0) {
+      throw new Error("El cliente que intenta eliminar no existe.");
+    }
+
+    return { deleted: true };
+  } catch (err) {
+    if (err instanceof SqliteError) {
+      console.error("SQLite error deleting client:", err);
+      throw new Error("Error al acceder a la base de datos");
+    }
+
+    throw err instanceof Error ? err : new Error("No se pudo eliminar el cliente solicitado por un problema interno.");
   }
 }
 
-export function searchClients(search: string) {
-  if (!search || search.trim().length < 1) return [];
+export async function searchClients(search: string) {
+  if (!search || !search.trim()) return [];
 
-  const rows = queryAll(
-    `
-    SELECT id, name
-    FROM clients
-    WHERE name LIKE ? OR id LIKE ?
-    ORDER BY name
-    LIMIT 20
-    `,
-    [`%${search}%`, `%${search}%`],
-  );
+  const term = `%${search.trim()}%`;
 
-  return rows.map(([id, name]) => ({
-    id: Number(id),
-    name: String(name),
-  }));
+  const rows = await db
+    .select({
+      id: clients.id,
+      name: clients.name,
+    })
+    .from(clients)
+    .where(or(like(clients.name, term), like(clients.id, term)))
+    .orderBy(asc(clients.name))
+    .limit(20);
+
+  return rows;
 }

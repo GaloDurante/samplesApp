@@ -3,13 +3,19 @@ import path from "path";
 import { isDev } from "./util.js";
 import { getPreloadPath } from "./pathResolver.js";
 
-import { initDatabase } from "./database/index.js";
+import { initDatabase } from "./database/init.js";
 import { registerClientsIPC } from "./ipc/clients.js";
 import { registerSamplesIPC } from "./ipc/samples.js";
 import { registerAnalysisIPC } from "./ipc/sample/analysis.js";
 
 app.whenReady().then(async () => {
-  await initDatabase();
+  try {
+    await initDatabase();
+  } catch {
+    console.warn("Failed to initialize database, quitting app");
+    app.quit();
+    return;
+  }
   registerClientsIPC();
   registerSamplesIPC();
   registerAnalysisIPC();

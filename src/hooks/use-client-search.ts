@@ -9,7 +9,7 @@ export function useClientSearch(query: string) {
 
     async function run() {
       setLoading(true);
-      const res = await window.clientApi.search(query);
+      const res = await window.api.clients.search(query);
       if (!cancelled) {
         setData(res);
         setLoading(false);

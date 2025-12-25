@@ -16,7 +16,7 @@ export function RowActionButtons({ row }: { row: Client }) {
     if (!id) return;
 
     try {
-      const result = await window.clientApi.deleteClient(id);
+      const result = await window.api.clients.deleteClient(id);
 
       if (result.success) {
         toast.success(result.message);

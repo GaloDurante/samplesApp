@@ -39,23 +39,23 @@ export function SamplesTable({ list }: SamplesTableProps) {
             <TableCell>
               <RowActionButtons row={row} />
             </TableCell>
-            <TableCell>{row.sample_number}</TableCell>
-            <TableCell>{formatISODate(row.entry_date)}</TableCell>
-            <TableCell>{row.sample_code ?? "-"}</TableCell>
-            <TableCell>{row.client?.name ?? row.client_name}</TableCell>
-            <TableCell>{row.colloquial_specie}</TableCell>
+            <TableCell>{row.sampleNumber}</TableCell>
+            <TableCell>{formatISODate(row.entryDate)}</TableCell>
+            <TableCell>{row.sampleCode ?? "-"}</TableCell>
+            <TableCell>{row.client?.name ?? "-"}</TableCell>
+            <TableCell>{row.colloquialSpecie}</TableCell>
             <TableCell>{row.cultivar}</TableCell>
-            <TableCell>{row.harvest_year}</TableCell>
+            <TableCell>{row.harvestYear}</TableCell>
             <TableCell>{row.mark ?? "-"}</TableCell>
-            <TableCell>{row.lot_number ?? "-"}</TableCell>
-            <TableCell>{row.lot_weight ?? "-"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.first_count ? "X" : "n/a"}</TableCell>
+            <TableCell>{row.lotNumber ?? "-"}</TableCell>
+            <TableCell>{row.lotWeight ?? "-"}</TableCell>
+            <TableCell className="text-center">{row.analysis?.firstCount ? "X" : "n/a"}</TableCell>
             <TableCell className="text-center">{row.analysis?.pg ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.vigor_tz ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.viability_tz ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analysis?.vigorTz ? "X" : "n/a"}</TableCell>
+            <TableCell className="text-center">{row.analysis?.viabilityTz ? "X" : "n/a"}</TableCell>
             <TableCell className="text-center">{row.analysis?.pms ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.purity_percent ? "X" : "n/a"}</TableCell>
-            <TableCell>{formatISODate(row.test_end_date)}</TableCell>
+            <TableCell className="text-center">{row.analysis?.purityPercent ? "X" : "n/a"}</TableCell>
+            <TableCell>{formatISODate(row.testEndDate)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

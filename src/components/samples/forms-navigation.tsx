@@ -7,7 +7,7 @@ import {
   PurityForm,
   GerminationForm,
   HumidityForm,
-} from "@/components/samples/forms/index";
+} from "@/components/samples/forms/sub-forms/index";
 
 interface FormsNavigationProps {
   data: FullSample;
@@ -28,16 +28,16 @@ export function FormsNavigation({ data }: FormsNavigationProps) {
       <TabsContent value="general-info" className="p-4 sm:p-8">
         <SampleGeneralForm editData={data} />
       </TabsContent>
-      <TabsContent value="analysis" className="p-4 sm:p-8 min-h-[600px]">
+      <TabsContent value="analysis" className="p-4 sm:p-8 min-h-150">
         <AnalysisForm editData={data.analysis} sampleId={data.id} />
       </TabsContent>
-      <TabsContent value="purity" className="p-4 sm:p-8 min-h-[600px]">
-        <PurityForm editData={data.purity} sampleId={data.id} />
+      <TabsContent value="purity" className="p-4 sm:p-8 min-h-150">
+        <PurityForm />
       </TabsContent>
-      <TabsContent value="germination" className="p-4 sm:p-8 min-h-[600px]">
+      <TabsContent value="germination" className="p-4 sm:p-8 min-h-150">
         <GerminationForm />
       </TabsContent>
-      <TabsContent value="humidity" className="p-4 sm:p-8 min-h-[600px]">
+      <TabsContent value="humidity" className="p-4 sm:p-8 min-h-150">
         <HumidityForm />
       </TabsContent>
     </Tabs>
