@@ -103,39 +103,3 @@ export const sampleSchema = z.object({
 });
 
 export type SampleType = z.infer<typeof sampleSchema>;
-
-export const samplePuritySchema = z.object({
-  id: z.number().int().nonnegative(),
-  sample_id: z.number().int().nonnegative(),
-
-  seed_pure: z.string().nullable(),
-  inert_matter: z.string().nullable(),
-  other_seeds: z.string().nullable(),
-  type_inert_matter: z.string().nullable(),
-  remarks: z.string().nullable(),
-});
-
-export type SamplePurityType = z.infer<typeof samplePuritySchema>;
-
-export const sampleGerminationSchema = z.object({
-  id: z.number().int().nonnegative(),
-  sample_id: z.number().int().nonnegative(),
-
-  days_number: z.string().nullable(),
-  normal_seedlings: z.string().nullable(),
-  hard_seeds: z.string().nullable(),
-  fresh_seeds: z.string().nullable(),
-  abnormal_seedlings: z.string().nullable(),
-  dead_seeds: z.string().nullable(),
-});
-
-export type SampleGerminationType = z.infer<typeof sampleGerminationSchema>;
-
-export const sampleHumiditySchema = z.object({
-  id: z.number().int().nonnegative(),
-  sample_id: z.number().int().nonnegative(),
-
-  humidity: z.string().nullable(),
-});
-
-export type SampleHumidityType = z.infer<typeof sampleHumiditySchema>;

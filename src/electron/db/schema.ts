@@ -1,4 +1,4 @@
-import { sqliteTable, integer, text, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, integer, text, index, numeric } from "drizzle-orm/sqlite-core";
 
 export const clients = sqliteTable("clients", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -79,9 +79,9 @@ export const samplePurity = sqliteTable(
       .unique()
       .references(() => samples.id, { onDelete: "cascade" }),
 
-    seedPure: text("seed_pure"),
-    inertMatter: text("inert_matter"),
-    otherSeeds: text("other_seeds"),
+    seedPure: numeric("seed_pure"),
+    inertMatter: numeric("inert_matter"),
+    otherSeeds: numeric("other_seeds"),
     typeInertMatter: text("type_inert_matter"),
     remarks: text("remarks"),
     performedAt: text("performed_at").notNull(),
@@ -102,12 +102,12 @@ export const sampleGermination = sqliteTable(
       .unique()
       .references(() => samples.id, { onDelete: "cascade" }),
 
-    daysNumber: text("days_number"),
-    normalSeedlings: text("normal_seedlings"),
-    hardSeeds: text("hard_seeds"),
-    freshSeeds: text("fresh_seeds"),
-    abnormalSeedlings: text("abnormal_seedlings"),
-    deadSeeds: text("dead_seeds"),
+    daysNumber: integer("days_number"),
+    normalSeedlings: integer("normal_seedlings"),
+    hardSeeds: integer("hard_seeds"),
+    freshSeeds: integer("fresh_seeds"),
+    abnormalSeedlings: integer("abnormal_seedlings"),
+    deadSeeds: integer("dead_seeds"),
     performedAt: text("performed_at").notNull(),
   },
   (table) => [

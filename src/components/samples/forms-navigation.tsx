@@ -28,16 +28,16 @@ export function FormsNavigation({ data }: FormsNavigationProps) {
       <TabsContent value="general-info" className="p-4 sm:p-8">
         <SampleGeneralForm editData={data} />
       </TabsContent>
-      <TabsContent value="analysis" className="p-4 sm:p-8 min-h-150">
+      <TabsContent value="analysis" className="p-4 sm:p-8">
         <AnalysisForm editData={data.analysis} sampleId={data.id} />
       </TabsContent>
-      <TabsContent value="purity" className="p-4 sm:p-8 min-h-150">
-        <PurityForm />
+      <TabsContent value="purity" className="p-4 sm:p-8">
+        <PurityForm editData={data.purity} sampleId={data.id} />
       </TabsContent>
-      <TabsContent value="germination" className="p-4 sm:p-8 min-h-150">
+      <TabsContent value="germination" className="p-4 sm:p-8">
         <GerminationForm />
       </TabsContent>
-      <TabsContent value="humidity" className="p-4 sm:p-8 min-h-150">
+      <TabsContent value="humidity" className="p-4 sm:p-8">
         <HumidityForm />
       </TabsContent>
     </Tabs>
