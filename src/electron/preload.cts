@@ -125,4 +125,30 @@ electron.contextBridge.exposeInMainWorld("api", {
       id?: number | undefined;
     }) => electron.ipcRenderer.invoke("update-purity", purity),
   },
+
+  germination: {
+    createGermination: (germination: {
+      sampleId: number;
+      daysNumber?: number;
+      normalSeedlings?: number;
+      hardSeeds?: number;
+      freshSeeds?: number;
+      abnormalSeedlings?: number;
+      deadSeeds?: number;
+      performedAt?: string;
+      id?: number | undefined;
+    }) => electron.ipcRenderer.invoke("create-germination", germination),
+
+    updateGermination: (germination: {
+      sampleId: number;
+      daysNumber?: number;
+      normalSeedlings?: number;
+      hardSeeds?: number;
+      freshSeeds?: number;
+      abnormalSeedlings?: number;
+      deadSeeds?: number;
+      performedAt?: string;
+      id?: number | undefined;
+    }) => electron.ipcRenderer.invoke("update-germination", germination),
+  },
 });

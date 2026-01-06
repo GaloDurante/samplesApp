@@ -35,7 +35,7 @@ export function FormsNavigation({ data }: FormsNavigationProps) {
         <PurityForm editData={data.purity} sampleId={data.id} />
       </TabsContent>
       <TabsContent value="germination" className="p-4 sm:p-8">
-        <GerminationForm />
+        <GerminationForm editData={data.germination} sampleId={data.id} />
       </TabsContent>
       <TabsContent value="humidity" className="p-4 sm:p-8">
         <HumidityForm />

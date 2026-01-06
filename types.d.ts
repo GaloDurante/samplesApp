@@ -1,5 +1,13 @@
 import { Client, PaginatedClients } from "@/types/client";
-import { PaginatedSamples, SampleFilters, FullSample, SampleAnalysis, Sample, SamplePurity } from "@/types/sample";
+import {
+  PaginatedSamples,
+  SampleFilters,
+  FullSample,
+  SampleAnalysis,
+  Sample,
+  SamplePurity,
+  SampleGermination,
+} from "@/types/sample";
 declare global {
   interface Window {
     api: {
@@ -28,6 +36,11 @@ declare global {
       purity: {
         createPurity(purity: SamplePurity): Promise<{ success: boolean; message: string }>;
         updatePurity(purity: SamplePurity): Promise<{ success: boolean; message: string }>;
+      };
+
+      germination: {
+        createGermination(germination: SampleGermination): Promise<{ success: boolean; message: string }>;
+        updateGermination(germination: SampleGermination): Promise<{ success: boolean; message: string }>;
       };
     };
   }
