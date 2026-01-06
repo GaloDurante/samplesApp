@@ -7,6 +7,7 @@ import { initDatabase } from "./database/init.js";
 import { registerClientsIPC } from "./ipc/clients.js";
 import { registerSamplesIPC } from "./ipc/samples.js";
 import { registerAnalysisIPC } from "./ipc/sample/analysis.js";
+import { registerPurityIPC } from "./ipc/sample/purity.js";
 
 app.whenReady().then(async () => {
   try {
@@ -19,6 +20,7 @@ app.whenReady().then(async () => {
   registerClientsIPC();
   registerSamplesIPC();
   registerAnalysisIPC();
+  registerPurityIPC();
 
   const mainWindow = new BrowserWindow({
     webPreferences: {

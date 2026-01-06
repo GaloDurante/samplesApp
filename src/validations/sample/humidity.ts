@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const sampleGerminationSchema = z.object({
+export const sampleHumiditySchema = z.object({
   id: z.number().int().nonnegative(),
   sampleId: z
     .number({
@@ -8,12 +8,7 @@ export const sampleGerminationSchema = z.object({
     })
     .int(),
 
-  days_number: z.string().optional(),
-  normal_seedlings: z.string().optional(),
-  hard_seeds: z.string().optional(),
-  fresh_seeds: z.string().optional(),
-  abnormal_seedlings: z.string().optional(),
-  dead_seeds: z.string().optional(),
+  humidity: z.string().optional(),
 });
 
-export type SampleGerminationType = z.infer<typeof sampleGerminationSchema>;
+export type SampleHumidityType = z.infer<typeof sampleHumiditySchema>;

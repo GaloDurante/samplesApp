@@ -78,7 +78,7 @@ electron.contextBridge.exposeInMainWorld("api", {
       pms?: number;
       purityPercent?: number;
       otherAnalysis?: string;
-      performancedAt?: string;
+      performedAt?: string;
       id?: number | undefined;
     }) => electron.ipcRenderer.invoke("create-analysis", analysis),
 
@@ -97,8 +97,32 @@ electron.contextBridge.exposeInMainWorld("api", {
       pms?: number;
       purityPercent?: number;
       otherAnalysis?: string;
-      performancedAt?: string;
+      performedAt?: string;
       id?: number | undefined;
     }) => electron.ipcRenderer.invoke("update-analysis", analysis),
+  },
+
+  purity: {
+    createPurity: (purity: {
+      sampleId: number;
+      seedPure?: string;
+      inertMatter?: string;
+      otherSeeds?: string;
+      typeInertMatter?: string;
+      remarks?: string;
+      performedAt?: string;
+      id?: number | undefined;
+    }) => electron.ipcRenderer.invoke("create-purity", purity),
+
+    updatePurity: (purity: {
+      sampleId: number;
+      seedPure?: string;
+      inertMatter?: string;
+      otherSeeds?: string;
+      typeInertMatter?: string;
+      remarks?: string;
+      performedAt?: string;
+      id?: number | undefined;
+    }) => electron.ipcRenderer.invoke("update-purity", purity),
   },
 });

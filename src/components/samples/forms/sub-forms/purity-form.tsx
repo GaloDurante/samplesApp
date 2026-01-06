@@ -1,4 +1,4 @@
-// import { useRevalidator } from "react-router";
+import { useRevalidator } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -6,7 +6,7 @@ import { samplePuritySchema } from "@/validations/sample/purity";
 
 import type { SamplePurity } from "@/types/sample";
 
-// import { toast } from "sonner";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -19,13 +19,14 @@ interface PurityFormProps {
 }
 
 export function PurityForm({ editData, sampleId }: PurityFormProps) {
-  // const revalidator = useRevalidator();
+  const revalidator = useRevalidator();
 
   const form = useForm({
     resolver: zodResolver(samplePuritySchema),
     defaultValues: {
       ...editData,
       sampleId: sampleId,
+      performedAt: new Date().toISOString(),
     },
     shouldUnregister: false,
   });
@@ -33,41 +34,39 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
   const hasChanges = Object.keys(form.formState.dirtyFields).length > 0;
 
   const onSubmit = async (values: SamplePurity) => {
-    console.log(values);
-
-    // try {
-    //   if (editData) {
-    //     const result = await window.api.analysis.updateAnalysis(values);
-    //     if (result.success) {
-    //       toast.success(result.message);
-    //       revalidator.revalidate();
-    //     } else {
-    //       toast.error(result.message || "No se pudo modificar el análisis solicitado.");
-    //     }
-    //   } else {
-    //     const result = await window.api.analysis.createAnalysis(values);
-    //     if (result.success) {
-    //       toast.success(result.message);
-    //       form.reset(values);
-    //       revalidator.revalidate();
-    //     } else {
-    //       toast.error(result.message || "No se pudo crear el análisis solicitado.");
-    //     }
-    //   }
-    // } catch (error) {
-    //   const errorMessage =
-    //     error instanceof Error
-    //       ? error.message
-    //       : "No se pudo ejecutar la operación solicitada por un problema en el servidor.";
-    //   toast.error(errorMessage);
-    // }
+    try {
+      if (editData) {
+        const result = await window.api.purity.updatePurity(values);
+        if (result.success) {
+          toast.success(result.message);
+          revalidator.revalidate();
+        } else {
+          toast.error(result.message || "No se pudo modificar la pureza solicitada.");
+        }
+      } else {
+        const result = await window.api.purity.createPurity(values);
+        if (result.success) {
+          toast.success(result.message);
+          form.reset(values);
+          revalidator.revalidate();
+        } else {
+          toast.error(result.message || "No se pudo crear la pureza solicitada.");
+        }
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "No se pudo ejecutar la operación solicitada por un problema en el servidor.";
+      toast.error(errorMessage);
+    }
   };
 
   return (
     <div className="flex flex-col gap-6">
       <Form {...form}>
         <form id="sample-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
             <FormField
               control={form.control}
               name="seedPure"

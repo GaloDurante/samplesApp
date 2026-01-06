@@ -46,6 +46,8 @@ export const samplePuritySchema = z.object({
       message: "Otras semillas muy corto.",
     })
     .optional(),
+
+  performedAt: z.iso.datetime({ local: true, message: "Fecha de realización inválida." }),
 });
 
 export type SamplePurityType = z.infer<typeof samplePuritySchema>;
