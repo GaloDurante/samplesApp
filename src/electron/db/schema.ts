@@ -126,7 +126,7 @@ export const sampleHumidity = sqliteTable(
       .unique()
       .references(() => samples.id, { onDelete: "cascade" }),
 
-    humidity: text("humidity"),
+    humidity: integer("humidity"),
     performedAt: text("performed_at").notNull(),
   },
   (table) => [

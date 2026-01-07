@@ -9,6 +9,7 @@ import { registerSamplesIPC } from "./ipc/samples.js";
 import { registerAnalysisIPC } from "./ipc/sample/analysis.js";
 import { registerPurityIPC } from "./ipc/sample/purity.js";
 import { registerGerminationIPC } from "./ipc/sample/germination.js";
+import { registerHumidityIPC } from "./ipc/sample/humidity.js";
 
 app.whenReady().then(async () => {
   try {
@@ -23,6 +24,7 @@ app.whenReady().then(async () => {
   registerAnalysisIPC();
   registerPurityIPC();
   registerGerminationIPC();
+  registerHumidityIPC();
 
   const mainWindow = new BrowserWindow({
     webPreferences: {

@@ -7,6 +7,7 @@ import {
   Sample,
   SamplePurity,
   SampleGermination,
+  type SampleHumidity,
 } from "@/types/sample";
 declare global {
   interface Window {
@@ -41,6 +42,11 @@ declare global {
       germination: {
         createGermination(germination: SampleGermination): Promise<{ success: boolean; message: string }>;
         updateGermination(germination: SampleGermination): Promise<{ success: boolean; message: string }>;
+      };
+
+      humidity: {
+        createHumidity(humidity: SampleHumidity): Promise<{ success: boolean; message: string }>;
+        updateHumidity(humidity: SampleHumidity): Promise<{ success: boolean; message: string }>;
       };
     };
   }

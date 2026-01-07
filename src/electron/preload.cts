@@ -151,4 +151,20 @@ electron.contextBridge.exposeInMainWorld("api", {
       id?: number | undefined;
     }) => electron.ipcRenderer.invoke("update-germination", germination),
   },
+
+  humidity: {
+    createHumidity: (humidity: {
+      sampleId: number;
+      humidity?: number;
+      performedAt?: string;
+      id?: number | undefined;
+    }) => electron.ipcRenderer.invoke("create-humidity", humidity),
+
+    updateHumidity: (humidity: {
+      sampleId: number;
+      humidity?: number;
+      performedAt?: string;
+      id?: number | undefined;
+    }) => electron.ipcRenderer.invoke("update-humidity", humidity),
+  },
 });
