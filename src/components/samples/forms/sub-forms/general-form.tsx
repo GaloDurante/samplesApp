@@ -7,8 +7,11 @@ import type { Sample } from "@/types/sample";
 
 import { toast } from "sonner";
 
+import { speciesList } from "@/lib/constants";
+
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { DatePicker } from "@/components/date-picker";
@@ -161,9 +164,25 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                         <span className="text-destructive">*</span>
                       </CustomTooltip>
                     </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ej: Trigo" {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={(val) => field.onChange(val ?? "")}
+                      value={field.value ? String(field.value) : ""}
+                    >
+                      <FormControl className="w-full">
+                        <SelectTrigger>
+                          <SelectValue placeholder="Seleccione una especie" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {speciesList.map((specie) => {
+                          return (
+                            <SelectItem key={specie} value={specie}>
+                              <span>{specie}</span>
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className="min-h-5" />
                   </FormItem>
                 )}

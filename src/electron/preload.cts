@@ -60,6 +60,18 @@ electron.contextBridge.exposeInMainWorld("api", {
     }) => electron.ipcRenderer.invoke("update-sample", sample),
 
     deleteSample: (sampleId: number) => electron.ipcRenderer.invoke("delete-sample", sampleId),
+
+    updateSampleCertificate: (sample: {
+      id?: string;
+      samplingDate?: string;
+      entryDate: string;
+      testEndDate: string;
+      sampleNumber: string;
+      otherReferences?: string;
+      sealNumber?: string;
+      specie?: string;
+      otherDeter?: string;
+    }) => electron.ipcRenderer.invoke("update-sample-certificate", sample),
   },
 
   analysis: {

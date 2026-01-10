@@ -11,21 +11,21 @@ export const samplePuritySchema = z.object({
   seedPure: z
     .string()
     .regex(/^\d+(\.\d{1,2})?$/, {
-      message: "Semilla pura debe ser un número decimal válido.",
+      message: "Semilla pura formato inválido.",
     })
     .optional(),
 
   inertMatter: z
     .string()
     .regex(/^\d+(\.\d{1,2})?$/, {
-      message: "Materia inerte debe ser un número decimal válido.",
+      message: "Materia inerte formato inválido.",
     })
     .optional(),
 
   otherSeeds: z
     .string()
     .regex(/^\d+(\.\d{1,2})?$/, {
-      message: "Otras semillas debe ser un número decimal válido.",
+      message: "Otras semillas formato inválido.",
     })
     .optional(),
 

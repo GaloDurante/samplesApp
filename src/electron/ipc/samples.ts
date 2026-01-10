@@ -1,5 +1,12 @@
 import { ipcMain } from "electron";
-import { getSamples, createSample, deleteSample, getFullSampleById, updateSample } from "../services/samples.js";
+import {
+  getSamples,
+  createSample,
+  deleteSample,
+  getFullSampleById,
+  updateSample,
+  updateSampleCertificate,
+} from "../services/samples.js";
 
 export function registerSamplesIPC() {
   ipcMain.handle("get-samples", async (_event, page, pageSize, filters) => {
@@ -65,6 +72,19 @@ export function registerSamplesIPC() {
         error instanceof Error
           ? error.message
           : "No se pudo eliminar la muestra solicitada por un problema desconocido.";
+      return { success: false, message };
+    }
+  });
+
+  ipcMain.handle("update-sample-certificate", async (_event, sample) => {
+    try {
+      await updateSampleCertificate(sample);
+      return { success: true, message: "Muestra modificada con éxito." };
+    } catch (error) {
+      console.error("IPC update-sample-certificate failed:", error);
+
+      const message =
+        error instanceof Error ? error.message : "No se pudo modificar la muestra por un problema desconocido.";
       return { success: false, message };
     }
   });

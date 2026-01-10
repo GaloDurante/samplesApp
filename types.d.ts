@@ -7,7 +7,8 @@ import {
   Sample,
   SamplePurity,
   SampleGermination,
-  type SampleHumidity,
+  SampleHumidity,
+  Certificate,
 } from "@/types/sample";
 declare global {
   interface Window {
@@ -27,6 +28,7 @@ declare global {
         createSample(sample: Sample): Promise<{ success: boolean; message: string; data?: Sample }>;
         updateSample(sample: Sample): Promise<{ success: boolean; message: string }>;
         deleteSample(id: number): Promise<{ success: boolean; message: string }>;
+        updateSampleCertificate(sample: Certificate): Promise<{ success: boolean; message: string }>;
       };
 
       analysis: {

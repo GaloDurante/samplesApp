@@ -2,7 +2,10 @@ import type { UseFormReturn } from "react-hook-form";
 
 import type { Sample } from "@/types/sample";
 
+import { speciesList } from "@/lib/constants";
+
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/date-picker";
 import { Separator } from "@/components/ui/separator";
@@ -113,9 +116,22 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
                   <span className="text-destructive">*</span>
                 </CustomTooltip>
               </FormLabel>
-              <FormControl>
-                <Input placeholder="Ej: Trigo" {...field} />
-              </FormControl>
+              <Select onValueChange={(val) => field.onChange(val ?? "")} value={field.value ? String(field.value) : ""}>
+                <FormControl className="w-full">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccione una especie" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {speciesList.map((specie) => {
+                    return (
+                      <SelectItem key={specie} value={specie}>
+                        <span>{specie}</span>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
               <FormMessage className="min-h-5" />
             </FormItem>
           )}

@@ -34,7 +34,7 @@ export const sampleSchema = z.object({
       message: "Especie es requerida.",
     })
     .min(3, {
-      message: "Especie es muy corto.",
+      message: "Especie inválido.",
     }),
 
   cultivar: z

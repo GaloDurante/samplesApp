@@ -3,8 +3,9 @@ import { db } from "../db/client.js";
 import { samples, clients, sampleAnalysis } from "../db/schema.js";
 import { SqliteError } from "better-sqlite3";
 
-import type { Sample, SampleFilters } from "../../types/sample.js";
+import type { Sample, SampleFilters, Certificate } from "../../types/sample.js";
 import { sampleSchema } from "../../validations/sample.js";
+import { certificateSchema } from "../../validations/sample/certificate.js";
 
 import { getSampleAnalysis } from "./sample/analysis.js";
 import { getSamplePurity } from "./sample/purity.js";
@@ -274,5 +275,64 @@ export async function deleteSample(id: number) {
     }
 
     throw err instanceof Error ? err : new Error("No se pudo eliminar la muestra solicitada por un problema interno.");
+  }
+}
+
+export async function updateSampleCertificate(sample: Certificate) {
+  if (!Number.isInteger(sample.id)) {
+    throw new Error("El ID de la muestra es requerido.");
+  }
+
+  const parsed = certificateSchema.safeParse(sample);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0];
+    throw new Error(firstError.message || "Error de validación");
+  }
+
+  const { id, ...data } = parsed.data;
+  if (id === undefined) {
+    throw new Error("El ID de la muestra es requerido.");
+  }
+
+  try {
+    const result = await db
+      .update(samples)
+      .set({
+        ...data,
+        samplingDate: data.samplingDate ?? null,
+
+        entryDate: data.entryDate,
+        testEndDate: data.testEndDate,
+        sampleNumber: data.sampleNumber,
+
+        otherReferences: data.otherReferences ?? null,
+        sealNumber: data.sealNumber ?? null,
+        specie: data.specie ?? null,
+        otherDeter: data.otherDeter ?? null,
+      })
+      .where(eq(samples.id, id))
+      .run();
+
+    if (result.changes === 0) {
+      throw new Error("La muestra que intenta modificar no existe.");
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("updateSampleCertificate failed:", error);
+
+    if (error instanceof Error) {
+      const msg = error.message.toLowerCase();
+
+      if (msg.includes("unique") && msg.includes("sample_number")) {
+        throw new Error("El N° de muestra ingresado ya se encuentra registrado.");
+      }
+
+      if (msg.includes("foreign key")) {
+        throw new Error("El cliente seleccionado no existe.");
+      }
+    }
+
+    throw new Error("No se pudo modificar la muestra por un problema en el servidor.");
   }
 }
