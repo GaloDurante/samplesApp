@@ -13,8 +13,7 @@ export const sampleSchema = z.object({
     .string({
       message: "N° de muestra es requerido.",
     })
-    .regex(/^\d+$/, "N° de muestra solo admite números")
-    .min(1, "N° de muestra es requerido."),
+    .regex(/^\d{3,}\/\d{2}$/, "Formato inválido. Ej: 1592/25"),
 
   entryDate: z.iso.date({
     message: "Fecha de ingreso inválida.",

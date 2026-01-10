@@ -78,7 +78,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                       </CustomTooltip>
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="Ej: 3215" {...field} />
+                      <Input placeholder="Ej: 3215/25" {...field} />
                     </FormControl>
                     <FormMessage className="min-h-5" />
                   </FormItem>

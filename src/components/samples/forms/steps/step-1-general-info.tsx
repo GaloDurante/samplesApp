@@ -35,7 +35,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
                 </CustomTooltip>
               </FormLabel>
               <FormControl>
-                <Input placeholder="Ej: 3215" onWheel={(e) => e.currentTarget.blur()} {...field} />
+                <Input placeholder="Ej: 3215/25" onWheel={(e) => e.currentTarget.blur()} {...field} />
               </FormControl>
               <FormMessage className="min-h-5" />
             </FormItem>
