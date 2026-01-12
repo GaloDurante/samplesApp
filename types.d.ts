@@ -10,6 +10,7 @@ import {
   SampleHumidity,
   Certificate,
 } from "@/types/sample";
+
 declare global {
   interface Window {
     api: {
@@ -49,6 +50,10 @@ declare global {
       humidity: {
         createHumidity(humidity: SampleHumidity): Promise<{ success: boolean; message: string }>;
         updateHumidity(humidity: SampleHumidity): Promise<{ success: boolean; message: string }>;
+      };
+
+      certificate: {
+        generate(sample: FullSample): Promise<{ success: boolean; message: string }>;
       };
     };
   }

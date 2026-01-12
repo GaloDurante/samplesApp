@@ -75,6 +75,21 @@ export function CertificateForm({ editData }: CertificateFormProps) {
     }
   };
 
+  const generatePDF = async () => {
+    try {
+      const result = await window.api.certificate.generate(editData);
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message || "No se pudo generar el PDF solicitado.");
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "No se pudo generar el PDF solicitado por un error.";
+      toast.error(errorMessage);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <Form {...form}>
@@ -189,7 +204,7 @@ export function CertificateForm({ editData }: CertificateFormProps) {
             Guardar cambios
           </Button>
 
-          <Button type="button" className="self-end" disabled={!hasAllValues || hasChanges}>
+          <Button type="button" onClick={generatePDF} className="self-end" disabled={!hasAllValues || hasChanges}>
             Generar certificado
           </Button>
         </div>

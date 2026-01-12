@@ -179,4 +179,24 @@ electron.contextBridge.exposeInMainWorld("api", {
       id?: number | undefined;
     }) => electron.ipcRenderer.invoke("update-humidity", humidity),
   },
+
+  certificate: {
+    generate: (data: {
+      sampleNumber: string;
+
+      client: {
+        name: string;
+      };
+
+      specie: string;
+      otherDeterminations: string;
+
+      samplingDate?: string;
+      entryDate: string;
+      testEndDate: string;
+
+      sealNumber?: string;
+      otherReferences?: string;
+    }) => electron.ipcRenderer.invoke("certificate:generate", data),
+  },
 });

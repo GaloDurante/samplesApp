@@ -1,7 +1,6 @@
-import { app, BrowserWindow } from "electron";
-import path from "path";
-import { isDev } from "./util.js";
-import { getPreloadPath } from "./pathResolver.js";
+import { app } from "electron";
+
+import { createMainWindow } from "./windows/mainWindow.js";
 
 import { initDatabase } from "./database/init.js";
 import { registerClientsIPC } from "./ipc/clients.js";
@@ -10,6 +9,7 @@ import { registerAnalysisIPC } from "./ipc/sample/analysis.js";
 import { registerPurityIPC } from "./ipc/sample/purity.js";
 import { registerGerminationIPC } from "./ipc/sample/germination.js";
 import { registerHumidityIPC } from "./ipc/sample/humidity.js";
+import { registerCertificateIPC } from "./ipc/certificate.js";
 
 app.whenReady().then(async () => {
   try {
@@ -25,18 +25,7 @@ app.whenReady().then(async () => {
   registerPurityIPC();
   registerGerminationIPC();
   registerHumidityIPC();
+  registerCertificateIPC();
 
-  const mainWindow = new BrowserWindow({
-    webPreferences: {
-      preload: getPreloadPath(),
-      nodeIntegration: false,
-      contextIsolation: true,
-    },
-  });
-
-  if (isDev()) {
-    mainWindow.loadURL("http://localhost:5173");
-  } else {
-    mainWindow.loadFile(path.join(app.getAppPath(), "dist-react/index.html"));
-  }
+  createMainWindow();
 });
