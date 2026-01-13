@@ -18,6 +18,7 @@ import { DatePicker } from "@/components/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { ClientCombobox } from "@/components/clients/client-combobox";
 import { CustomTooltip } from "@/components/custom-tooltip";
+import { DeleteButton } from "@/components/samples/delete-button";
 
 interface SampleGeneralFormProps {
   editData: Sample;
@@ -39,6 +40,8 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
       observations: editData.observations || "",
     },
   });
+
+  if (!editData.id) return;
 
   const hasChanges = Object.keys(form.formState.dirtyFields).length > 0;
 
@@ -338,14 +341,12 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
             </div>
           </section>
         </form>
-        <Button
-          form="sample-form"
-          type="submit"
-          className="self-end"
-          disabled={!hasChanges || form.formState.isSubmitting}
-        >
-          Guardar cambios
-        </Button>
+        <div className="flex justify-end gap-4">
+          <DeleteButton id={editData.id} sampleNumber={editData.sampleNumber} />
+          <Button form="sample-form" type="submit" disabled={!hasChanges || form.formState.isSubmitting}>
+            Guardar cambios
+          </Button>
+        </div>
       </Form>
     </div>
   );

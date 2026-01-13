@@ -8,7 +8,7 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
   return new Promise((resolve) => {
     const doc = new PDFDocument({
       size: "A4",
-      margins: { top: 30, bottom: 40, left: 40, right: 40 },
+      margins: { top: 20, bottom: 20, left: 40, right: 40 },
     });
 
     const buffers: Buffer[] = [];
@@ -23,9 +23,9 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     /* =========================
        HEADER
     ========================= */
-    doc.image(imagePath, 40, 30, { fit: [250, 150] });
+    doc.image(imagePath, 40, 20, { fit: [250, 150] });
 
-    doc.y = doc.y + 120;
+    doc.y = doc.y + 110;
 
     doc.fillColor(textColor).font("Helvetica").fontSize(11).text("CERTIFICADO DE ANÁLISIS", { align: "center" });
 
@@ -36,7 +36,7 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     doc
       .fontSize(9)
       .font("Helvetica")
-      .text("Laboratorio Inscripto en el Registro Nacional de Comercio y Fiscalización de Semillas N°1/8039", {
+      .text("Laboratorio Inscripto en el Registro Nacional de Comercio y Fiscalización de Semillas N°I/8039", {
         align: "center",
       });
 
@@ -126,7 +126,12 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     doc.font("Helvetica-Bold").fontSize(8.5);
 
     const titles1 = ["Peso del Lote", "Nº de Envases", "Fecha de Muestreo", "Otras Referencias"];
-    const titles2 = ["N° de Precinto", "Fecha de Recepción", "Fecha de Finalización de los ensayos", "Nº Análisis"];
+    const titles2 = [
+      "N° de Precinto",
+      "Fecha de Recepción de la muestra",
+      "Fecha de Finalización de los ensayos",
+      "Nº Análisis",
+    ];
 
     titles1.forEach((t, i) => {
       doc.text(t, 40 + colWidth * i, tableTop + 5, {
@@ -200,7 +205,9 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     doc
       .font("Helvetica-Bold")
       .fontSize(9)
-      .text(`Especie (nombre científico): `, 45, resBaseY + 23, { continued: true });
+      .text("Especie ", 45, resBaseY + 23, { continued: true })
+      .font("Helvetica")
+      .text("(nombre científico): ", { continued: true });
 
     const nameTokens = parseScientificName(data.specie ?? "-");
     nameTokens.forEach((token, index) => {
@@ -343,27 +350,31 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     doc.moveTo(40, y).lineTo(555, y).lineWidth(thinWidth).strokeColor(borderColor).stroke();
     doc
       .font("Helvetica-Bold")
-      .text("Clase de Materia Inerte:", 40, y + 5, { continued: true })
+      .text("Clase de Materia Inerte:", 40, y + 5, { paragraphGap: 5 })
       .font("Helvetica")
       .text(data.purity?.typeInertMatter ?? "-");
 
-    y += 35;
+    y += 40;
+
     doc.moveTo(40, y).lineTo(555, y).stroke();
+
     doc
       .font("Helvetica-Bold")
-      .text("Otras semillas:", 40, y + 5, { continued: true })
+      .text("Otras semillas:", 40, y + 5, { paragraphGap: 5 })
       .font("Helvetica")
       .text(data.purity?.otherSeeds ?? "-");
 
-    y += 35;
+    y += 40;
+
     doc.moveTo(40, y).lineTo(555, y).stroke();
+
     doc
       .font("Helvetica-Bold")
-      .text("Otras Determinaciones: ", 40, y + 5, { continued: true })
+      .text("Otras Determinaciones:", 40, y + 5, { paragraphGap: 5 })
       .font("Helvetica")
       .text(data.otherDeter ?? "-");
 
-    y += 65;
+    y += 90;
     doc.font("Helvetica-Bold").fontSize(8);
 
     /* =========================
@@ -419,7 +430,7 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     /* =========================
        FOOTER
     ========================= */
-    const footerY = 780;
+    const footerY = 800;
     const footerHeight = 15;
 
     doc.rect(40, footerY, 515, footerHeight).fill(greenColor);

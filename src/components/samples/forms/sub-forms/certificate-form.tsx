@@ -194,7 +194,7 @@ export function CertificateForm({ editData }: CertificateFormProps) {
         </form>
         <Separator />
 
-        <div className="self-end flex items-center gap-4">
+        <div className="flex justify-end items-center gap-4">
           <Button
             form="sample-form"
             type="submit"
