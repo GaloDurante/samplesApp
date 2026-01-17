@@ -1,7 +1,8 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { Terminal, Users, FlaskConical, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/theme-toggle";
+import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,18 +13,32 @@ import { Separator } from "@/components/ui/separator";
 
 export function CustomNavbar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const openDevTools = () => {
     window.api.menu.send("open-dev-tools");
   };
 
+  const isActive = (path: string) => location.pathname.startsWith(path);
+
   return (
-    <header className="flex w-full items-center justify-between border-b bg-background py-1 px-2 md:px-4">
+    <header className="flex w-full items-center justify-between border-b bg-background py-1.5 px-4 md:px-8">
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="sm" onClick={() => navigate("/samples")}>
+        <Button
+          variant={isActive("/samples") ? "secondary" : "ghost"}
+          size="sm"
+          onClick={() => navigate("/samples")}
+          className={cn("transition-colors", isActive("/samples") && "font-semibold text-primary")}
+        >
           <FlaskConical size={16} className="mr-1" /> Muestras
         </Button>
-        <Button variant="ghost" size="sm" onClick={() => navigate("/clients")}>
+
+        <Button
+          variant={isActive("/clients") ? "secondary" : "ghost"}
+          size="sm"
+          onClick={() => navigate("/clients")}
+          className={cn("transition-colors", isActive("/clients") && "font-semibold text-primary")}
+        >
           <Users size={16} className="mr-1" /> Clientes
         </Button>
       </div>
