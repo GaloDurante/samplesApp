@@ -131,7 +131,6 @@ export function CertificateForm({ editData }: CertificateFormProps) {
               )}
             />
 
-            {/* select */}
             <FormField
               control={form.control}
               name="specie"
@@ -148,7 +147,7 @@ export function CertificateForm({ editData }: CertificateFormProps) {
                     value={field.value ? String(field.value) : ""}
                   >
                     <FormControl className="w-full">
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full overflow-hidden">
                         <SelectValue placeholder="Seleccione una especie" />
                       </SelectTrigger>
                     </FormControl>

@@ -12,7 +12,7 @@ export function ClientsTable({ list }: ClientsTableProps) {
     <Table parentClassName="border rounded-md">
       <TableHeader className="bg-muted">
         <TableRow>
-          <TableHead className="w-[6%]">Acciones</TableHead>
+          <TableHead className="w-[6%] text-center">Acciones</TableHead>
           <TableHead>Nombre</TableHead>
           <TableHead>CUIT</TableHead>
           <TableHead>Dirección</TableHead>

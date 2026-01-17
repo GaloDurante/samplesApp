@@ -13,7 +13,7 @@ export function SamplesTable({ list }: SamplesTableProps) {
     <Table parentClassName="border rounded-md">
       <TableHeader className="bg-muted">
         <TableRow>
-          <TableHead className="w-[6%]">Acciones</TableHead>
+          <TableHead className="w-[6%] text-center">Acciones</TableHead>
           <TableHead>N° muestra</TableHead>
           <TableHead>Fecha ingreso</TableHead>
           <TableHead>Código muestra</TableHead>

@@ -1,32 +1,46 @@
 import { useTheme } from "@/lib/theme/use-theme";
+import { cn } from "@/lib/utils";
 
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Monitor, type LucideIcon } from "lucide-react";
+import { CustomTooltip } from "@/components/custom-tooltip";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+type ThemeValue = "light" | "dark" | "system";
+
+interface ThemeOption {
+  value: ThemeValue;
+  icon: LucideIcon;
+  label: string;
+}
 
 export function ModeToggle() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+
+  const options: ThemeOption[] = [
+    { value: "system", icon: Monitor, label: "Sistema" },
+    { value: "light", icon: Sun, label: "Claro" },
+    { value: "dark", icon: Moon, label: "Oscuro" },
+  ];
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild className="fixed bottom-3 right-3 z-50 rounded-full shadow-lg">
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex items-center justify-between w-full gap-4">
+      <span className="text-sm font-medium">Tema</span>
+      <div className="flex items-center bg-muted p-1 rounded-full border">
+        {options.map((option) => (
+          <CustomTooltip key={option.value} helperText={option.label}>
+            <button
+              onClick={() => setTheme(option.value)}
+              className={cn(
+                "cursor-pointer flex items-center justify-center rounded-full p-1.5 transition-all",
+                theme === option.value
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              <option.icon size={14} />
+            </button>
+          </CustomTooltip>
+        ))}
+      </div>
+    </div>
   );
 }

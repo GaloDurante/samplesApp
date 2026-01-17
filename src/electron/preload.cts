@@ -199,4 +199,8 @@ electron.contextBridge.exposeInMainWorld("api", {
       otherReferences?: string;
     }) => electron.ipcRenderer.invoke("certificate:generate", data),
   },
+
+  menu: {
+    send: (channel: string) => electron.ipcRenderer.send(channel),
+  },
 });

@@ -1,4 +1,4 @@
-import { app } from "electron";
+import { app, Menu } from "electron";
 
 import { createMainWindow } from "./windows/mainWindow.js";
 
@@ -10,6 +10,7 @@ import { registerPurityIPC } from "./ipc/sample/purity.js";
 import { registerGerminationIPC } from "./ipc/sample/germination.js";
 import { registerHumidityIPC } from "./ipc/sample/humidity.js";
 import { registerCertificateIPC } from "./ipc/certificate.js";
+import { registerMenuIPC } from "./ipc/menu.js";
 
 app.whenReady().then(async () => {
   try {
@@ -26,6 +27,8 @@ app.whenReady().then(async () => {
   registerGerminationIPC();
   registerHumidityIPC();
   registerCertificateIPC();
+  registerMenuIPC();
 
   createMainWindow();
+  Menu.setApplicationMenu(null);
 });

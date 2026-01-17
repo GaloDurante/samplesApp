@@ -21,7 +21,7 @@ export default function ClientsPage() {
   const { samples, total, page, pageSize, filters }: SamplesPageParams = useLoaderData();
 
   return (
-    <div className="p-4 md:p-8 min-h-screen flex flex-col gap-6">
+    <div className="p-4 md:p-8 flex flex-col h-full gap-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="w-full sm:max-w-3xl flex gap-4">
           <SamplesFilters />

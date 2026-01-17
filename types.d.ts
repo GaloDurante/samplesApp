@@ -55,6 +55,10 @@ declare global {
       certificate: {
         generate(sample: FullSample): Promise<{ success: boolean; message: string }>;
       };
+
+      menu: {
+        send(channel: string): void;
+      };
     };
   }
 }

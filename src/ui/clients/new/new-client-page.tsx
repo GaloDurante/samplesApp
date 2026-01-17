@@ -3,14 +3,17 @@ import { Breadcrum } from "@/components/breadcrum";
 
 export default function NewClientPage() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-16 lg:p-16">
+    <div className="flex flex-col h-full w-full">
       <Breadcrum baseUrl="/clients" baseUrlTitle="Clientes" currentPathTitle="Nuevo cliente" />
-      <div className="min-w-full lg:min-w-3/6">
-        <h1 className="text-2xl font-bold mb-2">Crear nuevo cliente</h1>
-        <p className="text-muted-foreground mb-6">
-          Complete el formulario a continuación para registrar un nuevo cliente en el sistema.
-        </p>
-        <ClientForm />
+
+      <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-8">
+        <div className="w-full max-w-4xl">
+          <h1 className="text-2xl font-bold mb-2">Crear nuevo cliente</h1>
+          <p className="text-muted-foreground mb-8">
+            Complete el formulario a continuación para registrar un nuevo cliente en el sistema.
+          </p>
+          <ClientForm />
+        </div>
       </div>
     </div>
   );

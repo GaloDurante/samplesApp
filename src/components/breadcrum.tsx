@@ -16,7 +16,7 @@ interface BreadcrumProps {
 
 export function Breadcrum({ baseUrl, baseUrlTitle, currentPathTitle }: BreadcrumProps) {
   return (
-    <Breadcrumb className="absolute top-4 left-4">
+    <Breadcrumb className="m-4 md:m-8 md:mt-4">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>

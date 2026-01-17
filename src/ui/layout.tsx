@@ -1,17 +1,16 @@
 import { Outlet } from "react-router";
-import { ModeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/sonner";
-import { NavigationTest } from "@/components/navigation-test";
+import { CustomNavbar } from "@/components/navbar";
 
 export default function Layout() {
   return (
-    <>
-      <main>
+    <div className="flex h-screen w-full flex-col overflow-hidden bg-background">
+      <CustomNavbar />
+
+      <main className="overflow-auto flex-1">
         <Outlet />
-        <ModeToggle />
-        <NavigationTest />
         <Toaster richColors position="top-center" />
       </main>
-    </>
+    </div>
   );
 }
