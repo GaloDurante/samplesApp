@@ -5,6 +5,7 @@ import { getPreloadPath } from "../pathResolver.js";
 
 export function createMainWindow() {
   const mainWindow = new BrowserWindow({
+    frame: false,
     webPreferences: {
       preload: getPreloadPath(),
       nodeIntegration: false,
