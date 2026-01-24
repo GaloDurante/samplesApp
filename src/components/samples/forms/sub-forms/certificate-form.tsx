@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { CustomTooltip } from "@/components/custom-tooltip";
+import { Download } from "lucide-react";
 
 interface CertificateFormProps {
   editData: FullSample;
@@ -204,7 +205,8 @@ export function CertificateForm({ editData }: CertificateFormProps) {
           </Button>
 
           <Button type="button" onClick={generatePDF} className="self-end" disabled={!hasAllValues || hasChanges}>
-            Generar certificado
+            <Download />
+            Descargar certificado
           </Button>
         </div>
       </Form>

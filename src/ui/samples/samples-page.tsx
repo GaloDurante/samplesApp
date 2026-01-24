@@ -1,6 +1,7 @@
-import { NavLink, useLoaderData } from "react-router";
+import { NavLink, useLoaderData, useLocation } from "react-router";
 
 import type { FullSample, SampleFilters } from "@/types/sample";
+import type { ExportScope } from "@/types/others";
 
 import { Search as SearchIcon } from "lucide-react";
 
@@ -17,14 +18,27 @@ interface SamplesPageParams {
   filters: SampleFilters;
 }
 
-export default function ClientsPage() {
+export default function SamplesPage() {
   const { samples, total, page, pageSize, filters }: SamplesPageParams = useLoaderData();
+  const location = useLocation();
+
+  const handleExport = (scope: ExportScope) => {
+    const params = new URLSearchParams(location.search);
+
+    const request = {
+      scope,
+      filters: Object.fromEntries(params.entries()),
+      ...(scope === "page" && { page, pageSize }),
+    };
+
+    console.log("EXPORT REQUEST", request);
+  };
 
   return (
     <div className="p-4 md:p-8 flex flex-col h-full gap-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="w-full sm:max-w-3xl flex gap-4">
-          <SamplesFilters />
+          <SamplesFilters onExport={handleExport} />
         </div>
 
         <Button asChild className="self-end sm:self-auto">
