@@ -1,11 +1,20 @@
+import * as XLSX from "xlsx";
+import { app } from "electron";
+import path from "path";
+
+import { format } from "date-fns";
+
 import { and, or, like, gte, lte, desc, sql, eq } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { samples, clients, sampleAnalysis } from "../db/schema.js";
 import { SqliteError } from "better-sqlite3";
 
 import type { Sample, SampleFilters, Certificate } from "../../types/sample.js";
+import type { ExportSamplesRequest } from "../../types/others.js";
 import { sampleSchema } from "../../validations/sample.js";
 import { certificateSchema } from "../../validations/sample/certificate.js";
+
+import { formatISODate } from "../util.js";
 
 import { getSampleAnalysis } from "./sample/analysis.js";
 import { getSamplePurity } from "./sample/purity.js";
@@ -335,4 +344,75 @@ export async function updateSampleCertificate(sample: Certificate) {
 
     throw new Error("No se pudo modificar la muestra por un problema en el servidor.");
   }
+}
+
+async function prepareSamplesDataToExport(request: ExportSamplesRequest) {
+  const { scope, page, pageSize, filters } = request;
+
+  const effectiveFilters = scope === "all" ? undefined : filters;
+
+  const samples = [];
+
+  if (scope === "page") {
+    const result = await getSamples(page, pageSize, effectiveFilters);
+    return result.samples;
+  }
+
+  let currentPage = 1;
+  let totalFetched = 0;
+  let total = 0;
+
+  do {
+    const result = await getSamples(currentPage, 500, effectiveFilters);
+
+    samples.push(...result.samples);
+
+    total = result.total;
+    totalFetched += result.samples.length;
+    currentPage++;
+  } while (totalFetched < total);
+
+  return samples;
+}
+
+export async function exportSamples(request: ExportSamplesRequest) {
+  const samples = await prepareSamplesDataToExport(request);
+
+  if (samples.length === 0) {
+    throw new Error("No hay datos para exportar.");
+  }
+
+  const rows = samples.map((s) => ({
+    "N° Muestra": s.sampleNumber,
+    "Fecha ingreso": formatISODate(s.entryDate) ?? "-",
+    "Código muestra": s.sampleCode ?? "-",
+    Solicitante: s.client?.name ?? "-",
+    Especie: s.colloquialSpecie,
+    Cultivar: s.cultivar,
+    "Año cosecha": s.harvestYear,
+    Marca: s.mark ?? "-",
+    "N° Lote": s.lotNumber ?? "-",
+    "Peso lote (kg)": s.lotWeight ?? "-",
+    "1° Recuento": s.analysis?.firstCount ?? "n/a",
+    PG: s.analysis?.pg ?? "n/a",
+    "Vigor TZ": s.analysis?.vigorTz ?? "n/a",
+    "Viabilidad TZ": s.analysis?.viabilityTz ?? "n/a",
+    PMS: s.analysis?.pms ?? "n/a",
+    Pureza: s.analysis?.purityPercent ?? "n/a",
+    "Fecha finalización ensayo": formatISODate(s.testEndDate) ?? "-",
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(rows);
+  const workbook = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Muestras");
+
+  const downloadsPath = app.getPath("downloads");
+  const timestamp = format(new Date(), "yyyy-MM-dd_HH-mm-ss");
+  const fileName = `Libro_De_Muestras_${timestamp}.xlsx`;
+  const filePath = path.join(downloadsPath, fileName);
+
+  XLSX.writeFile(workbook, filePath);
+
+  return filePath;
 }

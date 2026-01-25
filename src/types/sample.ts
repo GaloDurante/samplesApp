@@ -12,21 +12,6 @@ export type SampleGermination = SampleGerminationType;
 export type SampleHumidity = SampleHumidityType;
 export type Certificate = CertificateType;
 
-export type PartialSample = Sample & {
-  client: {
-    id: number;
-    name: string;
-  } | null;
-
-  analysis: {
-    firstCount?: number | null;
-    pg?: number | null;
-    vigorTz?: number | null;
-    pms?: number | null;
-    purityPercent?: number | null;
-  } | null;
-};
-
 export type FullSample = Sample & {
   analysis: SampleAnalysis | null;
   purity: SamplePurity | null;

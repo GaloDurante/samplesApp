@@ -72,6 +72,13 @@ electron.contextBridge.exposeInMainWorld("api", {
       specie?: string;
       otherDeter?: string;
     }) => electron.ipcRenderer.invoke("update-sample-certificate", sample),
+
+    exportSamples: (request: {
+      scope: "page" | "all";
+      filters: Record<string, string>;
+      page?: number;
+      pageSize?: number;
+    }) => electron.ipcRenderer.invoke("samples:export", request),
   },
 
   analysis: {

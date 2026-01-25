@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { SamplesTable } from "@/components/samples/samples-table";
 import { PaginationBar } from "@/components/pagination-bar";
 import { SamplesFilters } from "@/components/samples/samples-filters";
+import { toast } from "sonner";
 
 interface SamplesPageParams {
   samples: FullSample[];
@@ -22,16 +23,31 @@ export default function SamplesPage() {
   const { samples, total, page, pageSize, filters }: SamplesPageParams = useLoaderData();
   const location = useLocation();
 
-  const handleExport = (scope: ExportScope) => {
+  const handleExport = async (scope: ExportScope) => {
     const params = new URLSearchParams(location.search);
 
-    const request = {
-      scope,
-      filters: Object.fromEntries(params.entries()),
-      ...(scope === "page" && { page, pageSize }),
+    const filters = {
+      search: params.get("search") ?? undefined,
+      dateFrom: params.get("dateFrom") ?? undefined,
+      dateTo: params.get("dateTo") ?? undefined,
     };
 
-    console.log("EXPORT REQUEST", request);
+    const request = scope === "page" ? { scope, filters, page, pageSize } : { scope };
+
+    try {
+      const result = await window.api.samples.exportSamples(request);
+      if (result.success && result.filePath) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message || "No se pudo exportar la información solicitada.");
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "No se pudo ejecutar la operación solicitada por un problema en el servidor.";
+      toast.error(errorMessage);
+    }
   };
 
   return (

@@ -10,6 +10,7 @@ import {
   SampleHumidity,
   Certificate,
 } from "@/types/sample";
+import { ExportSamplesRequest } from "@/types/others";
 
 declare global {
   interface Window {
@@ -30,6 +31,9 @@ declare global {
         updateSample(sample: Sample): Promise<{ success: boolean; message: string }>;
         deleteSample(id: number): Promise<{ success: boolean; message: string }>;
         updateSampleCertificate(sample: Certificate): Promise<{ success: boolean; message: string }>;
+        exportSamples: (
+          request: ExportSamplesRequest,
+        ) => Promise<{ success: boolean; message: string; filePath?: string }>;
       };
 
       analysis: {

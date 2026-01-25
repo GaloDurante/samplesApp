@@ -6,6 +6,7 @@ import {
   getFullSampleById,
   updateSample,
   updateSampleCertificate,
+  exportSamples,
 } from "../services/samples.js";
 
 export function registerSamplesIPC() {
@@ -85,6 +86,24 @@ export function registerSamplesIPC() {
 
       const message =
         error instanceof Error ? error.message : "No se pudo modificar la muestra por un problema desconocido.";
+      return { success: false, message };
+    }
+  });
+
+  ipcMain.handle("samples:export", async (_event, request) => {
+    try {
+      const filePath = await exportSamples(request);
+
+      return {
+        success: true,
+        message: "Datos exportados con éxito.",
+        filePath,
+      };
+    } catch (error) {
+      console.error("IPC samples:export failed:", error);
+
+      const message =
+        error instanceof Error ? error.message : "No se pudo exportar los datos por un problema desconocido.";
       return { success: false, message };
     }
   });
