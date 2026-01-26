@@ -53,7 +53,7 @@ export default function SamplesPage() {
   return (
     <div className="p-4 md:p-8 flex flex-col h-full gap-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <div className="w-full sm:max-w-3xl flex gap-4">
+        <div className="w-full sm:max-w-5xl flex gap-4">
           <SamplesFilters onExport={handleExport} />
         </div>
 
