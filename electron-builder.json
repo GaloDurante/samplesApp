@@ -1,7 +1,17 @@
 {
-  "appId": "com.g-durante.samples-app",
+  "appId": "com.g-durante.sistema-muestras",
+  "productName": "Sistema de Muestras",
+  "artifactName": "Sistema-de-Muestras-${version}.${ext}",
   "files": ["dist-electron", "dist-react"],
-  "extraResources": ["dist-electron/electron/preload.cjs", "src/assets/**", "dist-electron/electron/db/migrations/**"],
+  "extraResources": [
+    "dist-electron/electron/preload.cjs",
+    "src/assets/**",
+    "dist-electron/electron/db/migrations/**",
+    {
+      "from": "public/assets",
+      "to": "assets"
+    }
+  ],
   "mac": {
     "target": "dmg"
   },
@@ -10,7 +20,13 @@
     "category": "Utility"
   },
   "win": {
-    "target": ["portable", "msi"]
+    "target": ["nsis"]
+  },
+  "nsis": {
+    "runAfterFinish": false,
+    "oneClick": false,
+    "perMachine": true,
+    "allowElevation": true
   },
   "icon": "./desktopIcon.png"
 }

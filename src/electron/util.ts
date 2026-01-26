@@ -2,17 +2,21 @@ import { parse, format } from "date-fns";
 
 import path from "path";
 import { app } from "electron";
+import { fileURLToPath } from "node:url";
 
 export function isDev() {
-  return process.env.NODE_ENV === "development";
+  return !app.isPackaged;
 }
 
-export function getImagePath() {
-  const assetsPath = app.isPackaged
-    ? path.join(process.resourcesPath, "app.asar.unpacked", "dist", "assets", "logo.jpg")
-    : path.join(app.getAppPath(), "public", "assets", "logo.jpg");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  return assetsPath;
+export function getImagePath() {
+  if (!app.isPackaged) {
+    return path.join(__dirname, "../../public/assets/logo.jpg");
+  }
+
+  return path.join(process.resourcesPath, "assets", "logo.jpg");
 }
 
 export function safeFileName(value: string) {

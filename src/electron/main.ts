@@ -1,4 +1,4 @@
-import { app, Menu } from "electron";
+import { app } from "electron";
 
 import { createMainWindow } from "./windows/mainWindow.js";
 
@@ -30,5 +30,4 @@ app.whenReady().then(async () => {
   registerMenuIPC();
 
   createMainWindow();
-  Menu.setApplicationMenu(null);
 });
