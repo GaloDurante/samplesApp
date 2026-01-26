@@ -24,6 +24,7 @@ export const router = createHashRouter([
       },
       {
         path: "clients",
+        handle: { title: "Clientes" },
         children: [
           {
             index: true,
@@ -40,10 +41,12 @@ export const router = createHashRouter([
           },
           {
             path: "new",
+            handle: { title: "Nuevo cliente" },
             Component: NewClientPage,
           },
           {
             path: ":id",
+            handle: { title: "Detalle de cliente" },
             loader: async ({ params }) => {
               const id = params.id;
               const { data: client } = await window.api.clients.getClientById(Number(id));
@@ -63,6 +66,7 @@ export const router = createHashRouter([
       },
       {
         path: "samples",
+        handle: { title: "Muestras" },
         children: [
           {
             index: true,
@@ -83,10 +87,12 @@ export const router = createHashRouter([
           },
           {
             path: "new",
+            handle: { title: "Nueva muestra" },
             Component: NewSamplePage,
           },
           {
             path: ":id",
+            handle: { title: "Detalle de muestra" },
             loader: async ({ params }) => {
               const id = params.id;
               const { data: sample } = await window.api.samples.getFullSampleById(Number(id));

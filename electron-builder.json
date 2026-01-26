@@ -8,8 +8,8 @@
     "src/assets/**",
     "dist-electron/electron/db/migrations/**",
     {
-      "from": "public/assets",
-      "to": "assets"
+      "from": "build/logo.jpg",
+      "to": "logo.jpg"
     }
   ],
   "mac": {
@@ -28,5 +28,5 @@
     "perMachine": true,
     "allowElevation": true
   },
-  "icon": "./desktopIcon.png"
+  "icon": "build/icon.ico"
 }

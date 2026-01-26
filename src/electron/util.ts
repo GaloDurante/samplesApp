@@ -12,11 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export function getImagePath() {
-  if (!app.isPackaged) {
-    return path.join(__dirname, "../../public/assets/logo.jpg");
-  }
-
-  return path.join(process.resourcesPath, "assets", "logo.jpg");
+  return app.isPackaged ? path.join(process.resourcesPath, "logo.jpg") : path.join(__dirname, "../../build/logo.jpg");
 }
 
 export function safeFileName(value: string) {

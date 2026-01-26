@@ -13,7 +13,7 @@ export function registerCertificateIPC() {
       const buffer = await generateCertificatePdfBuffer(data);
 
       const downloadsDir = app.getPath("downloads");
-      const filePath = path.join(downloadsDir, `certificado-${safeFileName(data.sampleNumber)}.pdf`);
+      const filePath = path.join(downloadsDir, `certificado_${safeFileName(data.sampleNumber)}.pdf`);
 
       fs.writeFileSync(filePath, buffer);
 

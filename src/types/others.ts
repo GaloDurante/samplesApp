@@ -8,3 +8,7 @@ export interface ExportSamplesRequest {
   page?: number;
   pageSize?: number;
 }
+
+export type RouteHandle = {
+  title?: string;
+};
