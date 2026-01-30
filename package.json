@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "transpile:electron": "tsc --project src/electron/tsconfig.json && node scripts/copy-migrations.js",
     "dist:mac": "npm run transpile:electron && npm run build && electron-builder --mac --arm64",
-    "dist:win": "npm run transpile:electron && npm run build && electron-builder --win --x64",
+    "dist:win:64": "npm run transpile:electron && npm run build && electron-builder --win --x64 && rename dist dist-win-x64",
+    "dist:win:32": "npm run transpile:electron && npm run build && electron-builder --win nsis --ia32 && rename dist dist-win-ia32",
     "dist:linux": "npm run transpile:electron && npm run build && electron-builder --linux --x64",
     "postinstall": "electron-rebuild"
   },

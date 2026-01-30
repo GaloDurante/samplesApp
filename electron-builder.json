@@ -1,7 +1,7 @@
 {
   "appId": "com.g-durante.sistema-muestras",
   "productName": "Sistema de Muestras",
-  "artifactName": "Sistema-de-Muestras-${version}.${ext}",
+  "artifactName": "Sistema-de-Muestras-${version}-${arch}.${ext}",
   "files": ["dist-electron", "dist-react"],
   "extraResources": [
     "dist-electron/electron/preload.cjs",
