@@ -35,7 +35,11 @@ export function PaginationBar({ page, total, pageSize, basePath, extraParams = {
   const windowPages = buildPageWindow(page, totalPages);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-between items-center relative">
+      <p className="hidden md:block text-sm text-muted-foreground absolute">
+        Mostrando {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, total)} de {total} registros
+      </p>
+
       <Pagination>
         <PaginationContent>
           <PaginationItem>
@@ -63,7 +67,7 @@ export function PaginationBar({ page, total, pageSize, basePath, extraParams = {
             <PaginationNext
               label="Siguiente"
               to={buildUrl(page + 1)}
-              tabIndex={page >= 1 ? -1 : 0}
+              tabIndex={page >= totalPages ? -1 : 0}
               className={page >= totalPages ? "pointer-events-none opacity-50" : ""}
             />
           </PaginationItem>
