@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+import { Field, FieldContent, FieldDescription, FieldLabel, FieldTitle } from "@/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { FileOutput } from "lucide-react";
@@ -39,20 +39,33 @@ export function ExportButton({ onConfirm }: ExportButtonProps) {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Exportar Datos</DialogTitle>
-          <DialogDescription>Selecciona una opción para exportar la información</DialogDescription>
+          <DialogTitle>Exportación de datos</DialogTitle>
+          <DialogDescription>Selecciona una opción para continuar</DialogDescription>
         </DialogHeader>
 
         <RadioGroup value={scope} onValueChange={(value) => setScope(value as ExportScope)} className="my-4">
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="page" id="page" />
-            <Label htmlFor="page">Página actual</Label>
-          </div>
+          <FieldLabel htmlFor="page">
+            <Field orientation="horizontal">
+              <FieldContent>
+                <FieldTitle>Página actual</FieldTitle>
+                <FieldDescription>Exporta únicamente las muestras visibles en la página actual.</FieldDescription>
+              </FieldContent>
+              <RadioGroupItem value="page" id="page" />
+            </Field>
+          </FieldLabel>
 
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="all" id="all" />
-            <Label htmlFor="all">Todas las muestras (más lento)</Label>
-          </div>
+          <FieldLabel htmlFor="all">
+            <Field orientation="horizontal">
+              <FieldContent>
+                <FieldTitle>Todas las muestras</FieldTitle>
+                <FieldDescription>
+                  Exporta todas las muestras del sistema. Este proceso puede demorar varios minutos según el volumen de
+                  datos.
+                </FieldDescription>
+              </FieldContent>
+              <RadioGroupItem value="all" id="all" />
+            </Field>
+          </FieldLabel>
         </RadioGroup>
 
         <DialogFooter>
@@ -63,7 +76,7 @@ export function ExportButton({ onConfirm }: ExportButtonProps) {
           <DialogClose asChild>
             <Button onClick={handleConfirm}>
               <FileOutput />
-              Exportar
+              Exportar datos
             </Button>
           </DialogClose>
         </DialogFooter>

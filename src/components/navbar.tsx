@@ -37,19 +37,19 @@ export function CustomNavbar() {
     >
       <div className="flex items-center gap-2" style={noDragStyle}>
         <Button
-          variant={isActive("/samples") ? "secondary" : "ghost"}
+          variant={isActive("/samples") ? "default" : "ghost"}
           size="sm"
           onClick={() => navigate("/samples")}
-          className={cn("h-8", isActive("/samples") && "font-semibold text-primary")}
+          className={cn("h-8", isActive("/samples") && "font-semibold")}
         >
           <FlaskConical size={16} className="mr-1" /> Muestras
         </Button>
 
         <Button
-          variant={isActive("/clients") ? "secondary" : "ghost"}
+          variant={isActive("/clients") ? "default" : "ghost"}
           size="sm"
           onClick={() => navigate("/clients")}
-          className={cn("h-8", isActive("/clients") && "font-semibold text-primary")}
+          className={cn("h-8", isActive("/clients") && "font-semibold")}
         >
           <Users size={16} className="mr-1" /> Clientes
         </Button>

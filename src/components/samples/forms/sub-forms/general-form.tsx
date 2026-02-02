@@ -335,12 +335,15 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                         className="resize-none min-h-25"
                       />
                     </FormControl>
+                    <FormMessage className="min-h-5" />
                   </FormItem>
                 )}
               />
             </div>
           </section>
         </form>
+        <Separator />
+
         <div className="flex justify-end gap-4">
           <DeleteButton id={editData.id} sampleNumber={editData.sampleNumber} />
           <Button form="sample-form" type="submit" disabled={!hasChanges || form.formState.isSubmitting}>

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { CustomTooltip } from "@/components/custom-tooltip";
+import { Separator } from "@/components/ui/separator";
 
 interface ClientFormProps {
   editData?: Client;
@@ -58,12 +59,12 @@ export function ClientForm({ editData }: ClientFormProps) {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 bg-card p-4 sm:p-8 rounded-md shadow-sm">
       <Form {...form}>
         <form
           id="client-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 sm:grid sm:grid-cols-2 gap-x-8 bg-card p-4 sm:p-8 rounded-md shadow-sm"
+          className="space-y-4 sm:grid sm:grid-cols-2 gap-x-8"
         >
           <FormField
             control={form.control}
@@ -170,6 +171,8 @@ export function ClientForm({ editData }: ClientFormProps) {
             )}
           />
         </form>
+        <Separator />
+
         <Button
           form="client-form"
           type="submit"

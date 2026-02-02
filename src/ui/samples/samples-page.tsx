@@ -58,7 +58,7 @@ export default function SamplesPage() {
         </div>
 
         <Button asChild className="self-end sm:self-auto">
-          <NavLink to={"/samples/new"}>Agregar Muestra</NavLink>
+          <NavLink to={"/samples/new"}>Agregar muestra</NavLink>
         </Button>
       </div>
 

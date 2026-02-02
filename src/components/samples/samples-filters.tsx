@@ -35,7 +35,7 @@ export function SamplesFilters({ onExport }: { onExport: (scope: "page" | "all")
       <Search
         parentClassName="w-full"
         placeholder="Buscar muestras"
-        label="Filtra por solicitante, N° muestra, código, especie, marca o lote."
+        label="Filtra por N° muestra, código, solicitante, especie, marca o lote."
       />
       <div className="w-full">
         <DatePicker mode="range" from={from} to={to} onRangeChange={({ from, to }) => handleDateChange(from, to)} />

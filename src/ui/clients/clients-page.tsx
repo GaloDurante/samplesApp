@@ -28,7 +28,7 @@ export default function ClientsPage() {
         </div>
 
         <Button asChild className="self-end">
-          <NavLink to={"/clients/new"}>Agregar Cliente</NavLink>
+          <NavLink to={"/clients/new"}>Agregar cliente</NavLink>
         </Button>
       </div>
 
