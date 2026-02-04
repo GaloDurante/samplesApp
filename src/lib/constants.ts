@@ -1,3 +1,21 @@
+import type { Step } from "@/components/ui/stepper";
+
+export const PAGE_SIZES = [10, 20, 50, 100] as const;
+
+export const SAMPLE_FORM_STEPS: Step[] = [
+  {
+    title: "Información General",
+    description: "Datos básicos de la muestra",
+  },
+  {
+    title: "Datos del Lote",
+    description: "Información del lote",
+  },
+  {
+    title: "Otros",
+    description: "Información adicional",
+  },
+];
 export const scientificSpeciesList = [
   "Avena sativa L.",
   "Avena strigosa Schreb.",

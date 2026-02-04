@@ -15,7 +15,7 @@ import { Stepper } from "@/components/ui/stepper";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 import { Step1GeneralInfo, Step2LotData, Step3Others } from "@/components/samples/forms/steps";
-import { SAMPLE_FORM_STEPS } from "@/components/samples/forms/steps/constants";
+import { SAMPLE_FORM_STEPS } from "@/lib/constants";
 import { Separator } from "@/components/ui/separator";
 
 export function SampleCreateForm() {

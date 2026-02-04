@@ -9,6 +9,7 @@ import {
   PaginationPrevious,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
+import { PageSizeSelector } from "@/components/samples/page-size-selector";
 
 interface PaginationBarProps {
   page: number;
@@ -73,6 +74,11 @@ export function PaginationBar({ page, total, pageSize, basePath, extraParams = {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
+
+      <div className="flex gap-2 items-center absolute right-0">
+        <span className="hidden md:block text-sm min-w-fit text-muted-foreground">Registros por página</span>
+        <PageSizeSelector current={pageSize} />
+      </div>
     </div>
   );
 }
