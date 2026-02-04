@@ -16,6 +16,16 @@ export const SAMPLE_FORM_STEPS: Step[] = [
     description: "Información adicional",
   },
 ];
+
+export const ANALYSIS_COLUMNS = [
+  { key: "firstCount", label: "1° recuento" },
+  { key: "pg", label: "PG" },
+  { key: "vigorTz", label: "Vigor TZ" },
+  { key: "viabilityTz", label: "Viabilidad TZ" },
+  { key: "pms", label: "PMS" },
+  { key: "purityPercent", label: "Pureza" },
+] as const;
+
 export const scientificSpeciesList = [
   "Avena sativa L.",
   "Avena strigosa Schreb.",

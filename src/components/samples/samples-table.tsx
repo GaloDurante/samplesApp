@@ -3,12 +3,20 @@ import type { FullSample } from "@/types/sample";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { RowActionButtons } from "@/components/samples/row-action-buttons";
+import { ANALYSIS_COLUMNS } from "@/lib/constants";
 
 interface SamplesTableProps {
   list: FullSample[];
+  showValues: boolean;
 }
 
-export function SamplesTable({ list }: SamplesTableProps) {
+export function SamplesTable({ list, showValues }: SamplesTableProps) {
+  const renderAnalysisValue = (value: unknown, showValues: boolean) => {
+    if (value == null) return "n/a";
+    if (!showValues) return "X";
+    return String(value);
+  };
+
   return (
     <Table parentClassName="border rounded-md">
       <TableHeader className="bg-muted">
@@ -24,12 +32,9 @@ export function SamplesTable({ list }: SamplesTableProps) {
           <TableHead>Marca</TableHead>
           <TableHead>N° lote</TableHead>
           <TableHead>Peso lote</TableHead>
-          <TableHead>1° recuento</TableHead>
-          <TableHead>PG</TableHead>
-          <TableHead>Vigor TZ</TableHead>
-          <TableHead>Viabilidad TZ</TableHead>
-          <TableHead>PMS</TableHead>
-          <TableHead>Pureza</TableHead>
+          {ANALYSIS_COLUMNS.map((col) => (
+            <TableHead key={col.key}>{col.label}</TableHead>
+          ))}
           <TableHead>Finalización ensayo</TableHead>
         </TableRow>
       </TableHeader>
@@ -49,12 +54,11 @@ export function SamplesTable({ list }: SamplesTableProps) {
             <TableCell>{row.mark ?? "-"}</TableCell>
             <TableCell>{row.lotNumber ?? "-"}</TableCell>
             <TableCell>{row.lotWeight ?? "-"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.firstCount ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.pg ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.vigorTz ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.viabilityTz ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.pms ? "X" : "n/a"}</TableCell>
-            <TableCell className="text-center">{row.analysis?.purityPercent ? "X" : "n/a"}</TableCell>
+            {ANALYSIS_COLUMNS.map((col) => (
+              <TableCell key={col.key} className="text-center">
+                {renderAnalysisValue(row.analysis?.[col.key], showValues)}
+              </TableCell>
+            ))}
             <TableCell>{formatISODate(row.testEndDate)}</TableCell>
           </TableRow>
         ))}

@@ -350,14 +350,14 @@ async function prepareSamplesDataToExport(request: ExportSamplesRequest) {
   const { scope, page, pageSize, filters } = request;
 
   const effectiveFilters = scope === "all" ? undefined : filters;
-
-  const samples = [];
+  const showValues = filters?.showValues === "true";
 
   if (scope === "page") {
     const result = await getSamples(page, pageSize, effectiveFilters);
-    return result.samples;
+    return { samples: result.samples, showValues };
   }
 
+  const samples = [];
   let currentPage = 1;
   let totalFetched = 0;
   let total = 0;
@@ -372,11 +372,11 @@ async function prepareSamplesDataToExport(request: ExportSamplesRequest) {
     currentPage++;
   } while (totalFetched < total);
 
-  return samples;
+  return { samples, showValues };
 }
 
 export async function exportSamples(request: ExportSamplesRequest) {
-  const samples = await prepareSamplesDataToExport(request);
+  const { samples, showValues } = await prepareSamplesDataToExport(request);
 
   if (samples.length === 0) {
     throw new Error("No hay datos para exportar.");
@@ -393,12 +393,12 @@ export async function exportSamples(request: ExportSamplesRequest) {
     Marca: s.mark ?? "-",
     "N° Lote": s.lotNumber ?? "-",
     "Peso lote (kg)": s.lotWeight ?? "-",
-    "1° Recuento": s.analysis?.firstCount ?? "n/a",
-    PG: s.analysis?.pg ?? "n/a",
-    "Vigor TZ": s.analysis?.vigorTz ?? "n/a",
-    "Viabilidad TZ": s.analysis?.viabilityTz ?? "n/a",
-    PMS: s.analysis?.pms ?? "n/a",
-    Pureza: s.analysis?.purityPercent ?? "n/a",
+    "1° Recuento": showValues ? (s.analysis?.firstCount ?? "n/a") : s.analysis?.firstCount ? "X" : "n/a",
+    PG: showValues ? (s.analysis?.pg ?? "n/a") : s.analysis?.pg ? "X" : "n/a",
+    "Vigor TZ": showValues ? (s.analysis?.vigorTz ?? "n/a") : s.analysis?.vigorTz ? "X" : "n/a",
+    "Viabilidad TZ": showValues ? (s.analysis?.viabilityTz ?? "n/a") : s.analysis?.viabilityTz ? "X" : "n/a",
+    PMS: showValues ? (s.analysis?.pms ?? "n/a") : s.analysis?.pms ? "X" : "n/a",
+    Pureza: showValues ? (s.analysis?.purityPercent ?? "n/a") : s.analysis?.purityPercent ? "X" : "n/a",
     "Fecha finalización ensayo": formatISODate(s.testEndDate) ?? "-",
   }));
 

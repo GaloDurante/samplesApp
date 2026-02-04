@@ -1,3 +1,5 @@
+import type { SampleFilters } from "@/types/sample";
+
 import { buildPageWindow } from "@/lib/utils";
 
 import {
@@ -16,7 +18,7 @@ interface PaginationBarProps {
   total: number;
   pageSize: number;
   basePath: string;
-  extraParams?: Record<string, string | number | undefined>;
+  extraParams?: SampleFilters;
 }
 
 export function PaginationBar({ page, total, pageSize, basePath, extraParams = {} }: PaginationBarProps) {
@@ -27,7 +29,11 @@ export function PaginationBar({ page, total, pageSize, basePath, extraParams = {
     const params = new URLSearchParams({
       page: p.toString(),
       pageSize: pageSize.toString(),
-      ...Object.fromEntries(Object.entries(extraParams).map(([k, v]) => [k, String(v)])),
+      ...Object.fromEntries(
+        Object.entries(extraParams)
+          .filter(([, v]) => v !== undefined && v !== null && v !== "")
+          .map(([k, v]) => [k, String(v)]),
+      ),
     });
 
     return `${basePath}?${params.toString()}`;

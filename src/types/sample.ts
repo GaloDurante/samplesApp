@@ -23,6 +23,7 @@ export type SampleFilters = {
   search?: string;
   dateFrom?: string | null;
   dateTo?: string | null;
+  showValues?: string;
 };
 
 export type PaginatedSamples = {
