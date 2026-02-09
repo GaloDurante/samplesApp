@@ -26,6 +26,15 @@ export const ANALYSIS_COLUMNS = [
   { key: "purityPercent", label: "Pureza" },
 ] as const;
 
+export const ANALYSIS_COLUMNS_EXTRA = [
+  { key: "pgCurado", label: "PG curado" },
+  { key: "ct", label: "CT" },
+  { key: "ctCurado", label: "CT curado" },
+  { key: "ea", label: "EA" },
+  { key: "eaCurado", label: "EA curado" },
+  { key: "e", label: "E" },
+] as const;
+
 export const scientificSpeciesList = [
   "Avena sativa L.",
   "Avena strigosa Schreb.",

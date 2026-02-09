@@ -23,7 +23,7 @@ interface PaginationBarProps {
 
 export function PaginationBar({ page, total, pageSize, basePath, extraParams = {} }: PaginationBarProps) {
   const totalPages = Math.ceil(total / pageSize);
-  if (totalPages <= 1) return null;
+  if (totalPages <= 1 && total < 10) return null;
 
   const buildUrl = (p: number) => {
     const params = new URLSearchParams({

@@ -3,7 +3,7 @@ import type { FullSample } from "@/types/sample";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { RowActionButtons } from "@/components/samples/row-action-buttons";
-import { ANALYSIS_COLUMNS } from "@/lib/constants";
+import { ANALYSIS_COLUMNS, ANALYSIS_COLUMNS_EXTRA } from "@/lib/constants";
 
 interface SamplesTableProps {
   list: FullSample[];
@@ -35,6 +35,7 @@ export function SamplesTable({ list, showValues }: SamplesTableProps) {
           {ANALYSIS_COLUMNS.map((col) => (
             <TableHead key={col.key}>{col.label}</TableHead>
           ))}
+          {showValues && ANALYSIS_COLUMNS_EXTRA.map((col) => <TableHead key={col.key}>{col.label}</TableHead>)}
           <TableHead>Finalización ensayo</TableHead>
         </TableRow>
       </TableHeader>
@@ -59,6 +60,12 @@ export function SamplesTable({ list, showValues }: SamplesTableProps) {
                 {renderAnalysisValue(row.analysis?.[col.key], showValues)}
               </TableCell>
             ))}
+            {showValues &&
+              ANALYSIS_COLUMNS_EXTRA.map((col) => (
+                <TableCell key={col.key} className="text-center">
+                  {renderAnalysisValue(row.analysis?.[col.key], showValues)}
+                </TableCell>
+              ))}
             <TableCell>{formatISODate(row.testEndDate)}</TableCell>
           </TableRow>
         ))}

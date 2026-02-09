@@ -79,6 +79,13 @@ export async function getSamples(page = 1, pageSize = 20, filters: SampleFilters
         viabilityTz: sampleAnalysis.viabilityTz,
         pms: sampleAnalysis.pms,
         purityPercent: sampleAnalysis.purityPercent,
+
+        pgCurado: sampleAnalysis.pgCurado,
+        ct: sampleAnalysis.ct,
+        ctCurado: sampleAnalysis.ctCurado,
+        ea: sampleAnalysis.ea,
+        eaCurado: sampleAnalysis.eaCurado,
+        e: sampleAnalysis.e,
       },
     })
     .from(samples)
@@ -383,7 +390,7 @@ export async function exportSamples(request: ExportSamplesRequest) {
   }
 
   const rows = samples.map((s) => ({
-    "N° Muestra": s.sampleNumber,
+    "N° muestra": s.sampleNumber,
     "Fecha ingreso": formatISODate(s.entryDate) ?? "-",
     "Código muestra": s.sampleCode ?? "-",
     Solicitante: s.client?.name ?? "-",
@@ -391,14 +398,25 @@ export async function exportSamples(request: ExportSamplesRequest) {
     Cultivar: s.cultivar,
     "Año cosecha": s.harvestYear,
     Marca: s.mark ?? "-",
-    "N° Lote": s.lotNumber ?? "-",
+    "N° lote": s.lotNumber ?? "-",
     "Peso lote (kg)": s.lotWeight ?? "-",
-    "1° Recuento": showValues ? (s.analysis?.firstCount ?? "n/a") : s.analysis?.firstCount ? "X" : "n/a",
+
+    "1° recuento": showValues ? (s.analysis?.firstCount ?? "n/a") : s.analysis?.firstCount ? "X" : "n/a",
     PG: showValues ? (s.analysis?.pg ?? "n/a") : s.analysis?.pg ? "X" : "n/a",
     "Vigor TZ": showValues ? (s.analysis?.vigorTz ?? "n/a") : s.analysis?.vigorTz ? "X" : "n/a",
     "Viabilidad TZ": showValues ? (s.analysis?.viabilityTz ?? "n/a") : s.analysis?.viabilityTz ? "X" : "n/a",
     PMS: showValues ? (s.analysis?.pms ?? "n/a") : s.analysis?.pms ? "X" : "n/a",
     Pureza: showValues ? (s.analysis?.purityPercent ?? "n/a") : s.analysis?.purityPercent ? "X" : "n/a",
+
+    ...(showValues && {
+      "PG curado": s.analysis?.pgCurado ?? "n/a",
+      CT: s.analysis?.ct ?? "n/a",
+      "CT curado": s.analysis?.ctCurado ?? "n/a",
+      EA: s.analysis?.ea ?? "n/a",
+      "EA curado": s.analysis?.eaCurado ?? "n/a",
+      E: s.analysis?.e ?? "n/a",
+    }),
+
     "Fecha finalización ensayo": formatISODate(s.testEndDate) ?? "-",
   }));
 
