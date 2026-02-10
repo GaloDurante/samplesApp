@@ -36,6 +36,7 @@ export function CertificateForm({ editData }: CertificateFormProps) {
     sealNumber,
     specie,
     otherDeter,
+    client,
     ...restData
   } = editData;
 
@@ -56,7 +57,7 @@ export function CertificateForm({ editData }: CertificateFormProps) {
   });
 
   const hasChanges = Object.keys(form.formState.dirtyFields).length > 0;
-  const hasAllValues = Boolean(entryDate && testEndDate && sampleNumber && specie && otherDeter);
+  const hasAllValues = Boolean(entryDate && testEndDate && sampleNumber && specie && otherDeter && client?.name);
 
   const onSubmit = async (values: Certificate) => {
     try {

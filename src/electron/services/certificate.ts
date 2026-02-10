@@ -78,7 +78,7 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
       .font("Helvetica-Bold")
       .text("Especie / Cultivar / Categoría: ", 45, row2Y, { continued: true })
       .font("Helvetica")
-      .text(data.colloquialSpecie || data.cultivar || "");
+      .text([data.colloquialSpecie?.trim(), data.cultivar?.trim()].filter(Boolean).join(" / ") || "");
 
     doc
       .font("Helvetica-Bold")
@@ -424,7 +424,7 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     doc.text("Fecha de Emisión", 190, y + 5, { width: 150, align: "center" });
     doc.text("Firma del Director Técnico", 340, y + 5, { width: 215, align: "center" });
 
-    doc.font("Helvetica").text("San Vicente, Santa Fe, Argentina", 40, y + 35, { width: 150, align: "center" });
+    doc.font("Helvetica").text("San Vicente, Argentina", 40, y + 35, { width: 150, align: "center" });
     doc.text(formatISODate(data.testEndDate) ?? "-", 190, y + 35, { width: 150, align: "center" });
 
     /* =========================
