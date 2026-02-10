@@ -2,6 +2,7 @@ import { createHashRouter, Navigate } from "react-router";
 
 import Layout from "@/ui/layout";
 import Error from "@/components/error";
+import ErrorPage from "@/ui/error/error-page";
 
 import ClientsPage from "@/ui/clients/clients-page";
 import NewClientPage from "@/ui/clients/new/new-client-page";
@@ -15,7 +16,7 @@ export const router = createHashRouter([
   {
     path: "/",
     Component: Layout,
-    errorElement: <Error />,
+    errorElement: <ErrorPage />,
 
     children: [
       {
@@ -53,14 +54,7 @@ export const router = createHashRouter([
               return { client };
             },
             Component: ClientPage,
-            errorElement: (
-              <Error
-                path="/clients"
-                title="Cliente no encontrado"
-                description="No se encontró ningún cliente con los datos proporcionados. Por favor, verifique la información o cree un nuevo
-        cliente."
-              />
-            ),
+            errorElement: <Error />,
           },
         ],
       },
@@ -100,14 +94,7 @@ export const router = createHashRouter([
               return { sample };
             },
             Component: SamplePage,
-            errorElement: (
-              <Error
-                path="/samples"
-                title="Muestra no encontrada"
-                description="No se encontró ninguna muestra con los datos proporcionados. Por favor, verifique la información o cree una nueva
-    muestra."
-              />
-            ),
+            errorElement: <Error />,
           },
         ],
       },
