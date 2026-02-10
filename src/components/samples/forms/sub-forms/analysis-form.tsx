@@ -301,7 +301,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
               name="otherAnalysis"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Otros</FormLabel>
+                  <FormLabel>Otros análisis</FormLabel>
                   <FormControl>
                     <Input
                       {...form.register(field.name, {

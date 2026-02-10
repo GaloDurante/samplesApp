@@ -147,7 +147,7 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
               name="remarks"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Otras semillas</FormLabel>
+                  <FormLabel>Otras semillas (texto)</FormLabel>
                   <FormControl>
                     <Input
                       {...form.register(field.name, {

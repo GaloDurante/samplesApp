@@ -25,7 +25,7 @@ export function Step3Others({ form }: Step3OthersProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Fecha finalizacion de ensayo{" "}
+                Fecha de finalizacion de ensayo{" "}
                 <CustomTooltip helperText="Este campo es requerido">
                   <span className="text-destructive">*</span>
                 </CustomTooltip>

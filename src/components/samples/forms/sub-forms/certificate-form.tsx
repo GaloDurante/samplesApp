@@ -119,7 +119,7 @@ export function CertificateForm({ editData }: CertificateFormProps) {
               name="sealNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>N° precinto</FormLabel>
+                  <FormLabel>N° de precinto</FormLabel>
                   <FormControl>
                     <Input
                       {...form.register(field.name, {

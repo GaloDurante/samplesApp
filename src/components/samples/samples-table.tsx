@@ -22,16 +22,16 @@ export function SamplesTable({ list, showValues }: SamplesTableProps) {
       <TableHeader className="bg-muted">
         <TableRow>
           <TableHead className="w-[6%] text-center">Acciones</TableHead>
-          <TableHead>N° muestra</TableHead>
-          <TableHead>Fecha ingreso</TableHead>
-          <TableHead>Código muestra</TableHead>
+          <TableHead>N° de muestra</TableHead>
+          <TableHead>Fecha de ingreso</TableHead>
+          <TableHead>Cód de muestra</TableHead>
           <TableHead>Solicitante</TableHead>
           <TableHead>Especie</TableHead>
           <TableHead>Cultivar</TableHead>
-          <TableHead>Año cosecha</TableHead>
+          <TableHead>Año de cosecha</TableHead>
           <TableHead>Marca</TableHead>
-          <TableHead>N° lote</TableHead>
-          <TableHead>Peso lote</TableHead>
+          <TableHead>N° de lote</TableHead>
+          <TableHead>Peso del lote</TableHead>
           {ANALYSIS_COLUMNS.map((col) => (
             <TableHead key={col.key}>{col.label}</TableHead>
           ))}

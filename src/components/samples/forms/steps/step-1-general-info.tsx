@@ -29,7 +29,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                N° Muestra
+                N° de muestra{" "}
                 <CustomTooltip helperText="Este campo es requerido">
                   <span className="text-destructive">*</span>
                 </CustomTooltip>
@@ -48,7 +48,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Fecha Ingreso{" "}
+                Fecha de ingreso{" "}
                 <CustomTooltip helperText="Este campo es requerido">
                   <span className="text-destructive">*</span>
                 </CustomTooltip>
@@ -66,7 +66,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           name="sampleCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cód. Muestra</FormLabel>
+              <FormLabel>Cód. de muestra</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Ej: GLS P 1210"
@@ -162,7 +162,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Año cosecha{" "}
+                Año de cosecha{" "}
                 <CustomTooltip helperText="Este campo es requerido">
                   <span className="text-destructive">*</span>
                 </CustomTooltip>
