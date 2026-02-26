@@ -1,3 +1,5 @@
+import type { SampleFilters } from "@/types/sample";
+
 import { buildPageWindow } from "@/lib/utils";
 
 import {
@@ -9,24 +11,29 @@ import {
   PaginationPrevious,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
+import { PageSizeSelector } from "@/components/samples/page-size-selector";
 
 interface PaginationBarProps {
   page: number;
   total: number;
   pageSize: number;
   basePath: string;
-  extraParams?: Record<string, string | number | undefined>;
+  extraParams?: SampleFilters;
 }
 
 export function PaginationBar({ page, total, pageSize, basePath, extraParams = {} }: PaginationBarProps) {
   const totalPages = Math.ceil(total / pageSize);
-  if (totalPages <= 1) return null;
+  if (totalPages <= 1 && total < 10) return null;
 
   const buildUrl = (p: number) => {
     const params = new URLSearchParams({
       page: p.toString(),
       pageSize: pageSize.toString(),
-      ...Object.fromEntries(Object.entries(extraParams).map(([k, v]) => [k, String(v)])),
+      ...Object.fromEntries(
+        Object.entries(extraParams)
+          .filter(([, v]) => v !== undefined && v !== null && v !== "")
+          .map(([k, v]) => [k, String(v)]),
+      ),
     });
 
     return `${basePath}?${params.toString()}`;
@@ -73,6 +80,11 @@ export function PaginationBar({ page, total, pageSize, basePath, extraParams = {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
+
+      <div className="flex gap-2 items-center absolute right-0">
+        <span className="hidden md:block text-sm min-w-fit text-muted-foreground">Registros por página</span>
+        <PageSizeSelector current={pageSize} />
+      </div>
     </div>
   );
 }

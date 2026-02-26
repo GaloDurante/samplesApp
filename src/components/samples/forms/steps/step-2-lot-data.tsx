@@ -22,7 +22,7 @@ export function Step2LotData({ form }: Step2LotDataProps) {
           name="lotNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>N° Lote</FormLabel>
+              <FormLabel>N° de lote</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>

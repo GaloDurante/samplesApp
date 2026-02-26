@@ -1,3 +1,40 @@
+import type { Step } from "@/components/ui/stepper";
+
+export const PAGE_SIZES = [10, 20, 50, 100] as const;
+
+export const SAMPLE_FORM_STEPS: Step[] = [
+  {
+    title: "Información General",
+    description: "Datos básicos de la muestra",
+  },
+  {
+    title: "Datos del Lote",
+    description: "Información del lote",
+  },
+  {
+    title: "Otros",
+    description: "Información adicional",
+  },
+];
+
+export const ANALYSIS_COLUMNS = [
+  { key: "firstCount", label: "1° recuento" },
+  { key: "pg", label: "PG" },
+  { key: "vigorTz", label: "Vigor TZ" },
+  { key: "viabilityTz", label: "Viabilidad TZ" },
+  { key: "pms", label: "PMS" },
+  { key: "purityPercent", label: "Pureza" },
+] as const;
+
+export const ANALYSIS_COLUMNS_EXTRA = [
+  { key: "pgCurado", label: "PG curado" },
+  { key: "ct", label: "CT" },
+  { key: "ctCurado", label: "CT curado" },
+  { key: "ea", label: "EA" },
+  { key: "eaCurado", label: "EA curado" },
+  { key: "e", label: "E" },
+] as const;
+
 export const scientificSpeciesList = [
   "Avena sativa L.",
   "Avena strigosa Schreb.",

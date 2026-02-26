@@ -30,9 +30,10 @@ export default function SamplesPage() {
       search: params.get("search") ?? undefined,
       dateFrom: params.get("dateFrom") ?? undefined,
       dateTo: params.get("dateTo") ?? undefined,
+      showValues: params.get("showValues") ?? undefined,
     };
 
-    const request = scope === "page" ? { scope, filters, page, pageSize } : { scope };
+    const request = scope === "page" ? { scope, filters, page, pageSize } : { scope, filters };
 
     try {
       const result = await window.api.samples.exportSamples(request);
@@ -53,7 +54,7 @@ export default function SamplesPage() {
   return (
     <div className="p-4 md:p-8 flex flex-col h-full gap-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <div className="w-full sm:max-w-5xl flex gap-4">
+        <div className="w-full sm:max-w-5xl flex flex-col sm:flex-row items-baseline gap-4">
           <SamplesFilters onExport={handleExport} />
         </div>
 
@@ -70,14 +71,8 @@ export default function SamplesPage() {
         </div>
       ) : (
         <>
-          <SamplesTable list={samples} />
-          <PaginationBar
-            page={page}
-            total={total}
-            pageSize={pageSize}
-            basePath="/samples"
-            extraParams={{ search: filters.search }}
-          />
+          <SamplesTable showValues={filters.showValues === "true"} list={samples} />
+          <PaginationBar page={page} total={total} pageSize={pageSize} basePath="/samples" extraParams={filters} />
         </>
       )}
     </div>

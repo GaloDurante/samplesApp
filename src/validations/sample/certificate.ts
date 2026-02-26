@@ -31,6 +31,13 @@ export const certificateSchema = z.object({
     .min(3, {
       message: "Especie inválido.",
     }),
+  location: z
+    .string({
+      message: "Ubicación es requerida.",
+    })
+    .min(3, {
+      message: "Ubicación muy corto.",
+    }),
   otherDeter: z
     .string({
       message: "Otras determinaciones es requerido.",

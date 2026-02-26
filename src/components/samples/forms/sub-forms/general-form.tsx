@@ -75,7 +75,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      N° Muestra{" "}
+                      N° de muestra{" "}
                       <CustomTooltip helperText="Este campo es requerido">
                         <span className="text-destructive">*</span>
                       </CustomTooltip>
@@ -95,7 +95,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Fecha Ingreso{" "}
+                      Fecha de ingreso{" "}
                       <CustomTooltip helperText="Este campo es requerido">
                         <span className="text-destructive">*</span>
                       </CustomTooltip>
@@ -117,7 +117,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 name="sampleCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Cód. Muestra</FormLabel>
+                    <FormLabel>Cód. de muestra</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Ej: GLS P 1210"
@@ -216,7 +216,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Año cosecha{" "}
+                      Año de cosecha{" "}
                       <CustomTooltip helperText="Este campo es requerido">
                         <span className="text-destructive">*</span>
                       </CustomTooltip>
@@ -260,7 +260,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 name="lotNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>N° Lote</FormLabel>
+                    <FormLabel>N° de lote</FormLabel>
                     <FormControl>
                       <Input
                         {...form.register(field.name, {
@@ -306,7 +306,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Fecha finalizacion de ensayo{" "}
+                      Fecha de finalizacion de ensayo{" "}
                       <CustomTooltip helperText="Este campo es requerido">
                         <span className="text-destructive">*</span>
                       </CustomTooltip>

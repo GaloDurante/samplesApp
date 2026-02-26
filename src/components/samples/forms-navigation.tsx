@@ -9,6 +9,8 @@ import {
   HumidityForm,
   CertificateForm,
 } from "@/components/samples/forms/sub-forms/index";
+import { CustomTooltip } from "@/components/custom-tooltip";
+import { Info } from "lucide-react";
 
 interface FormsNavigationProps {
   data: FullSample;
@@ -20,7 +22,10 @@ export function FormsNavigation({ data }: FormsNavigationProps) {
   const { analysis, purity, germination, humidity, ...restData } = data;
 
   return (
-    <Tabs defaultValue="general-info" className="bg-card rounded-md shadow-sm">
+    <Tabs defaultValue="general-info" className="bg-card rounded-md shadow-sm relative">
+      <CustomTooltip helperText="Debe completar todos los campos requeridos y guardar los cambios para habilitar la descarga del certificado.">
+        <Info size={18} className="text-muted-foreground absolute right-3 top-3" />
+      </CustomTooltip>
       <TabsList className="border-border border-b px-4 pt-4 sm:px-8">
         <TabsTrigger value="general-info">Información General</TabsTrigger>
         <TabsTrigger value="analysis">Análisis</TabsTrigger>

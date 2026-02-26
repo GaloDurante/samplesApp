@@ -1,73 +1,128 @@
-# React + TypeScript + Vite
+# Sistema de Muestras (`samples-app`)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Desktop app built with **Electron + React + TypeScript + Vite** to manage seed laboratory workflows.
 
-Currently, two official plugins are available:
+## What this project does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This application helps register and manage:
 
-## React Compiler
+- Clients
+- Seed samples
+- Analysis data (analysis, purity, germination, humidity)
+- Sample certificates (PDF generation)
+- Sample book exports (Excel `.xlsx`)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The app uses a local **SQLite** database (via Drizzle ORM) and runs migrations automatically at startup.
 
-## Expanding the ESLint configuration
+## Main features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Client CRUD
+- Sample CRUD
+- Filters and pagination for samples and clients
+- Certificate data editing per sample
+- PDF certificate generation to your **Downloads** folder
+- Excel export of current page or all filtered samples to your **Downloads** folder
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Electron
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- Drizzle ORM + better-sqlite3
+- React Router
+- React Hook Form + Zod
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Prerequisites
+
+Install on your machine:
+
+- Node.js (LTS recommended)
+- npm
+
+## Command you must run before using the project
+
+After cloning/downloading the repo, run:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This installs dependencies and runs `electron-rebuild` (postinstall), which is required for native Electron modules.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## How to run locally
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Install dependencies:
+
+```bash
+npm install
 ```
+
+2. Start the app in development mode:
+
+```bash
+npm run dev
+```
+
+This launches:
+
+- Vite dev server (React UI)
+- Electron app
+- Electron TypeScript transpilation (`transpile:electron`)
+
+## Build and packaging commands
+
+- Build web app:
+
+```bash
+npm run build
+```
+
+- Transpile Electron code only:
+
+```bash
+npm run transpile:electron
+```
+
+- Create installers/binaries:
+
+```bash
+npm run dist:win:64
+npm run dist:win:32
+npm run dist:mac
+npm run dist:linux
+```
+
+## Other useful scripts
+
+- Lint:
+
+```bash
+npm run lint
+```
+
+- Preview production web build:
+
+```bash
+npm run preview
+```
+
+## Database and generated files
+
+- SQLite database path (Electron user data):
+  - `app.getPath("userData")/app.db`
+- Certificates (`.pdf`) are generated in your **Downloads** folder.
+- Excel exports (`.xlsx`) are generated in your **Downloads** folder.
+
+## Project structure (high level)
+
+- `src/ui`: React UI, routes, pages, and components
+- `src/electron`: Electron main process, IPC handlers, services, DB layer
+- `src/electron/db/migrations`: database migrations
+- `scripts`: utility scripts (for example migration copy during transpile)
+
+## Notes
+
+- App language/content is currently focused on Spanish seed-lab workflows.
+- Migrations are executed automatically when Electron starts.

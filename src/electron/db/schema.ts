@@ -32,6 +32,7 @@ export const samples = sqliteTable(
     otherReferences: text("other_references"),
     sealNumber: text("seal_number"),
     specie: text("specie"),
+    location: text("location"),
     otherDeter: text("other_deter"),
   },
   (table) => [index("idx_samples_client_id").on(table.clientId), index("idx_samples_entry_date").on(table.entryDate)],

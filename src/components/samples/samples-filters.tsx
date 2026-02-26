@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router";
 import { Search } from "@/components/search";
 import { DatePicker } from "@/components/date-picker";
 import { ExportButton } from "@/components/samples/export-button";
+import { ChangeViewButton } from "@/components/samples/change-view-button";
 
 export function SamplesFilters({ onExport }: { onExport: (scope: "page" | "all") => void }) {
   const [params, setParams] = useSearchParams();
@@ -41,6 +42,7 @@ export function SamplesFilters({ onExport }: { onExport: (scope: "page" | "all")
         <DatePicker mode="range" from={from} to={to} onRangeChange={({ from, to }) => handleDateChange(from, to)} />
       </div>
       <ExportButton onConfirm={onExport} />
+      <ChangeViewButton />
     </>
   );
 }
