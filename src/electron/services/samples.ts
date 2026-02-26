@@ -130,6 +130,7 @@ export async function getSampleById(id: number) {
       otherReferences: samples.otherReferences,
       sealNumber: samples.sealNumber,
       specie: samples.specie,
+      location: samples.location,
       otherDeter: samples.otherDeter,
 
       client: {
@@ -324,6 +325,7 @@ export async function updateSampleCertificate(sample: Certificate) {
         otherReferences: data.otherReferences ?? null,
         sealNumber: data.sealNumber ?? null,
         specie: data.specie ?? null,
+        location: data.location ?? null,
         otherDeter: data.otherDeter ?? null,
       })
       .where(eq(samples.id, id))

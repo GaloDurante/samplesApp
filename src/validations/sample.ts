@@ -98,6 +98,7 @@ export const sampleSchema = z.object({
   otherReferences: z.string().optional().nullable(),
   sealNumber: z.string().optional().nullable(),
   specie: z.string().optional().nullable(),
+  location: z.string().optional().nullable(),
   otherDeter: z.string().optional().nullable(),
 });
 

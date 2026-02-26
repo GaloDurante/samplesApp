@@ -424,7 +424,7 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     doc.text("Fecha de Emisión", 190, y + 5, { width: 150, align: "center" });
     doc.text("Firma del Director Técnico", 340, y + 5, { width: 215, align: "center" });
 
-    doc.font("Helvetica").text("San Vicente, Argentina", 40, y + 35, { width: 150, align: "center" });
+    doc.font("Helvetica").text(data.location ?? "-", 40, y + 35, { width: 150, align: "center" });
     doc.text(formatISODate(data.testEndDate) ?? "-", 190, y + 35, { width: 150, align: "center" });
 
     /* =========================

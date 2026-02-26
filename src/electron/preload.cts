@@ -70,6 +70,7 @@ electron.contextBridge.exposeInMainWorld("api", {
       otherReferences?: string;
       sealNumber?: string;
       specie?: string;
+      location?: string;
       otherDeter?: string;
     }) => electron.ipcRenderer.invoke("update-sample-certificate", sample),
 
@@ -197,6 +198,7 @@ electron.contextBridge.exposeInMainWorld("api", {
 
       specie: string;
       otherDeterminations: string;
+      location: string;
 
       samplingDate?: string;
       entryDate: string;

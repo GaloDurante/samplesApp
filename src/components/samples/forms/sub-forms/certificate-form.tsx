@@ -20,6 +20,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { CustomTooltip } from "@/components/custom-tooltip";
 import { Download } from "lucide-react";
 
+const mapSampleToForm = (data: FullSample) => ({
+  id: data.id,
+  samplingDate: data.samplingDate ?? "",
+  entryDate: data.entryDate,
+  testEndDate: data.testEndDate,
+  sampleNumber: data.sampleNumber,
+  otherReferences: data.otherReferences ?? "",
+  sealNumber: data.sealNumber ?? "",
+  specie: data.specie ?? "",
+  location: data.location ?? "",
+  otherDeter: data.otherDeter ?? "",
+});
+
 interface CertificateFormProps {
   editData: FullSample;
 }
@@ -27,37 +40,19 @@ interface CertificateFormProps {
 export function CertificateForm({ editData }: CertificateFormProps) {
   const revalidator = useRevalidator();
 
-  const {
-    samplingDate,
-    entryDate,
-    testEndDate,
-    sampleNumber,
-    otherReferences,
-    sealNumber,
-    specie,
-    otherDeter,
-    client,
-    ...restData
-  } = editData;
+  const { entryDate, testEndDate, sampleNumber, specie, location, otherDeter, client } = editData;
 
   const form = useForm({
     resolver: zodResolver(certificateSchema),
-    defaultValues: {
-      id: restData.id,
-      samplingDate: samplingDate ?? "",
-      entryDate: entryDate,
-      testEndDate: testEndDate,
-      sampleNumber: sampleNumber,
-      otherReferences: otherReferences ?? "",
-      sealNumber: sealNumber ?? "",
-      specie: specie ?? "",
-      otherDeter: otherDeter ?? "",
-    },
+    defaultValues: mapSampleToForm(editData),
+    values: mapSampleToForm(editData),
     shouldUnregister: false,
   });
 
   const hasChanges = Object.keys(form.formState.dirtyFields).length > 0;
-  const hasAllValues = Boolean(entryDate && testEndDate && sampleNumber && specie && otherDeter && client?.name);
+  const hasAllValues = Boolean(
+    entryDate && testEndDate && sampleNumber && specie && location && otherDeter && client?.name,
+  );
 
   const onSubmit = async (values: Certificate) => {
     try {
@@ -165,6 +160,29 @@ export function CertificateForm({ editData }: CertificateFormProps) {
                       })}
                     </SelectContent>
                   </Select>
+                  <FormMessage className="min-h-5" />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Ubicación{" "}
+                    <CustomTooltip helperText="Este campo es requerido">
+                      <span className="text-destructive">*</span>
+                    </CustomTooltip>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...form.register(field.name, {
+                        setValueAs: (v) => (!v ? undefined : v),
+                      })}
+                    />
+                  </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
               )}
