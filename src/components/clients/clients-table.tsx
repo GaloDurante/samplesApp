@@ -27,10 +27,10 @@ export function ClientsTable({ list }: ClientsTableProps) {
               <RowActionButtons row={row} />
             </TableCell>
             <TableCell>{row.name}</TableCell>
-            <TableCell>{row.cuit}</TableCell>
+            <TableCell>{row.cuit ?? "-"}</TableCell>
             <TableCell>{row.address}</TableCell>
-            <TableCell>{row.email}</TableCell>
-            <TableCell>{row.phone}</TableCell>
+            <TableCell>{row.email ?? "-"}</TableCell>
+            <TableCell>{row.phone ?? "-"}</TableCell>
           </TableRow>
         ))}
       </TableBody>

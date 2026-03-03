@@ -108,6 +108,12 @@ npm run lint
 npm run preview
 ```
 
+- Update/migrate DB:
+
+```bash
+npx drizzle-kit generate
+```
+
 ## Database and generated files
 
 - SQLite database path (Electron user data):

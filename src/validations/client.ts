@@ -11,14 +11,15 @@ export const clientSchema = z.object({
     }),
   cuit: z
     .number({
-      message: "CUIT es requerido.",
+      message: "CUIT debe ser un número.",
     })
     .min(10000000000, {
       message: "CUIT Debe contener 11 números.",
     })
     .max(99999999999, {
       message: "CUIT Debe contener 11 números.",
-    }),
+    })
+    .optional(),
   address: z
     .string({
       message: "Dirección es requerida.",
@@ -26,14 +27,15 @@ export const clientSchema = z.object({
     .min(3, {
       message: "Dirección debe contener al menos 3 caracteres.",
     }),
-  email: z.email("Email no es válido."),
+  email: z.email("Email no es válido.").optional(),
   phone: z
     .string({
-      message: "Teléfono es requerido.",
+      message: "Teléfono no es válido.",
     })
     .min(8, {
       message: "Teléfono debe contener al menos 8 números.",
-    }),
+    })
+    .optional(),
 });
 
 export type ClientType = z.infer<typeof clientSchema>;

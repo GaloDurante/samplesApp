@@ -19,12 +19,12 @@ interface ClientFormProps {
 export function ClientForm({ editData }: ClientFormProps) {
   const form = useForm({
     resolver: zodResolver(clientSchema),
-    defaultValues: editData ?? {
-      name: "",
-      cuit: undefined,
-      address: "",
-      email: "",
-      phone: "",
+    defaultValues: {
+      name: editData?.name || "",
+      cuit: editData?.cuit,
+      address: editData?.address || "",
+      email: editData?.email,
+      phone: editData?.phone,
     },
   });
 
@@ -89,12 +89,7 @@ export function ClientForm({ editData }: ClientFormProps) {
             name="cuit"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  CUIT{" "}
-                  <CustomTooltip helperText="Este campo es requerido">
-                    <span className="text-destructive">*</span>
-                  </CustomTooltip>
-                </FormLabel>
+                <FormLabel>CUIT</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Ej: 20301234567"
@@ -133,14 +128,14 @@ export function ClientForm({ editData }: ClientFormProps) {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Email{" "}
-                  <CustomTooltip helperText="Este campo es requerido">
-                    <span className="text-destructive">*</span>
-                  </CustomTooltip>
-                </FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ej: ignacio@gmail.com" {...field} />
+                  <Input
+                    placeholder="Ej: ignacio@gmail.com"
+                    {...form.register(field.name, {
+                      setValueAs: (v) => (!v ? undefined : v),
+                    })}
+                  />
                 </FormControl>
                 <FormMessage className="min-h-5" />
               </FormItem>
@@ -151,19 +146,15 @@ export function ClientForm({ editData }: ClientFormProps) {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Teléfono{" "}
-                  <CustomTooltip helperText="Este campo es requerido">
-                    <span className="text-destructive">*</span>
-                  </CustomTooltip>
-                </FormLabel>
+                <FormLabel>Teléfono</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="-"
                     type="number"
                     className="no-spinner"
                     onWheel={(e) => e.currentTarget.blur()}
-                    {...field}
+                    {...form.register(field.name, {
+                      setValueAs: (v) => (!v ? undefined : v),
+                    })}
                   />
                 </FormControl>
                 <FormMessage className="min-h-5" />

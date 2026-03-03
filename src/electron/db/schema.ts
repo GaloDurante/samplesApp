@@ -3,10 +3,10 @@ import { sqliteTable, integer, text, index, numeric } from "drizzle-orm/sqlite-c
 export const clients = sqliteTable("clients", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
-  cuit: integer("cuit").notNull().unique(),
+  cuit: integer("cuit").unique(),
   address: text("address").notNull(),
-  email: text("email").notNull().unique(),
-  phone: text("phone").notNull(),
+  email: text("email").unique(),
+  phone: text("phone"),
 });
 
 export const samples = sqliteTable(

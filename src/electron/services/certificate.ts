@@ -1,6 +1,6 @@
 import PDFDocument from "pdfkit";
 import type { FullSample } from "../../types/sample.js";
-import { formatISODate, getImagePath, parseScientificName } from "../util.js";
+import { formatISODate, getImagePath, parseScientificName, formatPurityForCertificate } from "../util.js";
 
 export async function generateCertificatePdfBuffer(data: FullSample): Promise<Buffer> {
   const imagePath = getImagePath();
@@ -180,7 +180,7 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
       width: colWidth,
       align: "center",
     });
-    doc.text(data.sampleNumber ?? "", 40 + colWidth * 3, tableTop + rowHeight + hHeight + textOffset, {
+    doc.text(data.sampleNumber ?? "-", 40 + colWidth * 3, tableTop + rowHeight + hHeight + textOffset, {
       width: colWidth,
       align: "center",
     });
@@ -313,9 +313,18 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     const dataY = gridY + 62;
 
     // 1. Purity data (3 columns)
-    doc.text(data.purity?.seedPure ?? "-N-", 40, dataY, { width: pSub, align: "center" });
-    doc.text(data.purity?.inertMatter ?? "-N-", 40 + pSub, dataY, { width: pSub, align: "center" });
-    doc.text(data.purity?.otherSeeds ?? "-N-", 40 + pSub * 2, dataY, { width: pSub, align: "center" });
+    doc.text(formatPurityForCertificate(data.purity?.seedPure, "seedPure") ?? "-N-", 40, dataY, {
+      width: pSub,
+      align: "center",
+    });
+    doc.text(formatPurityForCertificate(data.purity?.inertMatter, "inertMatter") ?? "-N-", 40 + pSub, dataY, {
+      width: pSub,
+      align: "center",
+    });
+    doc.text(formatPurityForCertificate(data.purity?.otherSeeds, "otherSeeds") ?? "-N-", 40 + pSub * 2, dataY, {
+      width: pSub,
+      align: "center",
+    });
 
     // 2. Germination (6 columns)
     doc.text(data.germination?.daysNumber?.toString() ?? "-N-", 40 + pWidth, dataY, { width: dWidth, align: "center" });
@@ -362,7 +371,7 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
       .font("Helvetica-Bold")
       .text("Otras semillas:", 40, y + 5, { paragraphGap: 5 })
       .font("Helvetica")
-      .text(data.purity?.otherSeeds ?? "-");
+      .text(data.purity?.remarks ?? "-");
 
     y += 40;
 

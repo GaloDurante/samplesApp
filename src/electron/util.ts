@@ -59,3 +59,21 @@ export function parseScientificName(name: string): Token[] {
 
   return tokens;
 }
+
+type PurityField = "seedPure" | "inertMatter" | "otherSeeds";
+export const formatPurityForCertificate = (value?: string | number, field?: PurityField): string | null => {
+  if (value == null) return null;
+
+  const n = Number(value);
+
+  if (n === 0) return "0.0";
+  if (n === 100) return "100.0";
+
+  const appliesTraceRule = field === "inertMatter" || field === "otherSeeds";
+
+  if (appliesTraceRule && n < 0.05) {
+    return "TR";
+  }
+
+  return String(value);
+};

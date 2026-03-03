@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { CustomTooltip } from "@/components/custom-tooltip";
+import { CircleQuestionMark } from "lucide-react";
 
 interface PurityFormProps {
   sampleId: number;
@@ -72,10 +74,15 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
               name="seedPure"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Semilla pura</FormLabel>
+                  <FormLabel>
+                    Semilla pura
+                    <CustomTooltip helperText="Los valores inferiores a 0.05 % seran expresados como “TR” (Trazas) en el certificado.">
+                      <CircleQuestionMark size={14} className="text-muted-foreground" />
+                    </CustomTooltip>
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Ej: 27.30"
+                      placeholder="Ej: 27.3"
                       {...form.register(field.name, {
                         setValueAs: (v) => (!v ? undefined : v),
                       })}
@@ -91,10 +98,15 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
               name="inertMatter"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Materia inerte</FormLabel>
+                  <FormLabel>
+                    Materia inerte
+                    <CustomTooltip helperText="Los valores inferiores a 0.05 % seran expresados como “TR” (Trazas) en el certificado.">
+                      <CircleQuestionMark size={14} className="text-muted-foreground" />
+                    </CustomTooltip>
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Ej: 27.30"
+                      placeholder="Ej: 27.3"
                       {...form.register(field.name, {
                         setValueAs: (v) => (!v ? undefined : v),
                       })}
@@ -110,10 +122,15 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
               name="otherSeeds"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Otras semillas</FormLabel>
+                  <FormLabel>
+                    Otras semillas
+                    <CustomTooltip helperText="Los valores inferiores a 0.05 % seran expresados como “TR” (Trazas) en el certificado.">
+                      <CircleQuestionMark size={14} className="text-muted-foreground" />
+                    </CustomTooltip>
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Ej: 27.30"
+                      placeholder="Ej: 27.3"
                       {...form.register(field.name, {
                         setValueAs: (v) => (!v ? undefined : v),
                       })}
