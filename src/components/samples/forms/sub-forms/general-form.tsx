@@ -20,28 +20,39 @@ import { ClientCombobox } from "@/components/clients/client-combobox";
 import { CustomTooltip } from "@/components/custom-tooltip";
 import { DeleteButton } from "@/components/samples/delete-button";
 
+const mapSampleToForm = (data: Sample): Sample => ({
+  id: data.id,
+  sampleNumber: data.sampleNumber,
+  entryDate: data.entryDate,
+  sampleCode: data.sampleCode ?? null,
+  clientId: data.clientId,
+  client: undefined,
+  colloquialSpecie: data.colloquialSpecie ?? "",
+  cultivar: data.cultivar ?? "",
+  harvestYear: data.harvestYear ?? "",
+  mark: data.mark ?? null,
+  lotNumber: data.lotNumber ?? null,
+  lotWeight: data.lotWeight ?? null,
+  testEndDate: data.testEndDate,
+  observations: data.observations ?? "",
+});
+
 interface SampleGeneralFormProps {
   editData: Sample;
 }
 
 export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
   const revalidator = useRevalidator();
+  const formValues = mapSampleToForm(editData);
 
-  const form = useForm({
+  const form = useForm<Sample>({
     resolver: zodResolver(sampleSchema),
-    defaultValues: {
-      ...editData,
-      clientId: editData.client ? editData.client.id : undefined,
-      client: undefined,
-      sampleCode: editData.sampleCode || "",
-      mark: editData.mark || "",
-      lotNumber: editData.lotNumber || "",
-      lotWeight: editData.lotWeight || "",
-      observations: editData.observations || "",
-    },
+    defaultValues: formValues,
+    values: formValues,
+    shouldUnregister: false,
   });
 
-  if (!editData.id) return;
+  if (!editData.id) return null;
 
   const hasChanges = Object.keys(form.formState.dirtyFields).length > 0;
 

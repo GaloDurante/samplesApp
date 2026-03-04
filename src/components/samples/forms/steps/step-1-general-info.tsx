@@ -71,7 +71,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
                 <Input
                   placeholder="Ej: GLS P 1210"
                   {...form.register(field.name, {
-                    setValueAs: (v) => (!v ? undefined : v),
+                    setValueAs: (v) => (!v ? null : v),
                   })}
                 />
               </FormControl>
@@ -185,7 +185,7 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
                 <Input
                   placeholder="Ej: Semilla Premium"
                   {...form.register(field.name, {
-                    setValueAs: (v) => (!v ? undefined : v),
+                    setValueAs: (v) => (!v ? null : v),
                   })}
                 />
               </FormControl>

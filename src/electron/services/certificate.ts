@@ -1,6 +1,6 @@
 import PDFDocument from "pdfkit";
 import type { FullSample } from "../../types/sample.js";
-import { formatISODate, getImagePath, parseScientificName, formatPurityForCertificate } from "../util.js";
+import { formatISODate, getImagePath, parseScientificName, formatForCertificate } from "../util.js";
 
 export async function generateCertificatePdfBuffer(data: FullSample): Promise<Buffer> {
   const imagePath = getImagePath();
@@ -313,15 +313,15 @@ export async function generateCertificatePdfBuffer(data: FullSample): Promise<Bu
     const dataY = gridY + 62;
 
     // 1. Purity data (3 columns)
-    doc.text(formatPurityForCertificate(data.purity?.seedPure, "seedPure") ?? "-N-", 40, dataY, {
+    doc.text(formatForCertificate(data.purity?.seedPure, "other") ?? "-N-", 40, dataY, {
       width: pSub,
       align: "center",
     });
-    doc.text(formatPurityForCertificate(data.purity?.inertMatter, "inertMatter") ?? "-N-", 40 + pSub, dataY, {
+    doc.text(formatForCertificate(data.purity?.inertMatter, "inertMatter") ?? "-N-", 40 + pSub, dataY, {
       width: pSub,
       align: "center",
     });
-    doc.text(formatPurityForCertificate(data.purity?.otherSeeds, "otherSeeds") ?? "-N-", 40 + pSub * 2, dataY, {
+    doc.text(formatForCertificate(data.purity?.otherSeeds, "otherSeeds") ?? "-N-", 40 + pSub * 2, dataY, {
       width: pSub,
       align: "center",
     });

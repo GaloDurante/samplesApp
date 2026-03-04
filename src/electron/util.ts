@@ -60,8 +60,8 @@ export function parseScientificName(name: string): Token[] {
   return tokens;
 }
 
-type PurityField = "seedPure" | "inertMatter" | "otherSeeds";
-export const formatPurityForCertificate = (value?: string | number, field?: PurityField): string | null => {
+type FieldType = "other" | "inertMatter" | "otherSeeds";
+export const formatForCertificate = (value?: string | number | null, field?: FieldType): string | null => {
   if (value == null) return null;
 
   const n = Number(value);

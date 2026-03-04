@@ -1,4 +1,4 @@
-import { sqliteTable, integer, text, index, numeric } from "drizzle-orm/sqlite-core";
+import { sqliteTable, integer, text, index, real } from "drizzle-orm/sqlite-core";
 
 export const clients = sqliteTable("clients", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -80,9 +80,9 @@ export const samplePurity = sqliteTable(
       .unique()
       .references(() => samples.id, { onDelete: "cascade" }),
 
-    seedPure: numeric("seed_pure"),
-    inertMatter: numeric("inert_matter"),
-    otherSeeds: numeric("other_seeds"),
+    seedPure: real("seed_pure"),
+    inertMatter: real("inert_matter"),
+    otherSeeds: real("other_seeds"),
     typeInertMatter: text("type_inert_matter"),
     remarks: text("remarks"),
     performedAt: text("performed_at").notNull(),

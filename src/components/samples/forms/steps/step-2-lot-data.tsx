@@ -24,7 +24,12 @@ export function Step2LotData({ form }: Step2LotDataProps) {
             <FormItem>
               <FormLabel>N° de lote</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  placeholder="Ej: 20 t"
+                  {...form.register(field.name, {
+                    setValueAs: (v) => (!v ? null : v),
+                  })}
+                />
               </FormControl>
               <FormMessage className="min-h-5" />
             </FormItem>
@@ -38,7 +43,12 @@ export function Step2LotData({ form }: Step2LotDataProps) {
             <FormItem>
               <FormLabel>Peso del lote (kg / t)</FormLabel>
               <FormControl>
-                <Input placeholder="Ej: 20 t" {...field} />
+                <Input
+                  placeholder="Ej: 20 t"
+                  {...form.register(field.name, {
+                    setValueAs: (v) => (!v ? null : v),
+                  })}
+                />
               </FormControl>
               <FormMessage className="min-h-5" />
             </FormItem>

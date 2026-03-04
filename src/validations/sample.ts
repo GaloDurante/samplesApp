@@ -26,7 +26,7 @@ export const sampleSchema = z.object({
     .min(3, {
       message: "Código de muestra es muy corto.",
     })
-    .optional(),
+    .nullable(),
 
   colloquialSpecie: z
     .string({
@@ -59,16 +59,16 @@ export const sampleSchema = z.object({
     .min(4, {
       message: "Marca es muy corto.",
     })
-    .optional(),
+    .nullable(),
 
   lotNumber: z
     .string({
       message: "N° de lote es requerido.",
     })
-    .min(3, {
+    .min(1, {
       message: "N° de lote inválido.",
     })
-    .optional(),
+    .nullable(),
 
   lotWeight: z
     .string({
@@ -77,7 +77,7 @@ export const sampleSchema = z.object({
     .refine((value) => /^\d+(\.\d+)?\s?(kg|t)$/i.test(value.trim()), {
       message: "Formato válido: número + kg o t.",
     })
-    .optional(),
+    .nullable(),
 
   testEndDate: z.iso.date({
     message: "Fecha de finalización inválida.",

@@ -57,6 +57,13 @@
       "when": 1772560802096,
       "tag": "0007_dazzling_kitty_pryde",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1772639481634,
+      "tag": "0008_careless_centennial",
+      "breakpoints": true
     }
   ]
 }
