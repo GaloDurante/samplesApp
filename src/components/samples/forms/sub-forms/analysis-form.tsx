@@ -10,8 +10,29 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+
+const mapAnalysisToForm = (sampleId: number, data?: SampleAnalysis | null) => ({
+  sampleId: sampleId,
+
+  id: data?.id,
+  firstCount: data?.firstCount ?? null,
+  pg: data?.pg ?? null,
+  pgCurado: data?.pgCurado ?? null,
+  ct: data?.ct ?? null,
+  ctCurado: data?.ctCurado ?? null,
+  ea: data?.ea ?? null,
+  eaCurado: data?.eaCurado ?? null,
+  vigorTz: data?.vigorTz ?? null,
+  viabilityTz: data?.viabilityTz ?? null,
+  e: data?.e ?? null,
+  pms: data?.pms ?? null,
+  purityPercent: data?.purityPercent ?? null,
+  otherAnalysis: data?.otherAnalysis || "",
+  performedAt: null,
+});
 
 interface AnalysisFormProps {
   sampleId: number;
@@ -20,15 +41,12 @@ interface AnalysisFormProps {
 
 export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
   const revalidator = useRevalidator();
+  const formValues = mapAnalysisToForm(sampleId, editData);
 
   const form = useForm({
     resolver: zodResolver(sampleAnalysisSchema),
-    defaultValues: {
-      ...editData,
-      sampleId: sampleId,
-      otherAnalysis: editData?.otherAnalysis || "",
-      performedAt: new Date().toISOString(),
-    },
+    defaultValues: formValues,
+    values: formValues,
     shouldUnregister: false,
   });
 
@@ -71,16 +89,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="firstCount"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>1° recuento</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -90,16 +112,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="pg"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>PG</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -109,16 +135,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="pgCurado"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>PG curado</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -128,16 +158,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="ct"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>CT</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -147,16 +181,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="ctCurado"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>CT curado</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -166,16 +204,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="ea"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>EA</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -185,16 +227,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="eaCurado"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>EA curado</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -204,16 +250,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="vigorTz"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>Vigor por TZ</FormLabel>
+                  <FormLabel>Vigor TZ</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -223,16 +273,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="viabilityTz"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>Viabilidad por TZ</FormLabel>
+                  <FormLabel>Viabilidad TZ</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -242,16 +296,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="e"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>E</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -261,16 +319,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="pms"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>PMS</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -280,16 +342,20 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
             <FormField
               control={form.control}
               name="purityPercent"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>Pureza</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -305,7 +371,7 @@ export function AnalysisForm({ editData, sampleId }: AnalysisFormProps) {
                   <FormControl>
                     <Input
                       {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : v),
+                        setValueAs: (v) => (!v ? null : v),
                       })}
                     />
                   </FormControl>

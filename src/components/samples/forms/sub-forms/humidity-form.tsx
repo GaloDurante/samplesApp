@@ -10,8 +10,16 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Separator } from "@/components/ui/separator";
+
+const mapHumidityToForm = (sampleId: number, data?: SampleHumidity | null) => ({
+  sampleId: sampleId,
+
+  id: data?.id,
+  humidity: data?.humidity ?? null,
+  performedAt: null,
+});
 
 interface HumidityFormProps {
   sampleId: number;
@@ -20,14 +28,12 @@ interface HumidityFormProps {
 
 export function HumidityForm({ editData, sampleId }: HumidityFormProps) {
   const revalidator = useRevalidator();
+  const formValues = mapHumidityToForm(sampleId, editData);
 
   const form = useForm({
     resolver: zodResolver(sampleHumiditySchema),
-    defaultValues: {
-      ...editData,
-      sampleId: sampleId,
-      performedAt: new Date().toISOString(),
-    },
+    defaultValues: formValues,
+    values: formValues,
     shouldUnregister: false,
   });
 
@@ -70,16 +76,20 @@ export function HumidityForm({ editData, sampleId }: HumidityFormProps) {
             <FormField
               control={form.control}
               name="humidity"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>N° porcentual</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="%"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>

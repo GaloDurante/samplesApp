@@ -9,25 +9,28 @@ export const samplePuritySchema = z.object({
     .int(),
 
   seedPure: z
-    .string()
-    .regex(/^\d+(\.\d{1,2})?$/, {
-      message: "Semilla pura formato inválido.",
+    .number({
+      message: "Semilla pura debe ser un número.",
     })
-    .optional(),
+    .min(0, { message: "Semilla pura no puede ser menor a 0%." })
+    .max(100, { message: "Semilla pura no puede ser mayor a 100%." })
+    .nullable(),
 
   inertMatter: z
-    .string()
-    .regex(/^\d+(\.\d{1,2})?$/, {
-      message: "Materia inerte formato inválido.",
+    .number({
+      message: "Materia inerte debe ser un número.",
     })
-    .optional(),
+    .min(0, { message: "Materia inerte no puede ser menor a 0%." })
+    .max(100, { message: "Materia inerte no puede ser mayor a 100%." })
+    .nullable(),
 
   otherSeeds: z
-    .string()
-    .regex(/^\d+(\.\d{1,2})?$/, {
-      message: "Otras semillas formato inválido.",
+    .number({
+      message: "Otras semillas debe ser un número.",
     })
-    .optional(),
+    .min(0, { message: "Otras semillas no puede ser menor a 0%." })
+    .max(100, { message: "Otras semillas no puede ser mayor a 100%." })
+    .nullable(),
 
   typeInertMatter: z
     .string({
@@ -36,18 +39,18 @@ export const samplePuritySchema = z.object({
     .min(3, {
       message: "Clase de materia inerte muy corto.",
     })
-    .optional(),
+    .nullable(),
 
   remarks: z
     .string({
       message: "Otras semillas inválido.",
     })
-    .min(3, {
+    .min(1, {
       message: "Otras semillas muy corto.",
     })
-    .optional(),
+    .nullable(),
 
-  performedAt: z.iso.datetime({ local: true, message: "Fecha de realización inválida." }),
+  performedAt: z.iso.datetime({ local: true, message: "Fecha de realización inválida." }).optional().nullable(),
 });
 
 export type SamplePurityType = z.infer<typeof samplePuritySchema>;

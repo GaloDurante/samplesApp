@@ -10,10 +10,23 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { CustomTooltip } from "@/components/custom-tooltip";
 import { CircleQuestionMark } from "lucide-react";
+
+const mapPurityToForm = (sampleId: number, data?: SamplePurity | null) => ({
+  sampleId: sampleId,
+
+  id: data?.id,
+  seedPure: data?.seedPure ?? null,
+  inertMatter: data?.inertMatter ?? null,
+  otherSeeds: data?.otherSeeds ?? null,
+  typeInertMatter: data?.typeInertMatter ?? null,
+  remarks: data?.remarks ?? null,
+  performedAt: null,
+});
 
 interface PurityFormProps {
   sampleId: number;
@@ -22,14 +35,12 @@ interface PurityFormProps {
 
 export function PurityForm({ editData, sampleId }: PurityFormProps) {
   const revalidator = useRevalidator();
+  const formValues = mapPurityToForm(sampleId, editData);
 
   const form = useForm({
     resolver: zodResolver(samplePuritySchema),
-    defaultValues: {
-      ...editData,
-      sampleId: sampleId,
-      performedAt: new Date().toISOString(),
-    },
+    defaultValues: formValues,
+    values: formValues,
     shouldUnregister: false,
   });
 
@@ -72,21 +83,21 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
             <FormField
               control={form.control}
               name="seedPure"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>
-                    Semilla pura
-                    <CustomTooltip helperText="Los valores inferiores a 0.05 % seran expresados como “TR” (Trazas) en el certificado.">
-                      <CircleQuestionMark size={14} className="text-muted-foreground" />
-                    </CustomTooltip>
-                  </FormLabel>
+                  <FormLabel>Semilla pura</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Ej: 27.3"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : v),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        placeholder="Ej: 27.3"
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -96,21 +107,26 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
             <FormField
               control={form.control}
               name="inertMatter"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>
                     Materia inerte
-                    <CustomTooltip helperText="Los valores inferiores a 0.05 % seran expresados como “TR” (Trazas) en el certificado.">
+                    <CustomTooltip helperText="Los valores inferiores a 0.05 % seran expresados como “TR” (Trazas) en el certificado excluyendo al 0.">
                       <CircleQuestionMark size={14} className="text-muted-foreground" />
                     </CustomTooltip>
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Ej: 27.3"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : v),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        placeholder="Ej: 27.3"
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -120,21 +136,26 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
             <FormField
               control={form.control}
               name="otherSeeds"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>
                     Otras semillas
-                    <CustomTooltip helperText="Los valores inferiores a 0.05 % seran expresados como “TR” (Trazas) en el certificado.">
+                    <CustomTooltip helperText="Los valores inferiores a 0.05 % seran expresados como “TR” (Trazas) en el certificado excluyendo al 0.">
                       <CircleQuestionMark size={14} className="text-muted-foreground" />
                     </CustomTooltip>
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Ej: 27.3"
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : v),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        placeholder="Ej: 27.3"
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -150,7 +171,7 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
                   <FormControl>
                     <Input
                       {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : v),
+                        setValueAs: (v) => (!v ? null : v),
                       })}
                     />
                   </FormControl>
@@ -168,7 +189,7 @@ export function PurityForm({ editData, sampleId }: PurityFormProps) {
                   <FormControl>
                     <Input
                       {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : v),
+                        setValueAs: (v) => (!v ? null : v),
                       })}
                     />
                   </FormControl>

@@ -183,7 +183,6 @@ export function Step1GeneralInfo({ form }: Step1GeneralInfoProps) {
               <FormLabel>Marca</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Ej: Semilla Premium"
                   {...form.register(field.name, {
                     setValueAs: (v) => (!v ? null : v),
                   })}

@@ -248,7 +248,6 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                     <FormLabel>Marca</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Ej: Semilla Premium"
                         {...form.register(field.name, {
                           setValueAs: (v) => (!v ? undefined : v),
                         })}

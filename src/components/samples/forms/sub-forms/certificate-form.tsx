@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CustomTooltip } from "@/components/custom-tooltip";
 import { Download } from "lucide-react";
 
-const mapSampleToForm = (data: FullSample) => ({
+const mapCertificateToForm = (data: FullSample) => ({
   id: data.id,
   samplingDate: data.samplingDate ?? "",
   entryDate: data.entryDate,
@@ -44,8 +44,8 @@ export function CertificateForm({ editData }: CertificateFormProps) {
 
   const form = useForm({
     resolver: zodResolver(certificateSchema),
-    defaultValues: mapSampleToForm(editData),
-    values: mapSampleToForm(editData),
+    defaultValues: mapCertificateToForm(editData),
+    values: mapCertificateToForm(editData),
     shouldUnregister: false,
   });
 

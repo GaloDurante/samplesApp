@@ -10,8 +10,22 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+
+const mapGerminationToForm = (sampleId: number, data?: SampleGermination | null) => ({
+  sampleId: sampleId,
+
+  id: data?.id,
+  daysNumber: data?.daysNumber ?? null,
+  normalSeedlings: data?.normalSeedlings ?? null,
+  hardSeeds: data?.hardSeeds ?? null,
+  freshSeeds: data?.freshSeeds ?? null,
+  abnormalSeedlings: data?.abnormalSeedlings ?? null,
+  deadSeeds: data?.deadSeeds ?? null,
+  performedAt: null,
+});
 
 interface GerminationFormProps {
   sampleId: number;
@@ -20,14 +34,12 @@ interface GerminationFormProps {
 
 export function GerminationForm({ editData, sampleId }: GerminationFormProps) {
   const revalidator = useRevalidator();
+  const formValues = mapGerminationToForm(sampleId, editData);
 
   const form = useForm({
     resolver: zodResolver(sampleGerminationSchema),
-    defaultValues: {
-      ...editData,
-      sampleId: sampleId,
-      performedAt: new Date().toISOString(),
-    },
+    defaultValues: formValues,
+    values: formValues,
     shouldUnregister: false,
   });
 
@@ -76,7 +88,7 @@ export function GerminationForm({ editData, sampleId }: GerminationFormProps) {
                   <FormControl>
                     <Input
                       {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
+                        setValueAs: (v) => (!v ? null : Number(v)),
                       })}
                     />
                   </FormControl>
@@ -88,15 +100,20 @@ export function GerminationForm({ editData, sampleId }: GerminationFormProps) {
             <FormField
               control={form.control}
               name="normalSeedlings"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>Plantulas normales</FormLabel>
                   <FormControl>
-                    <Input
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -106,15 +123,20 @@ export function GerminationForm({ editData, sampleId }: GerminationFormProps) {
             <FormField
               control={form.control}
               name="hardSeeds"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>Semillas duras</FormLabel>
                   <FormControl>
-                    <Input
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -124,15 +146,20 @@ export function GerminationForm({ editData, sampleId }: GerminationFormProps) {
             <FormField
               control={form.control}
               name="freshSeeds"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>Semillas frescas</FormLabel>
                   <FormControl>
-                    <Input
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -142,15 +169,20 @@ export function GerminationForm({ editData, sampleId }: GerminationFormProps) {
             <FormField
               control={form.control}
               name="abnormalSeedlings"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>Plantulas anormales</FormLabel>
                   <FormControl>
-                    <Input
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
@@ -160,15 +192,20 @@ export function GerminationForm({ editData, sampleId }: GerminationFormProps) {
             <FormField
               control={form.control}
               name="deadSeeds"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>Semillas muertas</FormLabel>
                   <FormControl>
-                    <Input
-                      {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : Number(v)),
-                      })}
-                    />
+                    <InputGroup className={`w-full ${fieldState.error && "border-destructive ring-destructive/20"}`}>
+                      <InputGroupInput
+                        {...form.register(field.name, {
+                          setValueAs: (v) => (!v ? null : Number(v)),
+                        })}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <span>%</span>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage className="min-h-5" />
                 </FormItem>
