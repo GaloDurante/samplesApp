@@ -26,8 +26,8 @@ const mapCertificateToForm = (data: FullSample) => ({
   entryDate: data.entryDate,
   testEndDate: data.testEndDate,
   sampleNumber: data.sampleNumber,
-  otherReferences: data.otherReferences ?? undefined,
-  sealNumber: data.sealNumber ?? undefined,
+  otherReferences: data.otherReferences ?? null,
+  sealNumber: data.sealNumber ?? null,
   specie: data.specie ?? "",
   location: data.location ?? "",
   otherDeter: data.otherDeter ?? "",
@@ -101,7 +101,7 @@ export function CertificateForm({ editData }: CertificateFormProps) {
                   <FormControl>
                     <Input
                       {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : v),
+                        setValueAs: (v) => (!v ? null : v),
                       })}
                     />
                   </FormControl>
@@ -119,7 +119,7 @@ export function CertificateForm({ editData }: CertificateFormProps) {
                   <FormControl>
                     <Input
                       {...form.register(field.name, {
-                        setValueAs: (v) => (!v ? undefined : v),
+                        setValueAs: (v) => (!v ? null : v),
                       })}
                     />
                   </FormControl>

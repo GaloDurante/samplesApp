@@ -23,7 +23,7 @@ export const sampleSchema = z.object({
     .string({
       message: "Código de muestra es requerido.",
     })
-    .min(3, {
+    .min(2, {
       message: "Código de muestra es muy corto.",
     })
     .nullable(),
@@ -56,7 +56,7 @@ export const sampleSchema = z.object({
     .string({
       message: "Marca es requerida.",
     })
-    .min(4, {
+    .min(2, {
       message: "Marca es muy corto.",
     })
     .nullable(),

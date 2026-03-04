@@ -23,7 +23,7 @@ export function FormsNavigation({ data }: FormsNavigationProps) {
 
   return (
     <Tabs defaultValue="general-info" className="bg-card rounded-md shadow-sm relative">
-      <CustomTooltip helperText="Debe completar todos los campos requeridos y guardar los cambios para habilitar la descarga del certificado.">
+      <CustomTooltip helperText="Debe completar todos los campos requeridos y guardar los cambios para habilitar la descarga del certificado. Recuerde que si modificó algún dato de la pestaña que se encuentra activa debe asegurarse de guardar los cambios antes de cambiar de pestaña o perderá todo el progreso realizado.">
         <button type="button" className="text-muted-foreground absolute right-3 top-3 rounded-full">
           <Info size={18} />
         </button>

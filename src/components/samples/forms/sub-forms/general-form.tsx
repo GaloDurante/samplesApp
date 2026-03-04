@@ -133,7 +133,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                       <Input
                         placeholder="Ej: GLS P 1210"
                         {...form.register(field.name, {
-                          setValueAs: (v) => (!v ? undefined : v),
+                          setValueAs: (v) => (!v ? null : v),
                         })}
                       />
                     </FormControl>
@@ -249,7 +249,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                     <FormControl>
                       <Input
                         {...form.register(field.name, {
-                          setValueAs: (v) => (!v ? undefined : v),
+                          setValueAs: (v) => (!v ? null : v),
                         })}
                       />
                     </FormControl>
@@ -274,7 +274,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                     <FormControl>
                       <Input
                         {...form.register(field.name, {
-                          setValueAs: (v) => (!v ? undefined : v),
+                          setValueAs: (v) => (!v ? null : v),
                         })}
                       />
                     </FormControl>
@@ -293,7 +293,7 @@ export function SampleGeneralForm({ editData }: SampleGeneralFormProps) {
                       <Input
                         placeholder="Ej: 20 t"
                         {...form.register(field.name, {
-                          setValueAs: (v) => (!v ? undefined : v),
+                          setValueAs: (v) => (!v ? null : v),
                         })}
                       />
                     </FormControl>

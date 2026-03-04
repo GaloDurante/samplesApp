@@ -18,12 +18,12 @@ export const certificateSchema = z.object({
     .string({
       message: "Otras referencias inválido.",
     })
-    .optional(),
+    .nullable(),
   sealNumber: z
     .string({
       message: "N° precinto inválido.",
     })
-    .optional(),
+    .nullable(),
   specie: z
     .string({
       message: "Especie es requerida.",
@@ -33,17 +33,17 @@ export const certificateSchema = z.object({
     }),
   location: z
     .string({
-      message: "Ubicación es requerida.",
+      message: "Ubicación inválida.",
     })
-    .min(3, {
-      message: "Ubicación muy corto.",
+    .min(1, {
+      message: "Ubicación es requerida.",
     }),
   otherDeter: z
     .string({
-      message: "Otras determinaciones es requerido.",
+      message: "Otras determinaciones inválidas.",
     })
-    .min(3, {
-      message: "Otras determinaciones muy corto.",
+    .min(1, {
+      message: "Otras determinaciones es requerida.",
     }),
 });
 
