@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { useRevalidator } from "react-router";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { clientSchema } from "@/validations/client";
@@ -12,21 +14,30 @@ import { Input } from "@/components/ui/input";
 import { CustomTooltip } from "@/components/custom-tooltip";
 import { Separator } from "@/components/ui/separator";
 
+const mapClientToForm = (data?: Client) => ({
+  id: data?.id,
+  name: data?.name || "",
+  cuit: data?.cuit ?? null,
+  address: data?.address || "",
+  email: data?.email ?? null,
+  phone: data?.phone ?? null,
+});
+
 interface ClientFormProps {
   editData?: Client;
 }
 
 export function ClientForm({ editData }: ClientFormProps) {
+  const revalidator = useRevalidator();
+
   const form = useForm({
     resolver: zodResolver(clientSchema),
-    defaultValues: {
-      name: editData?.name || "",
-      cuit: editData?.cuit,
-      address: editData?.address || "",
-      email: editData?.email,
-      phone: editData?.phone,
-    },
+    defaultValues: mapClientToForm(editData),
+    values: mapClientToForm(editData),
+    shouldUnregister: false,
   });
+
+  const hasChanges = Object.keys(form.formState.dirtyFields).length > 0;
 
   const onSubmit = async (values: Client) => {
     try {
@@ -35,7 +46,7 @@ export function ClientForm({ editData }: ClientFormProps) {
 
         if (result.success) {
           toast.success(result.message);
-          form.reset(values);
+          revalidator.revalidate();
         } else {
           toast.error(result.message || "No se pudo modificar el cliente solicitado.");
         }
@@ -96,9 +107,9 @@ export function ClientForm({ editData }: ClientFormProps) {
                     type="number"
                     className="no-spinner"
                     onWheel={(e) => e.currentTarget.blur()}
-                    {...field}
-                    onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
-                    value={field.value ? String(field.value) : ""}
+                    {...form.register(field.name, {
+                      setValueAs: (v) => (!v ? null : Number(v)),
+                    })}
                   />
                 </FormControl>
                 <FormMessage className="min-h-5" />
@@ -133,7 +144,7 @@ export function ClientForm({ editData }: ClientFormProps) {
                   <Input
                     placeholder="Ej: ignacio@gmail.com"
                     {...form.register(field.name, {
-                      setValueAs: (v) => (!v ? undefined : v),
+                      setValueAs: (v) => (!v ? null : v),
                     })}
                   />
                 </FormControl>
@@ -153,7 +164,7 @@ export function ClientForm({ editData }: ClientFormProps) {
                     className="no-spinner"
                     onWheel={(e) => e.currentTarget.blur()}
                     {...form.register(field.name, {
-                      setValueAs: (v) => (!v ? undefined : v),
+                      setValueAs: (v) => (!v ? null : v),
                     })}
                   />
                 </FormControl>
@@ -168,7 +179,7 @@ export function ClientForm({ editData }: ClientFormProps) {
           form="client-form"
           type="submit"
           className="self-end"
-          disabled={editData ? !form.formState.isDirty : form.formState.isSubmitting}
+          disabled={!hasChanges || form.formState.isSubmitting}
         >
           Guardar cambios
         </Button>
